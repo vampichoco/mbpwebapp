@@ -1,0 +1,78 @@
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\ApplicationInsights.config
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\csc.exe
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\Microsoft.CSharp.Core.targets
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\Microsoft.VisualBasic.Core.targets
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\System.Collections.Immutable.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\System.Reflection.Metadata.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\vbc.exe
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\VBCSCompiler.exe
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\roslyn\VBCSCompiler.exe.config
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\mbpwebservice1.dll.config
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\mbpwebservice1.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\mbpwebservice1.pdb
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\mbpwebservice1.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.Agent.Intercept.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.DependencyCollector.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.PerfCounterCollector.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.ServerTelemetryChannel.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.Web.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.WindowsServer.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.ApplicationInsights.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.DependencyCollector.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.ServerTelemetryChannel.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.Web.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.AI.WindowsServer.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.ApplicationInsights.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\obj\Debug\mbpwebservice1.vbprojResolveAssemblyReference.cache
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\obj\Debug\Resources.resources
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\obj\Debug\mbpwebservice1.vbproj.GenerateResource.Cache
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\obj\Debug\mbpwebservice1.dll
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\obj\Debug\mbpwebservice1.xml
+c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservice1\obj\Debug\mbpwebservice1.pdb
+C:\Users\victor\Documents\Visual Studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Newtonsoft.Json.dll
+C:\Users\victor\Documents\Visual Studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Newtonsoft.Json.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\ApplicationInsights.config
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\csc.exe
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\vbc.exe
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.dll.config
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.pdb
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.Web.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.ApplicationInsights.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Newtonsoft.Json.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.Web.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.ApplicationInsights.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\Newtonsoft.Json.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.vbprojResolveAssemblyReference.cache
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\Resources.resources
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.vbproj.GenerateResource.Cache
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.pdb
