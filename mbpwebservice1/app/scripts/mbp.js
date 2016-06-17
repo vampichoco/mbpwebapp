@@ -16,8 +16,7 @@ function sellsingle() {
         showSellSingleResults(results);
     }
     ).fail(function (jqXHR) {
-        $("#statuslabel").removeAttr ("class");
-        $('#statuslabel').text('An error occurred :(');
+        setStatLabel("danger", "Un error ocurrió")
     })
 
 return false;
@@ -48,19 +47,14 @@ function populateSearch(results) {
             }
         }
         ).fail(function (jqXHR) {
-            $("#statuslabel").removeAttr ("class" );
-            $('#statuslabel').text('An error occurred :(');
+            setStatLabel("danger", "Un error ocurrió")
         });
         
     }else{
-        $("#statuslabel" ).removeAttr ("class");
-        $('#statuslabel').text('Escribe un articulo para buscar');
+        setStatLabel("warning", 'Escribe un articulo para buscar')
     }
         
-        
-        
-    
-
+ 
 } 
 
 function searchClient(){
@@ -81,11 +75,10 @@ function searchClient(){
             }
         }
         ).fail(function (jqXHR) {
-            $("#statuslabel" ).removeAttr ("class" );
-            $('#statuslabel').text('An error occurred :(');
+            setStatLabel("danger", 'Un error ocurrió');
         })
     }else{
-        $('#statuslabel').text('Escribe un cliente para buscar');
+       setStatLabel("warning", 'Escribe un cliente para buscar');
     }
      
 } 
@@ -117,7 +110,9 @@ function addToProdList(item)
    
      $(document).on('click', '#' + item.ARTICULO, 
      function(){
-         $('#prodtb').val(item.ARTICULO); 
+         window.alert(item.PRECIO);
+         $('#prodtb').val(item.ARTICULO);
+         $('#pricetb').val(item.PRECIO); 
          $('#searchProdModal').modal('hide');
      } );
        
@@ -134,21 +129,39 @@ function addProd(results) {
         // edit here, result will be an array with multiple product presentations
         instanceProd(results);
     }).fail(function (jqXHR) {
-        $("#statuslabel").removeAttr ("class" );
-        $('#statuslabel').text("algo fallo :()");
+        setStatLabel("danger", "algo fallo :()")
     });
 
 
+} 
+
+function statCheck(){
+    setStatLabel("info", "intentando conexion")
+    
+    
+    var endpoint = localStorage.getItem("endpoint"); 
+    
+    var url = endpoint + '/dbstatus.ashx'; 
+    
+    var stat = $.getJSON(url, function(result){
+        if (result.exists == true){
+            setStatLabel("success", "Sistema cargado y listo")
+        }else{
+            setStatLabel("danger", "No se pudo conectar a la base de datos")
+        }
+    }).fail(function(jqXHR){
+        setStatLabel("danger", "No se pudo conectar al servidor")
+    });
 }
 
 function instanceProd(results) {
-    window.alert(results.clavesadd.length);
+    var price = $('#pricetb').val();
     if (results.clavesadd.length > 0)
     {
         selectclaveadd(results.clavesadd, results.ARTICULO);
     }else{
         var newP = {
-        Precio: results.ARTICULO.PRECIO1,
+        Precio: price,
         Cantidad: 1,
         Impuesto: 0,
         Costo: results.ARTICULO.COSTO,
@@ -166,20 +179,27 @@ function instanceProd(results) {
 } 
 
 function selectclaveadd(data, art){
+    $('#presList ul').empty();
+    $("#presList ul").find("*").off();
     $('#clavesaddModal').modal('show');
     //$('#presList ul').append('<li>' + data[0].Dato1 + '</li>') 
     
     for (i = 0; i < data.length; i++) { 
         
-        var item = data[i];
+        var item = data[i]; 
+        
+        
+        var displayText = item.Clave + '(' + item.Precio + ')';
         
         $('#presList ul').append(
-         '<li class="list-group-item" id="' +
-          item.CLAVE +  '">' +
-          item.Dato1+ '</li>');
+            '<li class="list-group-item" id="' +
+            item.Clave +  '">' +
+            displayText+ '</li>'); 
+        
+        //$('#presList ul').append('<li class="list-group-item">' + item.Dato1 +'</li>');
       
    
-        $(document).on('click', '#' + item.CLAVE, 
+        $("#presList ul").unbind('click').on('click', '#' + item.Clave, 
             function(){
                 var newP = {
                     Precio: item.Precio,
@@ -226,9 +246,7 @@ function terminateSell() {
             contentType: "application/json",
             dataType: 'json'
        }).done(function (res) {
-            $("#statuslabel").removeAttr("class");
-            $('#statuslabel').addClass("alert alert-success");
-            $("#statuslabel").text("Venta hecha");
+            setStatLabel("success", "Venta hecha")
             console.log('res', res);
             // Do something with the result :)
        }); 
@@ -255,17 +273,46 @@ function saveUser(){
      $.getJSON(url, function (results) {
         if (results.success = true){
             localStorage.setItem("user", user);
-            $("#statuslabel"    ).removeAttr ("class"                                                    );
-            $('#statuslabel').text('Iniciaste sesión como ' + user);
+            
+            var message = 'Iniciaste sesión como ' + user
+            setStatLabel("success", message);
             $('#configModal').modal('hide');
         }else{
-            $("#statuslabel"    ).removeAttr ("class"                                                    );
-            $('#statuslabel').text('Usuario o contraseñas incorrectos');
+            setStatLabel("warning", 'Usuario o contraseñas incorrectos');
             $('#configModal').modal('hide');
         }
     }
     ).fail(function (jqXHR) {
-        $('#statuslabel').text('An error occurred :(');
+        setStatLabel("danger", "Ocurrió un error al iniciar sesión :()")
     });
     
+}
+
+function setStatLabel(style, value){
+    $("#statuslabel").removeAttr ("class");
+    
+    switch (style){
+        
+        case "info": 
+        $("#statuslabel").addClass("alert alert-info");
+        break; 
+        
+        case "success": 
+        $("#statuslabel").addClass("alert alert-success");
+        break;
+        
+        case "danger":
+        $("#statuslabel").addClass("alert alert-danger");
+        break; 
+        
+        case "warning":
+        $("#statuslabel").addClass("alert alert-warning");
+        break;
+        
+        default: 
+        $("#statuslabel").addClass("alert alert-info");
+        break;
+    }
+    
+    $("#statuslabel").text(value);
 }

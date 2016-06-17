@@ -4,6 +4,7 @@
 
 function onLoad(){ 
     
+        statCheck();
     
         // Main page handlers   
         $('#sendButton'        ).click(sellsingle      );    // Sell Single Click
@@ -26,8 +27,39 @@ function onLoad(){
         $('#saveUrlBtn').click(function () { 
             var urlendpoint = $('#urltb').val();
             localStorage.setItem("endpoint", urlendpoint); 
+            statCheck();
         });
 
         // Set status label to loader
-        $('#statuslabel').text('Bienvenido, el sistema está cargado');
+        //$('#statuslabel').text('Bienvenido, el sistema está cargado');
+        
+        $('#button-qty-plus').click(function(){
+            var qty = parseInt($('#qtytb').val());
+            
+            if (qty.length == 0 || isNaN(qty)){
+                qty = 0;
+            }
+             
+            qty = qty + 1; 
+            
+            $('#qtytb').val(qty);
+            
+        });
+        
+        $('#button-qty-minus').click(function(){
+            var qty = parseInt($('#qtytb').val());
+            
+            if (qty.length == 0 || isNaN(qty)){
+                qty = 0;
+            }
+             
+            qty = qty - 1; 
+            
+            if (qty < 0){
+                $('#qtytb').val(0);
+            }else{
+                $('#qtytb').val(qty);
+            }
+            
+        });
 }

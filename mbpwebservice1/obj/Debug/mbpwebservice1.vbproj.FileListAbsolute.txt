@@ -38,18 +38,6 @@ c:\users\victor\documents\visual studio 2015\Projects\mbpwebservice1\mbpwebservi
 C:\Users\victor\Documents\Visual Studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Newtonsoft.Json.dll
 C:\Users\victor\Documents\Visual Studio 2015\Projects\mbpwebservice1\mbpwebservice1\bin\Newtonsoft.Json.xml
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\ApplicationInsights.config
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\csc.exe
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.dll
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Reflection.Metadata.dll
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\vbc.exe
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe
-C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.dll.config
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.dll
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\mbpwebservice1.pdb
@@ -76,3 +64,15 @@ C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservic
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.dll
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.xml
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Debug\mbpwebservice1.pdb
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\csc.exe
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\vbc.exe
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe.config

@@ -106,8 +106,34 @@
 
 
                     <div class="form-item">
-                        <div class="form-group">
-                            <input type="text" id="qtytb" name="qty" class="form-control" placeholder="Cantidad..." />
+                        <div class="input-group">
+                            <!--
+                            <span class="input-group-addon" id="price-addon">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                            </span>
+                            -->
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="button-qty-plus">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                </button>
+                            </span>
+                            <input type="text" id="qtytb" name="qtytb" class="form-control" placeholder="Cantidad..." />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="button-qty-minus">
+                                    <span class="glyphicon glyphicon-minus-sign"></span>
+                                </button>
+                            </span>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="form-item">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="price-addon">
+                                <span class="glyphicon glyphicon-usd"></span>
+                            </span>
+                            <input type="text" id="pricetb" name="pricetb" class="form-control" placeholder="Precio..."
+                            aria-describedby="price-addon" />
                         </div>
                     </div>
                 </form>
@@ -137,7 +163,7 @@
 
 
 
-        <div class="form-item alert alert-info" id="statuslabel">[]</div>
+        <div class="form-item alert alert-info" id="statuslabel">Estado del sistema</div>
         <div id="prods">
             <ul class="list-group">
 
@@ -167,7 +193,7 @@
                         URL del servidor:
                         <input type="text" id="urltb" name="urltb" class="form-control" />
                         <div class="form-item">
-                            <button id="saveUrlBtn" name="saveurlButton" class="btn btn-default form-control">Guardar</button>
+                            <button id="saveUrlBtn" name="saveurlButton" class="btn btn-primary form-control">Guardar</button>
                         </div>
                     </div>
                     <hr>
@@ -185,7 +211,7 @@
                         <input type="text" id="passwordtb" name="passwordtb" class="form-control" placeholder="Contrase&ntilde;a" />
                     </div>
                     <div class="form-group">
-                        <button id="saveUserBtn" name="saveUserButton" class="btn btn-default form-control">Guardar usuario</button>
+                        <button id="saveUserBtn" name="saveUserButton" class="btn btn-primary form-control">Guardar usuario</button>
                     </div>
                 </div>
 
@@ -253,7 +279,7 @@
                     <div class="form-group">
 
                         <div class="form-item">
-                            <input type="text" id="searchClientText" name="usearchClientText" class="form-control" placeholder="Nombre o clave del cliente...." />
+                            <input type="text" id="searchClientText" name="usearchClientText" class="form-control" placeholder="Nombre o clave del cliente..." />
 
                         </div>
 
@@ -285,7 +311,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Buscar Cliente</h4>
+                    <h4 class="modal-title">Seleccionar clave adicional</h4>
                 </div>
                 <div class="modal-body">
                     <div id="presList">
@@ -312,4 +338,4 @@
 
 </body>
 
-<html>
+</html>

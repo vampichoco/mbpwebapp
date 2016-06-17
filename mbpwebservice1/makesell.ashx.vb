@@ -42,60 +42,22 @@ Public Class makesell
             Dim pvArr = j("Partidas").ToArray()
 
             Dim count As Integer = 0
+            Dim tc As Integer = 0
 
             Dim total As Single = 0.0
 
-
-            For count = 0 To pvArr.Count - 1
+            For tc = 0 To pvArr.Count - 1
                 Dim data = pvArr(count)
-                Dim pvid = partVtaId + count
 
-                Dim precioU As Single = Single.Parse(data("Precio"))
                 Dim cantidad As Single = Single.Parse(data("Cantidad"))
+                Dim precioU As Single = Single.Parse(data("Precio"))
                 Dim impuesto As Single = Single.Parse(data("Impuesto"))
-                Dim costo As Single = Single.Parse(data("Costo"))
-                Dim artStr As String = (data("Articulo")).ToString()
 
-                Dim precio As Single = precioU * cantidad
+                Dim precio As Double = precioU * cantidad
 
                 precio = precio + (precio * impuesto)
-
-                Dim p = db.prods.SingleOrDefault(Function(_p) _p.ARTICULO = artStr)
-
-
-                total += precio
-
-                Dim pv As New partvta With {
-                             .PRECIO = precio,
-                             .ALMACEN = 1,
-                             .ARTICULO = p.ARTICULO,
-                             .VENTA = vtaId,
-                             .COSTO = costo,
-                             .CANTIDAD = cantidad,
-                             .DESCUENTO = 0,
-                             .IMPUESTO = impuesto,
-                             .ID_SALIDA = pvid,
-                             .PrecioBase = precioU,
-                             .Devolucion = 0,
-                             .DevConf = 0,
-                             .ID_entrada = 0,
-                             .Invent = 0,
-                             .importe = precio,
-                             .kit = 0,
-                             .costo_u = costo,
-                             .iespecial = 0,
-                             .colores = 0,
-                             .verificado = 0,
-                             .A01 = 0,
-                             .serieDocumento = 0,
-                             .UsuFecha = DateTime.Now,
-                             .UsuHora = DateTime.Now
-                             }
-
-                db.partvtas.InsertOnSubmit(pv)
-
+                total = total + precio
             Next
-
 
             Dim v As New venta With {
                             .ALMACEN = 1,
@@ -118,12 +80,64 @@ Public Class makesell
 
             db.ventas.InsertOnSubmit(v)
 
+
+            For count = 0 To pvArr.Count - 1
+                Dim data = pvArr(count)
+                Dim pvid = partVtaId + count
+
+                Dim precioU As Single = Single.Parse(data("Precio"))
+                Dim cantidad As Single = Single.Parse(data("Cantidad"))
+                Dim impuesto As Single = Single.Parse(data("Impuesto"))
+                Dim costo As Single = Single.Parse(data("Costo"))
+                Dim artStr As String = (data("Articulo")).ToString()
+
+                Dim precio As Double = precioU * cantidad
+
+                precio = precio + (precio * impuesto)
+
+                Dim p = db.prods.SingleOrDefault(Function(_p) _p.ARTICULO = artStr)
+
+
+
+
+                Dim pv As New partvta With {
+                             .PRECIO = precio,
+                             .ALMACEN = 1,
+                             .ARTICULO = p.ARTICULO,
+                             .VENTA = v.VENTA,
+                             .COSTO = costo,
+                             .CANTIDAD = cantidad,
+                             .DESCUENTO = 0,
+                             .IMPUESTO = 0,
+                             .ID_SALIDA = pvid,
+                             .PrecioBase = precioU,
+                             .Devolucion = 0,
+                             .DevConf = 0,
+                             .ID_entrada = 0,
+                             .Invent = 0,
+                             .importe = precio,
+                             .kit = 0,
+                             .costo_u = costo,
+                             .iespecial = 0,
+                             .colores = 0,
+                             .verificado = 0,
+                             .A01 = 0,
+                             .serieDocumento = 0
+                             }
+
+                db.partvtas.InsertOnSubmit(pv)
+
+            Next
+
+
+
+
             .Response.StatusCode = 200
             Dim json As New JavaScriptSerializer()
 
             .Response.Write(json.Serialize(v))
 
-            'db.SubmitChanges()
+            db.SubmitChanges()
             'Catch ex As Exception
             '    .Response.StatusCode = 500
             'End Try
