@@ -1,5 +1,8 @@
 ﻿var Partidas = new Array();
 var total = 0.0;
+var claveadd_id = 0;
+var db;
+var request;
 
 function sellsingle() {
 
@@ -42,7 +45,6 @@ function populateSearch(results) {
     
         $.getJSON(url, function (results) {
             for (i = 0; i < results.length; i++) { 
-             
                 addToProdList(results[i]);
             }
         }
@@ -70,13 +72,12 @@ function searchClient(){
      
         $.getJSON(url, function (results) {
             for (i = 0; i < results.length; i++) { 
-             
             addToClientList(results[i]);
             }
         }
         ).fail(function (jqXHR) {
             setStatLabel("danger", 'Un error ocurrió');
-        })
+        });
     }else{
        setStatLabel("warning", 'Escribe un cliente para buscar');
     }
@@ -110,20 +111,25 @@ function addToProdList(item)
    
      $(document).on('click', '#' + item.ARTICULO, 
      function(){
-         window.alert(item.PRECIO);
-         $('#prodtb').val(item.ARTICULO);
-         $('#pricetb').val(item.PRECIO); 
-         $('#searchProdModal').modal('hide');
+         
+         //Deselecciona las lineas de abajo para agregar el articulo directamente
+         //window.alert(item.PRECIO);
+         //$('#prodtb').val(item.ARTICULO);
+         //$('#pricetb').val(item.PRECIO); 
+         $('#searchProdModal').modal('hide'); 
+         
+         // Selecciona la linea de abajo para agregar el articulo directamente
+         selectclaveadd2(item.ARTICULO);
      } );
        
 }
 
 function addProd(results) {
-    var endoint = localStorage.getItem("endpoint");
+    var endpoint = localStorage.getItem("endpoint");
 
     var prodId = $('#prodtb').val();
 
-    var queryString = endoint +  '/prods.ashx?single=true&p=' + prodId;
+    var queryString = endpoint +  '/prods.ashx?single=true&p=' + prodId;
 
     var prod = $.getJSON(queryString, function (results) {
         // edit here, result will be an array with multiple product presentations
@@ -136,7 +142,7 @@ function addProd(results) {
 } 
 
 function statCheck(){
-    setStatLabel("info", "intentando conexion")
+    setStatLabel("info", "intentando conexion");
     
     
     var endpoint = localStorage.getItem("endpoint"); 
@@ -145,13 +151,33 @@ function statCheck(){
     
     var stat = $.getJSON(url, function(result){
         if (result.exists == true){
-            setStatLabel("success", "Sistema cargado y listo")
+            setStatLabel("success", "Sistema cargado y listo");
         }else{
-            setStatLabel("danger", "No se pudo conectar a la base de datos")
+            setStatLabel("danger", "No se pudo conectar a la base de datos");
         }
-    }).fail(function(jqXHR){
-        setStatLabel("danger", "No se pudo conectar al servidor")
+    }).error(function(jqXHR, textStatus, errorThrown){
+        setStatLabel("danger", "No se pudo conectar al servidor: " + textStatus);
     });
+}
+
+function instanceProd2(results){
+    var price = $('#pricetb').val();
+    
+    var newP = {
+        Precio: price,
+        Cantidad: 1,
+        Impuesto: 0,
+        Costo: results.ARTICULO.COSTO,
+        Articulo: results.ARTICULO.ARTICULO}
+        
+        Partidas.push(newP);
+    
+        total = total + newP.Precio;
+
+        $("#statuslabel").removeAttr ("class"                                                            );
+        $('#statuslabel').addClass   ("alert alert alert-success"                                        );
+        $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
+        $('#prods ul'   ).append     ('<li class="list-group-item">' + results.ARTICULO.DESCRIP + '</li>' );
 }
 
 function instanceProd(results) {
@@ -178,9 +204,30 @@ function instanceProd(results) {
     }
 } 
 
+function selectclaveadd2(art){
+    // url del articulo 
+        var endpoint = localStorage.getItem("endpoint"); 
+        var url = endpoint +  '/prods.ashx?single=true&p=' + art;
+    
+    
+        $.getJSON(url, function (results) {
+            if (results.clavesadd.length > 0){
+                selectclaveadd(results.clavesadd, results.ARTICULO)
+            }else{
+                instanceProd2(results)
+            }
+             
+        }
+        ).fail(function (jqXHR) {
+            setStatLabel("danger", 'Un error ocurrió');
+        });
+        
+        
+        
+}
+
 function selectclaveadd(data, art){
     $('#presList ul').empty();
-    $("#presList ul").find("*").off();
     $('#clavesaddModal').modal('show');
     //$('#presList ul').append('<li>' + data[0].Dato1 + '</li>') 
     
@@ -216,7 +263,7 @@ function selectclaveadd(data, art){
                 $('#statuslabel'    ).addClass   ("alert alert alert-success"                                );
                 $('#statuslabel'    ).text       ('Articulo agregado, total: ' + total                       );
                 $('#prods ul'       ).append     ('<li class="list-group-item">' + art.DESCRIP + '</li>'     );
-                $('#clavesaddModal' ).modal      ('show'                                                     );
+                $('#clavesaddModal' ).modal      ('hide'                                                     );
         } // function
         ); // on click
         
@@ -316,3 +363,79 @@ function setStatLabel(style, value){
     
     $("#statuslabel").text(value);
 }
+
+function generateClaveAddId(){
+    claveadd_id += 1; 
+    
+} 
+
+function opendb(){
+    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+ 
+
+    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+    
+    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+ 
+    if (!window.indexedDB) {
+        window.alert("Your browser doesn't support a stable version of IndexedDB.");
+    }else{
+        window.alert("Listo para conectarse");
+    }
+     
+    
+    var request = window.indexedDB.open("mbptest2", 1);
+ 
+    request.onerror = function(event) {
+        console.log("error: ");
+    };
+ 
+    request.onsuccess = function(event) {
+        db = request.result;
+        console.log("success: "+ db);
+    };
+ 
+    request.onupgradeneeded = function(event) {
+        db = event.target.result;
+        var objectStore = db.createObjectStore("prods", {keyPath: "ARTICULO"});
+        
+    }
+} 
+
+function syncdb(){
+    var endpoint = localStorage.getItem("endpoint"); 
+    
+    var url = endpoint + "/prods.ashx?take=5000" 
+    
+    
+    $.getJSON(url, function (results) {
+        var count = 0; 
+        
+        for (count = 0; count < results.length; count++){
+            var item = results[count]; 
+            
+            var request = db.transaction('prods', "readwrite")
+                .objectStore("prods")
+                .add(item);
+                                 
+            request.onsuccess = function(event) {
+                //console.log(item.DESCRIP + " agregado"); 
+                $('#syncdb').val(count + " / " + results.length);
+            };
+         
+            request.onerror = function(event) {
+                
+                var request = db.transaction('prods', "readwrite")
+                .objectStore("prods")
+                .put(item);
+                       
+            }
+
+        } // for
+        
+    }// function
+    ).fail(function (jqXHR) {
+        window.alert("Error al descargar información del servidor :()")
+    }); //fail
+    
+} //syncdb

@@ -92,7 +92,7 @@ div.ui-mobile-viewport {
 }
 /* Loading screen */
 .ui-loading .ui-loader {
-	display: block;
+	display: none;
 }
 .ui-loader {
 	display: none;

@@ -44,22 +44,39 @@ Public Class prods
         '    query = db.prods.Where(qs).Take(10).ToList()
         'End If 
 
-        Dim prodKey As String = context.Request.QueryString("p")
+        If context.Request.QueryString("p") IsNot Nothing Then
+            Dim prodKey As String = context.Request.QueryString("p")
 
-        Dim query = From prod In db.prods Where prod.ARTICULO = prodKey
-                    Select New With {.ARTICULO = prod,
-                                              .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO Select cadd)}
-
-
-
+            Dim query = From prod In db.prods Where prod.ARTICULO = prodKey
+                        Select New With {.ARTICULO = prod,
+                                                  .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO Select cadd)}
 
 
-        'context.Response.Write(xml.ToString())
-        Dim json As New JavaScriptSerializer()
-        If [single] = True Then
-            context.Response.Write(json.Serialize(query.Single))
+
+
+
+            'context.Response.Write(xml.ToString())
+            Dim json As New JavaScriptSerializer()
+            If [single] = True Then
+                context.Response.Write(json.Serialize(query.Single))
+            Else
+                context.Response.Write(json.Serialize(query))
+            End If
+
         Else
+
+            Dim take As Integer = Integer.Parse(context.Request.QueryString("take"))
+
+
+            Dim query = From prod In db.prods
+                        Select New With {.ARTICULO = prod.ARTICULO, .DESCRIP = prod.DESCRIP, .PRECIO = prod.PRECIO1}
+                        Take take
+
+            'context.Response.Write(xml.ToString())
+            Dim json As New JavaScriptSerializer()
+
             context.Response.Write(json.Serialize(query))
+
         End If
 
 

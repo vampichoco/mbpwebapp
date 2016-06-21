@@ -11,30 +11,29 @@ Public Class search
 
         Dim json As New JavaScriptSerializer()
 
-        Dim queryHelper As New mbpQuery
-        queryHelper.Populate()
+        If context.Request.QueryString("c") IsNot Nothing Then
+            Dim term As String = HttpUtility.UrlDecode(
+            context.Request.QueryString("c"))
 
-        'Dim queryResult As List(Of prod)
+            Dim prodsQuery = From prod In db.prods Where prod.ARTICULO.Contains(term) Or prod.DESCRIP.Contains(term)
+                             Select New prodInSearch With {
+                                 .ARTICULO = prod.ARTICULO,
+                                 .DESCRIP = prod.DESCRIP,
+                                 .PRECIO = prod.PRECIO1}
 
-        If context.Request.QueryString("qs") Is Nothing Then
-            Dim q = context.Request.QueryString("q")
 
-            For Each item In context.Request.QueryString.AllKeys
-                queryHelper.AddVariable(item, context.Request.QueryString(item))
-            Next
+            context.Response.Write(json.Serialize(prodsQuery))
 
-            Dim predicate = queryHelper.Query(q)
-
-            Dim r = db.prods.Where(predicate).Select(Function(p) New With {.ARTICULO = p.ARTICULO, .DESCRIP = p.DESCRIP, .PRECIO = p.PRECIO1}).Take(20).ToList()
-            context.Response.Write(json.Serialize(r))
         Else
-            Dim qs = context.Request.QueryString("qs")
-            qs = HttpUtility.UrlDecode(qs)
-            Dim r = db.prods.Where(qs).Select(Function(p) New With {.ARTICULO = p.ARTICULO, .DESCRIP = p.DESCRIP, .PRECIO = p.PRECIO1}).Take(20).ToList()
-            context.Response.Write(json.Serialize(r))
+            Dim prodsQuery = From prod In db.prods
+                             Select New prodInSearch With {
+                                 .ARTICULO = prod.ARTICULO,
+                                 .DESCRIP = prod.DESCRIP,
+                                 .PRECIO = prod.PRECIO1}
+
+            context.Response.Write(json.Serialize(prodsQuery))
+
         End If
-
-
 
 
     End Sub
@@ -44,5 +43,41 @@ Public Class search
             Return False
         End Get
     End Property
+
+End Class
+
+Public Class prodInSearch
+    Private _DESCRIP As String
+    Private _PRECIO As Double
+    Private _ARTICULO As String
+
+    Public Property DESCRIP As String
+        Get
+            Return _DESCRIP
+        End Get
+        Set(value As String)
+            _DESCRIP = value
+        End Set
+    End Property
+
+    Public Property PRECIO As Double
+        Get
+            Return _PRECIO
+        End Get
+        Set(value As Double)
+            _PRECIO = value
+        End Set
+    End Property
+
+    Public Property ARTICULO As String
+        Get
+            Return _ARTICULO
+        End Get
+        Set(value As String)
+            _ARTICULO = value
+        End Set
+    End Property
+
+
 
 End Class

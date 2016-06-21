@@ -13,6 +13,8 @@ function onLoad(){
         $('#searchProdButton'  ).click(populateSearch  );    // On search prod click
         $('#searchClientButton').click(searchClient    );    // On search client click
         $('#saveUserBtn'       ).click(saveUser        );    // On Save user click
+        $('#connectdb'         ).click(opendb          );
+        $('#syncdb'            ).click(syncdb          );
 
         //Get enpoint setting
         var endpoint = localStorage.getItem("endpoint");

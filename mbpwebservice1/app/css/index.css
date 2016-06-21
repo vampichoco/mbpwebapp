@@ -8,22 +8,11 @@ body {
     background-repeat: repeat; 
     background-attachment:fixed;
     font-size:12px;
-    background-color:#ff6a00 !important;
+    background-color:#9FDEE3 !important;
 } 
 
 
-.app {
-    /*background: url(../images/cordova.png) no-repeat center top;*/ 
-    background-size: contain;
-    position: absolute;             
-    left: 50%;
-    top: 50%;
-    height: 30px;                  
-    width: 250px;                   
-    text-align: center;
-    padding: 200px 0px 0px 0px;     
-    margin: -125px;
-} 
+
 
 .main-container{
     padding:5px;
