@@ -141,7 +141,7 @@ function addProd(results) {
 
 } 
 
-function statCheck(){
+function statCheck2(){
     setStatLabel("info", "intentando conexion");
     
     
@@ -384,7 +384,7 @@ function opendb(){
     }
      
     
-    var request = window.indexedDB.open("mbptest2", 1);
+    var request = window.indexedDB.open("mbptest5", 1);
  
     request.onerror = function(event) {
         console.log("error: ");
@@ -397,12 +397,17 @@ function opendb(){
  
     request.onupgradeneeded = function(event) {
         db = event.target.result;
-        var objectStore = db.createObjectStore("prods", {keyPath: "ARTICULO"});
+        var prodStore = db.createObjectStore("prods", {keyPath: "ARTICULO"});
+        var sellStore = db.createObjectStore("ventas", {keyPath: "id", autoIncrement: true}); 
+        
+         
         
     }
 } 
 
 function syncdb(){
+    
+    setStatLabel("info", "Sincronizando bases de datos");
     var endpoint = localStorage.getItem("endpoint"); 
     
     var url = endpoint + "/prods.ashx?take=5000" 
@@ -419,8 +424,8 @@ function syncdb(){
                 .add(item);
                                  
             request.onsuccess = function(event) {
-                //console.log(item.DESCRIP + " agregado"); 
-                $('#syncdb').val(count + " / " + results.length);
+                console.log(item.DESCRIP + " agregado"); 
+                setStatLabel("info", item.DESCRIP + " agregado");
             };
          
             request.onerror = function(event) {
@@ -428,14 +433,150 @@ function syncdb(){
                 var request = db.transaction('prods', "readwrite")
                 .objectStore("prods")
                 .put(item);
+                
+                console.log(item.DESCRIP + " actualizado"); 
+                setStatLabel("info", item.DESCRIP + " actualizado");
                        
             }
 
         } // for
         
+        //setStatLabel("success", "Bases de datos sincronizadas con exito");
+        
     }// function
     ).fail(function (jqXHR) {
         window.alert("Error al descargar información del servidor :()")
-    }); //fail
+    }).done(function(){
+        setStatLabel("success", "Bases de datos sincronizadas con exito");
+    }).complete(function(){
+        setStatLabel("success", "Bases de datos sincronizadas con exito");
+    });
     
 } //syncdb
+
+//offline functions 
+
+function searchProdOffline()
+{
+    var key = $('#searchProdText').val();
+    var data = read(key);
+    if (data){
+        $('#prodtb').val(data.DESCRIP);
+    }
+}
+
+function addProdOffline(){
+    var transaction = db.transaction(["prods"]);
+   var objectStore = transaction.objectStore("prods");
+   var key = $('#prodtb').val();
+   var request = objectStore.get(key);
+   
+   request.onerror = function(event) {
+      setStatLabel("danger", "no se pudo extraer información de la base de datos");
+   };
+   
+   request.onsuccess = function(event) {
+      if(request.result) {
+         
+         instanceProdOffline(request.result);
+         
+      }
+      
+      else {
+         setStatLabel("danger", "no se pudo extraer información de la base de datos");
+      }
+   };
+} 
+
+function instanceProdOffline(prod){
+    var price = $('#pricetb').val();
+    //if (results.clavesadd.length > 0)
+    //{
+        //selectclaveadd(results.clavesadd, results.ARTICULO);
+    //}else{
+        var newP = {
+        Precio: price,
+        Cantidad: 1,
+        Impuesto: 0,
+        Costo: 0,
+        Articulo: prod.ARTICULO
+    };
+    Partidas.push(newP);
+    
+    total = total + newP.Precio;
+
+    $("#statuslabel").removeAttr ("class"                                                            );
+    $('#statuslabel').addClass   ("alert alert alert-success"                                        );
+    $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
+    $('#prods ul'   ).append     ('<li class="list-group-item">' + prod.DESCRIP + '</li>'            );
+    //}
+}
+
+function read(key) {
+   var transaction = db.transaction(["prods"]);
+   var objectStore = transaction.objectStore("prods");
+   var request = objectStore.get(key);
+   
+   request.onerror = function(event) {
+      setStatLabel("danger", "no se pudo extraer información de la base de datos");
+   };
+   
+   request.onsuccess = function(event) {
+      if(request.result) {
+         window.alert(request.result);
+         $('#prodtb').val(request.result.ARTICULO);
+      }
+      
+      else {
+         setStatLabel("danger", "no se pudo extraer información de la base de datos");
+      }
+   };
+} 
+
+function insertPendingSell(){ 
+    
+    var d = new Date();
+    var fecha = d.toLocaleDateString();
+    var CANTIDAD = $('#qtytb').val();
+    var cliente = $('#clienttb').val();
+    var qty = $('#qtytb').val()
+    
+    var newvta = {PRECIO: total, CLIENTE: cliente, USUFECHA: fecha, cantidad: qty, PARTIDAS: Partidas}; 
+    
+    
+    
+    var request = db.transaction('ventas', "readwrite")
+        .objectStore("ventas")
+        .add(newvta);
+                                 
+    request.onsuccess = function(event) {
+        console.log("Venta agregada a pendientes"); 
+        setStatLabel("sucess", "Venta agregada a pendientes");
+    };
+    
+    
+}
+
+function getPendingSales(callback){
+    var trans = db.transaction("ventas", "readwrite");
+    var store = trans.objectStore("ventas");
+    var items = [];
+ 
+    trans.oncomplete = function(evt) {  
+        callback(items);
+    };
+ 
+    var cursorRequest = store.openCursor();
+ 
+    cursorRequest.onerror = function(error) {
+        console.log(error);
+    };
+ 
+    cursorRequest.onsuccess = function(evt) {                    
+        var cursor = evt.target.result;
+        if (cursor) {
+            items.push(cursor.value);
+            cursor.continue();
+        }
+    };
+}
