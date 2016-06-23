@@ -19,7 +19,11 @@ Public Class search
                              Select New prodInSearch With {
                                  .ARTICULO = prod.ARTICULO,
                                  .DESCRIP = prod.DESCRIP,
-                                 .PRECIO = prod.PRECIO1}
+                                 .PRECIO = prod.PRECIO1,
+                                 .PRECIO1 = prod.PRECIO1,
+                                 .PRECIO2 = prod.PRECIO2,
+                                 .PRECIO3 = prod.PRECIO3
+                                 }
 
 
             context.Response.Write(json.Serialize(prodsQuery))
@@ -29,7 +33,10 @@ Public Class search
                              Select New prodInSearch With {
                                  .ARTICULO = prod.ARTICULO,
                                  .DESCRIP = prod.DESCRIP,
-                                 .PRECIO = prod.PRECIO1}
+                                 .PRECIO = prod.PRECIO1,
+                                 .PRECIO1 = prod.PRECIO1,
+                                 .PRECIO2 = prod.PRECIO2,
+                                 .PRECIO3 = prod.PRECIO3}
 
             context.Response.Write(json.Serialize(prodsQuery))
 
@@ -50,6 +57,9 @@ Public Class prodInSearch
     Private _DESCRIP As String
     Private _PRECIO As Double
     Private _ARTICULO As String
+    Private _PRECIO1 As Double
+    Private _PRECIO2 As Double
+    Private _PRECIO3 As Double
 
     Public Property DESCRIP As String
         Get
@@ -75,6 +85,33 @@ Public Class prodInSearch
         End Get
         Set(value As String)
             _ARTICULO = value
+        End Set
+    End Property
+
+    Public Property PRECIO1 As Double
+        Get
+            Return _PRECIO1
+        End Get
+        Set(value As Double)
+            _PRECIO1 = value
+        End Set
+    End Property
+
+    Public Property PRECIO2 As Double
+        Get
+            Return _PRECIO2
+        End Get
+        Set(value As Double)
+            _PRECIO2 = value
+        End Set
+    End Property
+
+    Public Property PRECIO3 As Double
+        Get
+            Return _PRECIO3
+        End Get
+        Set(value As Double)
+            _PRECIO3 = value
         End Set
     End Property
 

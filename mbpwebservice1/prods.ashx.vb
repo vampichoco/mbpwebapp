@@ -69,7 +69,7 @@ Public Class prods
 
 
             Dim query = From prod In db.prods
-                        Select New With {.ARTICULO = prod.ARTICULO, .DESCRIP = prod.DESCRIP, .PRECIO = prod.PRECIO1}
+                        Select New With {.ARTICULO = prod.ARTICULO, .SP = Trim(prod.ARTICULO), .DESCRIP = prod.DESCRIP, .PRECIO = prod.PRECIO3, .P2 = prod.PRECIO4, .P3 = prod.PRECIO6}
                         Take take
 
             'context.Response.Write(xml.ToString())

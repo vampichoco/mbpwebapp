@@ -136,6 +136,17 @@
                             aria-describedby="price-addon" />
                         </div>
                     </div>
+                    
+                    <div class="form-item">
+                        <div class="text-center">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="button" id="p1button" name="p1button" class="btn btn-default">Precio 1</button>
+                                <button type="button" id="p2button" name="p2button" class="btn btn-default">Precio 2</button>
+                                <button type="button" id="p3button" name="p3button" class="btn btn-default">Precio 3</button>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </form>
                 <!--<div class="form-item">
                         <button id="sendButton" name="sendButton" class="btn btn-primary btn-lg">Vender articulo</button>
@@ -158,14 +169,26 @@
                         <button type="button" id="terminateButton" name="terminateButton" class="btn btn-success">Terminar venta</button>
                     </div>
                 </div>
-                <div class="form-item">
-                    <h3>En desarrollo</h3>
-                    <button id="connectdb" name="connectdb" class="btn btn-default">Conectar a base de datos local</button>
-                </div> 
+                
                 
                 <div class="form-item">
                     
-                    <button id="syncdb" name="syncdb" class="btn btn-default">Sincronizar base de datos</button>
+                    
+                </div>
+                
+                <div class="form-item">
+                    
+                    <!--
+                    <a href="#" 
+                            data-toggle="modal"
+                             data-target="#pendingSalesModal" 
+                             class="form-control">Ventas pendientes
+                        </a>
+                             
+                     -->
+                     
+                     
+                     
                 </div>
                 
             </div>
@@ -176,7 +199,7 @@
         <div class="form-item alert alert-info" id="statuslabel">Estado del sistema</div>
         <div id="prods">
             <ul class="list-group">
-
+                
             </ul>
         </div>
 
@@ -223,6 +246,19 @@
                     <div class="form-group">
                         <button id="saveUserBtn" name="saveUserButton" class="btn btn-primary form-control">Guardar usuario</button>
                     </div>
+                    
+                    <div class="form-group">
+                        <button id="syncdb" name="syncdb" class="btn btn-default">Sincronizar base de datos</button>
+                     </div>
+                     
+                     <div class="form-group">
+                         <button id="viewpendingsales" name="viewpendingsales" class="btn btn-default">Ver ventas pendientes</button>
+                     </div>
+                     
+                     <div class="form-group">
+                         <button id="connectserver" name="connectserver" class="btn btn-default">Conectarse al servidor</button>
+                     </div>
+                    
                 </div>
 
 
@@ -328,6 +364,33 @@
                         <ul class="list-group">
                         </ul>
                     </div>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- ====================================================================================== -->
+    <!-- Ventas pendientes modal -->
+    <!-- ====================================================================================== -->
+    <div class="modal fade" id="pendingSalesModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ventas pendientes</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="pendingSalesList">
+                        <ul class="list-group">
+                
+                        </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

@@ -4,21 +4,29 @@
 
 function onLoad(){ 
     
+        opendb();
         statCheck2();
     
         // Main page handlers   
-        $('#sendButton'        ).click(sellsingle       );    // Sell Single Click
-        //$('#addButton'         ).click(addProd          );    // Add prod to prods to be sent
-        $('#addButton'         ).click(addProdOffline   );    // Add prod to prods to be sent
-        //$('#terminateButton'   ).click(terminateSell    );    // terminate sell on click
-        //$('#terminateButton'   ).click(insertPendingSell   );
-        $('#terminateButton'   ).click(insertPendingSell); 
-        //$('#searchProdButton'  ).click(populateSearch  );    // On search prod click
-        $('#searchClientButton').click(searchClient     );    // On search client click
-        $('#saveUserBtn'       ).click(saveUser         );    // On Save user click
-        $('#connectdb'         ).click(opendb           );
-        $('#syncdb'            ).click(syncdb           ); 
-        $('#searchProdButton'  ).click(searchProdOffline); 
+        $('#sendButton'        ).click(sellsingle           );    // Sell Single Click
+        //$('#addButton'       ).click(addProd              );    // Add prod to prods to be sent
+        $('#addButton'         ).click(addProdOffline       );    // Add prod to prods to be sent
+        //$('#terminateButton' ).click(terminateSell        );    // terminate sell on click
+        //$('#terminateButton' ).click(insertPendingSell    );
+        $('#terminateButton'   ).click(insertPendingSell    ); 
+        //$('#searchProdButton').click(populateSearch       );    // On search prod click
+        $('#searchClientButton').click(searchClient         );    // On search client click
+        $('#saveUserBtn'       ).click(saveUser             );    // On Save user click
+        // x $('#connectdb'    ).click(opendb               );
+        $('#syncdb'            ).click(syncdb               ); 
+        $('#searchProdButton'  ).click(searchProdOffline    );
+        $('#connectserver'     ).click(statCheck2           );
+        
+        
+        $('#viewpendingsales'  ).click(function(){
+            renderPendingSales(); 
+            $('#pendingSalesModal').modal("show");
+        })
 
         //Get enpoint setting
         var endpoint = localStorage.getItem("endpoint");

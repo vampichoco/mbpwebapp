@@ -113,13 +113,29 @@ function addToProdList(item)
      function(){
          
          //Deselecciona las lineas de abajo para agregar el articulo directamente
-         //window.alert(item.PRECIO);
-         //$('#prodtb').val(item.ARTICULO);
-         //$('#pricetb').val(item.PRECIO); 
+         window.alert(item.PRECIO);
+         $('#prodtb').val(item.ARTICULO);
+         $('#pricetb').val(item.PRECIO); 
+         
+         $('#p1button').html(item.PRECIO1);
+         $("#p1button").unbind('click').click(function(){
+             $('#pricetb').val(item.PRECIO1);
+         }) 
+         
+         $('#p2button').html(item.PRECIO2);
+         $("#p2button").unbind('click').click(function(){
+             $('#pricetb').val(item.PRECIO2);
+         }) 
+         
+         $('#p3button').html(item.PRECIO3);
+         $("#p3button").unbind('click').click(function(){
+             $('#pricetb').val(item.PRECIO3);
+         })
+         
          $('#searchProdModal').modal('hide'); 
          
          // Selecciona la linea de abajo para agregar el articulo directamente
-         selectclaveadd2(item.ARTICULO);
+         //selectclaveadd2(item.ARTICULO);
      } );
        
 }
@@ -142,6 +158,7 @@ function addProd(results) {
 } 
 
 function statCheck2(){
+    //window.alert("intentando conexión")
     setStatLabel("info", "intentando conexion");
     
     
@@ -151,17 +168,26 @@ function statCheck2(){
     
     var stat = $.getJSON(url, function(result){
         if (result.exists == true){
+            
+    $('#addButton'         ).unbind('click').click(addProd          );    // Add prod to prods to be sent
+    $('#terminateButton'   ).unbind('click').click(terminateSell    );    // terminate sell on click
+    $('#searchProdButton'  ).unbind('click').click(populateSearch   );    // On search prod click
+            
             setStatLabel("success", "Sistema cargado y listo");
         }else{
             setStatLabel("danger", "No se pudo conectar a la base de datos");
         }
     }).error(function(jqXHR, textStatus, errorThrown){
+        $('#addButton'         ).unbind('click').click(addProdOffline       );    // Add prod to prods to be sent
+        $('#terminateButton'   ).unbind('click').click(insertPendingSell    );
+        $('#searchProdButton'  ).unbind('click').click(searchProdOffline    );
+        
         setStatLabel("danger", "No se pudo conectar al servidor: " + textStatus);
     });
 }
 
 function instanceProd2(results){
-    var price = $('#pricetb').val();
+    var price = results.ARTICULO.PRECIO1;
     
     var newP = {
         Precio: price,
@@ -181,7 +207,8 @@ function instanceProd2(results){
 }
 
 function instanceProd(results) {
-    var price = $('#pricetb').val();
+    var price = results.ARTICULO.PRECIO1;
+    window.alert(price);
     if (results.clavesadd.length > 0)
     {
         selectclaveadd(results.clavesadd, results.ARTICULO);
@@ -191,6 +218,7 @@ function instanceProd(results) {
         Cantidad: 1,
         Impuesto: 0,
         Costo: results.ARTICULO.COSTO,
+        
         Articulo: results.ARTICULO.ARTICULO
     };
     Partidas.push(newP);
@@ -284,7 +312,7 @@ function terminateSell() {
 
        var data = JSON.stringify(ob);
 
-       var url = endoint + '//makesell.ashx';
+       var url = endoint + '/makesell.ashx';
 
        $.ajax({
             type: "POST",
@@ -380,11 +408,11 @@ function opendb(){
     if (!window.indexedDB) {
         window.alert("Your browser doesn't support a stable version of IndexedDB.");
     }else{
-        window.alert("Listo para conectarse");
+        //window.alert("Listo para conectarse");
     }
      
     
-    var request = window.indexedDB.open("mbptest5", 1);
+    var request = window.indexedDB.open("mbptest6", 1);
  
     request.onerror = function(event) {
         console.log("error: ");
@@ -397,7 +425,7 @@ function opendb(){
  
     request.onupgradeneeded = function(event) {
         db = event.target.result;
-        var prodStore = db.createObjectStore("prods", {keyPath: "ARTICULO"});
+        var prodStore = db.createObjectStore("prods", {keyPath: "SP"});
         var sellStore = db.createObjectStore("ventas", {keyPath: "id", autoIncrement: true}); 
         
          
@@ -466,7 +494,7 @@ function searchProdOffline()
 }
 
 function addProdOffline(){
-    var transaction = db.transaction(["prods"]);
+   var transaction = db.transaction(["prods"]);
    var objectStore = transaction.objectStore("prods");
    var key = $('#prodtb').val();
    var request = objectStore.get(key);
@@ -489,7 +517,7 @@ function addProdOffline(){
 } 
 
 function instanceProdOffline(prod){
-    var price = $('#pricetb').val();
+    var price = parseInt($('#pricetb').val());
     //if (results.clavesadd.length > 0)
     //{
         //selectclaveadd(results.clavesadd, results.ARTICULO);
@@ -523,7 +551,7 @@ function read(key) {
    
    request.onsuccess = function(event) {
       if(request.result) {
-         window.alert(request.result);
+         //window.alert(request.result);
          $('#prodtb').val(request.result.ARTICULO);
       }
       
@@ -578,5 +606,90 @@ function getPendingSales(callback){
             items.push(cursor.value);
             cursor.continue();
         }
+    };
+} 
+
+function renderPendingSales(){
+    getPendingSales(function(items){
+        var c = 0; 
+        var l = items.length; 
+        
+        for (c = 0; c < l; c++){
+            var item = items[c];
+            var div = $('<div class="list-group-item"></div>')
+            var span = '<span>' + "venta: " + item.id + ", importe: " + item.PRECIO + '<span>';
+            var button = $('<button>Enviar a MyBusiness</button>').click(
+                function(){
+                    //window.alert(item.id);
+                    terminateSell2(item);
+                }
+            )
+            
+            div.append(span);
+            div.append(button);
+            
+            $('#pendingSalesList ul').append(div);
+            
+        }
+        
+    })
+} 
+
+function terminateSell2(item) {
+   
+   var clientid = $('#clienttb').val();
+    
+   if (clientid.length > 0){
+       var endpoint = localStorage.getItem("endpoint");
+
+       
+       var ob = { "ClientId": item.CLIENTE, "Partidas": item.PARTIDAS };
+
+       var data = JSON.stringify(ob);
+
+       var url = endpoint + '//makesell.ashx';
+
+       $.ajax({
+            type: "POST",
+            data: data,
+            url: url,
+            contentType: "application/json",
+            dataType: 'json'
+       }).done(function (res) {
+           console.log("i'm going to remove entry")
+            removePendingSale(item.id)
+           
+            setStatLabel("success", "Venta hecha")
+            console.log('res', res);
+            // Do something with the result :)
+       }); 
+   
+   $('#prods ul').empty();
+   Partidas = []; 
+   total = 0; 
+   }
+   
+} 
+
+function removePendingSale(id){
+    var transaction = db.transaction(["ventas"], "readwrite"); 
+    
+    transaction.oncomplete = function(event) {
+    
+    };
+
+    transaction.onerror = function(event) {
+        
+    };
+
+    // create an object store on the transaction
+    var objectStore = transaction.objectStore("ventas");
+
+    // Delete the specified record out of the object store
+    var objectStoreRequest = objectStore.delete(id);
+
+    objectStoreRequest.onsuccess = function(event) {
+    // report the success of our delete operation
+        
     };
 }
