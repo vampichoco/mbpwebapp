@@ -15,8 +15,8 @@
 <body>
 
     <!-- ================================================================== -->
-    <!-- Main Container 
-        <!-- ================================================================== -->
+    <!--                            Main Container 
+    <!-- ================================================================== -->
 
     <div class="main-container" id="main-container">
 
@@ -31,27 +31,24 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
+                            
                         </button>
                         <a class="navbar-brand" href="#">MyBusiness</a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <!--
-          <ul class="nav navbar-nav">
-        
-      </ul>
-      -->
+                        
                         <form class="navbar-form navbar-left">
                             <div class="input-group">
                                 <input id="clienttb" type="text" class="form-control" placeholder="Cliente...">
                                 <span class="input-group-btn">
-                            <a href="#" 
-                            data-toggle="modal"
-                             data-target="#searchClientModal" 
-                             class="form-control"><span class="glyphicon glyphicon-search"
-                             aria-hidden="true"></span>
-                                </a>
+                                    <button 
+                                        data-toggle="modal"
+                                        data-target="#searchClientModal" 
+                                        class="btn btn-default"><span class="glyphicon glyphicon-search"
+                                        aria-hidden="true"></span>
+                                    </button>
                                 </span>
                             </div>
 
@@ -60,20 +57,7 @@
                             <li><a href="#" data-toggle="modal" data-target="#configModal">Configuraci&oacute;n</a>
                             </li>
                         </ul>
-                        <!--
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul> -->
+                        
                     </div>
                     <!-- /.navbar-collapse -->
                 </div>
@@ -90,28 +74,33 @@
                 <form class="form-inline">
 
                     <div class="input-group">
-                        <input id="prodtb" type="text" class="form-control" placeholder="Articulo...">
+                        
                         <span class="input-group-btn">
-                            <a href="#" 
-                            data-toggle="modal"
-                             data-target="#searchProdModal" 
-                             class="form-control"><span class="glyphicon glyphicon-search"
-                             aria-hidden="true"></span>
-                        </a>
+                            <button 
+                                data-toggle="modal"
+                                data-target="#searchProdModal" 
+                                class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
                         </span>
+                        
+                        <input id="prodtb" type="text" class="form-control" placeholder="Articulo...">
+                        
+                        <span  class="input-group-btn">
+                            <button type="button" 
+                                class="btn btn-default" 
+                                id="validateProdButton">
+                                    <span class="glyphicon glyphicon-ok-circle"></span>
+                             </button>
+                        </span>
+                        
+                        
                     </div>
                     <!-- /input-group -->
 
-
-
-
                     <div class="form-item">
                         <div class="input-group">
-                            <!--
-                            <span class="input-group-addon" id="price-addon">
-                                <span class="glyphicon glyphicon-plus-sign"></span>
-                            </span>
-                            -->
+                            
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" id="button-qty-plus">
                                     <span class="glyphicon glyphicon-plus-sign"></span>
@@ -148,19 +137,7 @@
                     </div>
                     
                 </form>
-                <!--<div class="form-item">
-                        <button id="sendButton" name="sendButton" class="btn btn-primary btn-lg">Vender articulo</button>
-                    </div>-->
-
-                <!--<div class="form-item">
-                        <span>
-                            <button id="addButton" name="addButton" class="btn btn-primary btn-lg">Agregar articulo</button>
-                        </span>
-
-                        <span>
-                            <button id="terminateButton" name="terminateButton" class="btn btn-primary btn-lg">Terminar venta</button>
-                        </span>
-                    </div>-->
+               
 
                 <div class="text-center">
                     <div class="btn-group" role="group" aria-label="...">
@@ -168,27 +145,6 @@
 
                         <button type="button" id="terminateButton" name="terminateButton" class="btn btn-success">Terminar venta</button>
                     </div>
-                </div>
-                
-                
-                <div class="form-item">
-                    
-                    
-                </div>
-                
-                <div class="form-item">
-                    
-                    <!--
-                    <a href="#" 
-                            data-toggle="modal"
-                             data-target="#pendingSalesModal" 
-                             class="form-control">Ventas pendientes
-                        </a>
-                             
-                     -->
-                     
-                     
-                     
                 </div>
                 
             </div>
@@ -210,7 +166,7 @@
 
 
     <!-- =========================================================================================== -->
-    <!-- config modal  -->
+    <!--                                Config modal  -->
     <!-- =========================================================================================== -->
     <div class="modal fade" id="configModal" role="dialog">
         <div class="modal-dialog">
@@ -271,7 +227,7 @@
     </div>
 
     <!-- ============================================================================== -->
-    <!-- Seach prod modal  -->
+    <!--                            Seach prod modal  -->
     <!-- ============================================================================== -->
 
     <div class="modal fade" id="searchProdModal" role="dialog">
@@ -310,7 +266,7 @@
     <!-- Modal -->
 
     <!-- ====================================================================================== -->
-    <!-- Search client modal -->
+    <!--                              Search client modal -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="searchClientModal" role="dialog">
         <div class="modal-dialog">
@@ -348,7 +304,7 @@
     <!-- Modal -->
     
     <!-- ====================================================================================== -->
-    <!-- Select claveadd modal -->
+    <!--                            Select claveadd modal -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="clavesaddModal" role="dialog">
         <div class="modal-dialog">
@@ -374,7 +330,7 @@
     </div>
     
     <!-- ====================================================================================== -->
-    <!-- Ventas pendientes modal -->
+    <!--                             Ventas pendientes modal -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="pendingSalesModal" role="dialog">
         <div class="modal-dialog">
@@ -399,14 +355,48 @@
 
         </div>
     </div>
+    
+    
+    
+    <!-- ====================================================================================== -->
+    <!--                            Edit product in Partidas -->
+    <!-- ====================================================================================== -->
+    <div class="modal fade" id="editPartidaModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modificar partida</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="tituloPartida"></div>
+                    <div class="form-item">
+                         <input type="text" id="modifyQtyTb" name="modifyQtyTb" class="form-control" placeholder="Cantidad" />
+                         <button type="button" id="savePartidaButton" class="btn btn-default">Guardar</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
     <script src="scripts/jquery-2.2.3.min.js"></script>
     <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    
     <script type="text/javascript" src="scripts/index.js"></script>
     <script type="text/javascript" src="scripts/mbp.js"></script>
+    
+    <script type="text/javascript" src="hashids.js"></script>
+    
 
     <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+    
 
 
 </body>

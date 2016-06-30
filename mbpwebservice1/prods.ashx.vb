@@ -48,8 +48,18 @@ Public Class prods
             Dim prodKey As String = context.Request.QueryString("p")
 
             Dim query = From prod In db.prods Where prod.ARTICULO = prodKey
-                        Select New With {.ARTICULO = prod,
-                                                  .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO Select cadd)}
+                        Select New With {.ARTICULO = New With {.ARTICULO = prod.ARTICULO,
+                            .SP = Trim(prod.ARTICULO),
+                            .DESCRIP = prod.DESCRIP,
+                            .PRECIO = prod.PRECIO4,
+                            .PRECIO1 = prod.PRECIO4,
+                            .PRECIO2 = prod.PRECIO5,
+                            .PRECIO3 = prod.PRECIO6,
+                            .C1 = prod.C4,
+                            .C2 = prod.C5,
+                            .C3 = prod.C6,
+                            .U = GetUniqueID(Guid.NewGuid())},
+                            .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO Select cadd)}
 
 
 
@@ -69,7 +79,17 @@ Public Class prods
 
 
             Dim query = From prod In db.prods
-                        Select New With {.ARTICULO = prod.ARTICULO, .SP = Trim(prod.ARTICULO), .DESCRIP = prod.DESCRIP, .PRECIO = prod.PRECIO3, .P2 = prod.PRECIO4, .P3 = prod.PRECIO6}
+                        Select New With {.ARTICULO = prod.ARTICULO,
+                            .SP = Trim(prod.ARTICULO),
+                            .DESCRIP = prod.DESCRIP,
+                            .PRECIO = prod.PRECIO4,
+                            .PRECIO1 = prod.PRECIO4,
+                            .PRECIO2 = prod.PRECIO5,
+                            .PRECIO3 = prod.PRECIO6,
+                            .C1 = prod.C4,
+                            .C2 = prod.C5,
+                            .C3 = prod.C6,
+                            .U = GetUniqueID(Guid.NewGuid())}
                         Take take
 
             'context.Response.Write(xml.ToString())
@@ -89,6 +109,17 @@ Public Class prods
         Next
 
         Return prod
+
+    End Function
+
+    Function GetUniqueID(ByVal guid As Guid) As String
+        Dim bytes = guid.ToByteArray()
+
+        Dim uniqueStr = Convert.ToBase64String(bytes)
+        uniqueStr = uniqueStr.Replace("/", "_").Replace("+", "-").Replace("=", "")
+
+        Return uniqueStr
+
 
     End Function
 

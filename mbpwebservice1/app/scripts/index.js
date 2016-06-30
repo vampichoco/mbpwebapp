@@ -6,6 +6,7 @@ function onLoad(){
     
         opendb();
         statCheck2();
+        getState();
     
         // Main page handlers   
         $('#sendButton'        ).click(sellsingle           );    // Sell Single Click
@@ -26,7 +27,11 @@ function onLoad(){
         $('#viewpendingsales'  ).click(function(){
             renderPendingSales(); 
             $('#pendingSalesModal').modal("show");
-        })
+        }) 
+        
+        $('#prodtb').click(function(){
+           $('#searchProdModal').modal("show"); 
+        });
 
         //Get enpoint setting
         var endpoint = localStorage.getItem("endpoint");
@@ -57,7 +62,8 @@ function onLoad(){
             qty = qty + 1; 
             
             $('#qtytb').val(qty);
-            
+            selectPrice();
+            saveState();
         });
         
         $('#button-qty-minus').click(function(){
@@ -71,9 +77,13 @@ function onLoad(){
             
             if (qty < 0){
                 $('#qtytb').val(0);
+                selectPrice();
             }else{
                 $('#qtytb').val(qty);
+                selectPrice();
             }
+            
+            saveState();
             
         });
 }

@@ -22,7 +22,11 @@ Public Class search
                                  .PRECIO = prod.PRECIO1,
                                  .PRECIO1 = prod.PRECIO1,
                                  .PRECIO2 = prod.PRECIO2,
-                                 .PRECIO3 = prod.PRECIO3
+                                 .PRECIO3 = prod.PRECIO3,
+                                 .C1 = prod.C4,
+                                 .C2 = prod.C5,
+                                 .C3 = prod.C6,
+                                 .U = GetUniqueID(prod.ARTICULO)
                                  }
 
 
@@ -36,7 +40,12 @@ Public Class search
                                  .PRECIO = prod.PRECIO1,
                                  .PRECIO1 = prod.PRECIO1,
                                  .PRECIO2 = prod.PRECIO2,
-                                 .PRECIO3 = prod.PRECIO3}
+                                 .PRECIO3 = prod.PRECIO3,
+                                 .C1 = prod.C4,
+                                 .C2 = prod.C5,
+                                 .C3 = prod.C6,
+                                 .U = GetUniqueID(prod.ARTICULO)
+                                 }
 
             context.Response.Write(json.Serialize(prodsQuery))
 
@@ -51,6 +60,16 @@ Public Class search
         End Get
     End Property
 
+    Function GetUniqueID(ByVal str As String) As String
+        Dim bytes = System.Text.Encoding.UTF8.GetBytes(str)
+
+        Dim uniqueStr = Convert.ToBase64String(bytes)
+        uniqueStr = uniqueStr.Replace("/", "_").Replace("+", "-").Replace("=", "")
+
+        Return uniqueStr
+
+
+    End Function
 End Class
 
 Public Class prodInSearch
@@ -60,6 +79,10 @@ Public Class prodInSearch
     Private _PRECIO1 As Double
     Private _PRECIO2 As Double
     Private _PRECIO3 As Double
+    Private _C1 As Single
+    Private _C2 As Single
+    Private _C3 As Single
+    Private _unique As String
 
     Public Property DESCRIP As String
         Get
@@ -114,6 +137,44 @@ Public Class prodInSearch
             _PRECIO3 = value
         End Set
     End Property
+
+    Public Property C1 As Single
+        Get
+            Return _C1
+        End Get
+        Set(value As Single)
+            _C1 = value
+        End Set
+    End Property
+
+    Public Property C2 As Single
+        Get
+            Return _C2
+        End Get
+        Set(value As Single)
+            _C2 = value
+        End Set
+    End Property
+
+    Public Property C3 As Single
+        Get
+            Return _C3
+        End Get
+        Set(value As Single)
+            _C3 = value
+        End Set
+    End Property
+
+    Public Property U As String
+        Get
+            Return _unique
+        End Get
+        Set(value As String)
+            _unique = value
+        End Set
+    End Property
+
+
 
 
 
