@@ -26,7 +26,8 @@ Public Class search
                                  .C1 = prod.C4,
                                  .C2 = prod.C5,
                                  .C3 = prod.C6,
-                                 .U = GetUniqueID(prod.ARTICULO)
+                                 .U = GetUniqueID(prod.ARTICULO),
+                                 .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single
                                  }
 
 
@@ -44,7 +45,8 @@ Public Class search
                                  .C1 = prod.C4,
                                  .C2 = prod.C5,
                                  .C3 = prod.C6,
-                                 .U = GetUniqueID(prod.ARTICULO)
+                                 .U = GetUniqueID(prod.ARTICULO),
+                                 .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single
                                  }
 
             context.Response.Write(json.Serialize(prodsQuery))
@@ -83,6 +85,7 @@ Public Class prodInSearch
     Private _C2 As Single
     Private _C3 As Single
     Private _unique As String
+    Private _Tx As Single
 
     Public Property DESCRIP As String
         Get
@@ -171,6 +174,15 @@ Public Class prodInSearch
         End Get
         Set(value As String)
             _unique = value
+        End Set
+    End Property
+
+    Public Property Tx As Single
+        Get
+            Return _Tx
+        End Get
+        Set(value As Single)
+            _Tx = value
         End Set
     End Property
 

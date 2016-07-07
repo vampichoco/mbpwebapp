@@ -187,7 +187,7 @@
                     </div>
                     <hr>
                     <!-- Separator -->
-                    <label>Datos de usuario </label>
+                    <label>Vendedor </label>
                     <div class="form-group">
 
                         <div class="form-item">
@@ -195,10 +195,14 @@
                         </div>
 
                     </div>
-
+                    
+                    <!-- 
                     <div class="form-group">
                         <input type="text" id="passwordtb" name="passwordtb" class="form-control" placeholder="Contrase&ntilde;a" />
                     </div>
+                    
+                    -->
+                    
                     <div class="form-group">
                         <button id="saveUserBtn" name="saveUserButton" class="btn btn-primary form-control">Guardar usuario</button>
                     </div>
@@ -227,7 +231,7 @@
     </div>
 
     <!-- ============================================================================== -->
-    <!--                            Seach prod modal  -->
+    <!--                            Seach prod modal                                    -->
     <!-- ============================================================================== -->
 
     <div class="modal fade" id="searchProdModal" role="dialog">
@@ -266,7 +270,7 @@
     <!-- Modal -->
 
     <!-- ====================================================================================== -->
-    <!--                              Search client modal -->
+    <!--                              Search client modal                                       -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="searchClientModal" role="dialog">
         <div class="modal-dialog">
@@ -304,7 +308,7 @@
     <!-- Modal -->
     
     <!-- ====================================================================================== -->
-    <!--                            Select claveadd modal -->
+    <!--                            Select claveadd modal                                       -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="clavesaddModal" role="dialog">
         <div class="modal-dialog">
@@ -330,7 +334,7 @@
     </div>
     
     <!-- ====================================================================================== -->
-    <!--                             Ventas pendientes modal -->
+    <!--                             Ventas pendientes modal                                    -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="pendingSalesModal" role="dialog">
         <div class="modal-dialog">
@@ -359,7 +363,7 @@
     
     
     <!-- ====================================================================================== -->
-    <!--                            Edit product in Partidas -->
+    <!--                            Edit product in Partidas                                    -->
     <!-- ====================================================================================== -->
     <div class="modal fade" id="editPartidaModal" role="dialog">
         <div class="modal-dialog">
@@ -375,6 +379,7 @@
                     <div class="form-item">
                          <input type="text" id="modifyQtyTb" name="modifyQtyTb" class="form-control" placeholder="Cantidad" />
                          <button type="button" id="savePartidaButton" class="btn btn-default">Guardar</button>
+                         <button type="button" id="removePartidaButton" class="btn btn-default">Eliminar</button>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -388,6 +393,7 @@
 
     <script src="scripts/jquery-2.2.3.min.js"></script>
     <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://npmcdn.com/dexie@1.4.1/dist/dexie.js"></script>
     
     <script type="text/javascript" src="scripts/index.js"></script>
     <script type="text/javascript" src="scripts/mbp.js"></script>

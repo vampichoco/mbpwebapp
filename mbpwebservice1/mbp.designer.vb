@@ -135,6 +135,12 @@ Partial Public Class mbpDataContext
 			Return Me.GetTable(Of clavesadd)
 		End Get
 	End Property
+	
+	Public ReadOnly Property vends() As System.Data.Linq.Table(Of vend)
+		Get
+			Return Me.GetTable(Of vend)
+		End Get
+	End Property
 End Class
 
 <Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.prods")>  _
@@ -9295,4 +9301,138 @@ Partial Public Class clavesadd
 			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
 		End If
 	End Sub
+End Class
+
+<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.vends")>  _
+Partial Public Class vend
+	
+	Private _Vend As String
+	
+	Private _Nombre As String
+	
+	Private _Comision As System.Nullable(Of Double)
+	
+	Private _Usuario As String
+	
+	Private _usuFecha As System.Nullable(Of Date)
+	
+	Private _usuHora As String
+	
+	Private _Activo As System.Nullable(Of Short)
+	
+	Private _foraneo As System.Nullable(Of Short)
+	
+	Private _SSMA_TimeStamp As System.Data.Linq.Binary
+	
+	Public Sub New()
+		MyBase.New
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Vend", DbType:="NVarChar(15)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Vend() As String
+		Get
+			Return Me._Vend
+		End Get
+		Set
+			If (String.Equals(Me._Vend, value) = false) Then
+				Me._Vend = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Nombre", DbType:="NVarChar(50)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Nombre() As String
+		Get
+			Return Me._Nombre
+		End Get
+		Set
+			If (String.Equals(Me._Nombre, value) = false) Then
+				Me._Nombre = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Comision", DbType:="Float", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Comision() As System.Nullable(Of Double)
+		Get
+			Return Me._Comision
+		End Get
+		Set
+			If (Me._Comision.Equals(value) = false) Then
+				Me._Comision = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Usuario", DbType:="NVarChar(10)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Usuario() As String
+		Get
+			Return Me._Usuario
+		End Get
+		Set
+			If (String.Equals(Me._Usuario, value) = false) Then
+				Me._Usuario = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_usuFecha", DbType:="DateTime", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property usuFecha() As System.Nullable(Of Date)
+		Get
+			Return Me._usuFecha
+		End Get
+		Set
+			If (Me._usuFecha.Equals(value) = false) Then
+				Me._usuFecha = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_usuHora", DbType:="NVarChar(8)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property usuHora() As String
+		Get
+			Return Me._usuHora
+		End Get
+		Set
+			If (String.Equals(Me._usuHora, value) = false) Then
+				Me._usuHora = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Activo", DbType:="SmallInt", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Activo() As System.Nullable(Of Short)
+		Get
+			Return Me._Activo
+		End Get
+		Set
+			If (Me._Activo.Equals(value) = false) Then
+				Me._Activo = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_foraneo", DbType:="SmallInt", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property foraneo() As System.Nullable(Of Short)
+		Get
+			Return Me._foraneo
+		End Get
+		Set
+			If (Me._foraneo.Equals(value) = false) Then
+				Me._foraneo = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_SSMA_TimeStamp", AutoSync:=AutoSync.Always, DbType:="rowversion NOT NULL", CanBeNull:=false, IsDbGenerated:=true, IsVersion:=true, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property SSMA_TimeStamp() As System.Data.Linq.Binary
+		Get
+			Return Me._SSMA_TimeStamp
+		End Get
+		Set
+			If (Object.Equals(Me._SSMA_TimeStamp, value) = false) Then
+				Me._SSMA_TimeStamp = value
+			End If
+		End Set
+	End Property
 End Class

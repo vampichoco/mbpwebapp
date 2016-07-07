@@ -191,6 +191,9 @@
     <Compile Include="sellsingle.ashx.vb">
       <DependentUpon>sellsingle.ashx</DependentUpon>
     </Compile>
+    <Compile Include="vends.ashx.vb">
+      <DependentUpon>vends.ashx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Handler1.ashx" />
@@ -232,6 +235,7 @@
     <Content Include="sellsingle.ashx" />
     <Content Include="search.ashx" />
     <Content Include="searchclient.ashx" />
+    <Content Include="vends.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

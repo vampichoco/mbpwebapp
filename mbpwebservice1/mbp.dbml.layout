@@ -51,5 +51,11 @@
         <elementListCompartment Id="9b6096db-3e20-4da1-b4f7-df5a0d301522" absoluteBounds="0.88999999999999968, 5.335, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="a60bd1f8-4491-4758-9aef-f52afe6fa7ac" isExpanded="false" absoluteBounds="4.25, 1.625, 2, 0.45">
+      <DataClassMoniker Name="/mbpDataContext/vend" />
+      <nestedChildShapes>
+        <elementListCompartment Id="90cce3bd-bed1-4b0f-877e-39ab5582303a" absoluteBounds="4.265, 2.085, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

@@ -16,7 +16,8 @@ function onLoad(){
         //$('#terminateButton' ).click(insertPendingSell    );
         $('#terminateButton'   ).click(insertPendingSell    ); 
         //$('#searchProdButton').click(populateSearch       );    // On search prod click
-        $('#searchClientButton').click(searchClient         );    // On search client click
+        //$('#searchClientButton').click(searchClient       );    // On search client click 
+        $('#searchClientButton').click(searchClientOffline    );    // On search client offline
         $('#saveUserBtn'       ).click(saveUser             );    // On Save user click
         // x $('#connectdb'    ).click(opendb               );
         $('#syncdb'            ).click(syncdb               ); 
@@ -46,7 +47,7 @@ function onLoad(){
         $('#saveUrlBtn').click(function () { 
             var urlendpoint = $('#urltb').val();
             localStorage.setItem("endpoint", urlendpoint); 
-            statCheck();
+            statCheck2();
         });
 
         // Set status label to loader

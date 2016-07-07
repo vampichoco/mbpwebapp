@@ -431,4 +431,17 @@
       <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
     </Type>
   </Table>
+  <Table Name="dbo.vends" Member="vends">
+    <Type Name="vend">
+      <Column Name="Vend" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Comision" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Usuario" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="usuFecha" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="usuHora" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="Activo" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="foraneo" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
 </Database>

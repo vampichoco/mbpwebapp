@@ -58,7 +58,8 @@ Public Class prods
                             .C1 = prod.C4,
                             .C2 = prod.C5,
                             .C3 = prod.C6,
-                            .U = GetUniqueID(Guid.NewGuid())},
+                            .U = GetUniqueID(Guid.NewGuid()),
+                            .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single},
                             .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO Select cadd)}
 
 
@@ -89,7 +90,8 @@ Public Class prods
                             .C1 = prod.C4,
                             .C2 = prod.C5,
                             .C3 = prod.C6,
-                            .U = GetUniqueID(Guid.NewGuid())}
+                            .U = GetUniqueID(Guid.NewGuid()),
+                            .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single}
                         Take take
 
             'context.Response.Write(xml.ToString())

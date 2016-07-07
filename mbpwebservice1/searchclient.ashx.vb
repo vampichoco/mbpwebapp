@@ -11,13 +11,21 @@ Public Class searchclient
 
         Dim json As New JavaScriptSerializer()
 
-        Dim q = context.Request.QueryString("c")
+        If context.Request.QueryString("c") IsNot Nothing Then
+            Dim q = context.Request.QueryString("c")
 
-        Dim query = From item In db.clients Where item.NOMBRE.Contains(q) Or item.CLIENTE.Contains(q)
-                    Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE}
-                    Take (5)
+            Dim query = From item In db.clients Where item.NOMBRE.Contains(q) Or item.CLIENTE.Contains(q)
+                        Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE}
+                        Take (5)
 
-        context.Response.Write(json.Serialize(query))
+            context.Response.Write(json.Serialize(query))
+        Else
+            Dim query = From item In db.clients
+                        Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE}
+
+            context.Response.Write(json.Serialize(query))
+
+        End If
 
     End Sub
 

@@ -35,6 +35,8 @@ Public Class makesell
 
             'Dim pid As String = j("IdVenta").ToString()
             Dim cid As String = j("ClientId").ToString()
+            Dim vend As String = j("Vendedor").ToString()
+
 
 
             Dim c = db.clients.SingleOrDefault(Function(_c) _c.CLIENTE = cid)
@@ -45,17 +47,20 @@ Public Class makesell
             Dim tc As Integer = 0
 
             Dim total As Single = 0.0
+            Dim impuestoTotal As Single = 0.0
 
             For tc = 0 To pvArr.Count - 1
-                Dim data = pvArr(count)
+                Dim data = pvArr(tc)
 
-                Dim cantidad As Single = Single.Parse(data("Cantidad"))
-                Dim precioU As Single = Single.Parse(data("Precio"))
-                Dim impuesto As Single = Single.Parse(data("Impuesto"))
+                Dim cantidad As Single = Single.Parse(data("Cantidad").ToString)
+                Dim precioU As Single = Single.Parse(data("Precio").ToString)
+                Dim impuesto As Single = Single.Parse(data("Impuesto").ToString)
+
+                impuesto = impuesto / 100
 
                 Dim precio As Double = precioU * cantidad
+                impuestoTotal = impuestoTotal + ((precioU * cantidad) * impuesto)
 
-                precio = precio + (precio * impuesto)
                 total = total + precio
             Next
 
@@ -71,11 +76,12 @@ Public Class makesell
                             .cambioDeEstado = 0,
                             .Ticket = 1,
                             .CIERRE = 0,
-                            .IMPUESTO = 0,
+                            .IMPUESTO = impuestoTotal,
                             .ENFAC = 0,
                             .serieDocumento = "T",
                             .TIPO_DOC = "REM",
-                            .NO_REFEREN = noRef
+                            .NO_REFEREN = noRef,
+                            .VEND = vend
                         }
 
             db.ventas.InsertOnSubmit(v)
@@ -88,14 +94,19 @@ Public Class makesell
                 Dim precioU As Single = Single.Parse(data("Precio"))
                 Dim cantidad As Single = Single.Parse(data("Cantidad"))
                 Dim impuesto As Single = Single.Parse(data("Impuesto"))
-                Dim costo As Single = Single.Parse(data("Costo"))
+
+                impuesto = impuesto / 100
+
                 Dim artStr As String = (data("Articulo")).ToString()
 
                 Dim precio As Double = precioU * cantidad
+                Console.WriteLine(precio)
 
                 precio = precio + (precio * impuesto)
 
                 Dim p = db.prods.SingleOrDefault(Function(_p) _p.ARTICULO = artStr)
+
+                Console.WriteLine(precio)
 
 
 
@@ -105,19 +116,19 @@ Public Class makesell
                              .ALMACEN = 1,
                              .ARTICULO = p.ARTICULO,
                              .VENTA = v.VENTA,
-                             .COSTO = costo,
+                             .COSTO = p.COSTO * cantidad,
                              .CANTIDAD = cantidad,
                              .DESCUENTO = 0,
-                             .IMPUESTO = 0,
+                             .IMPUESTO = (precio * impuesto) * cantidad,
                              .ID_SALIDA = pvid,
                              .PrecioBase = precioU,
                              .Devolucion = 0,
                              .DevConf = 0,
                              .ID_entrada = 0,
                              .Invent = 0,
-                             .importe = precio,
+                             .importe = (precio * cantidad),
                              .kit = 0,
-                             .costo_u = costo,
+                             .costo_u = p.COSTO,
                              .iespecial = 0,
                              .colores = 0,
                              .verificado = 0,
