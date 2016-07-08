@@ -207,16 +207,18 @@
                         <button id="saveUserBtn" name="saveUserButton" class="btn btn-primary form-control">Guardar usuario</button>
                     </div>
                     
+                    <hr />
+                    
                     <div class="form-group">
-                        <button id="syncdb" name="syncdb" class="btn btn-default">Sincronizar base de datos</button>
+                        <button id="syncdb" name="syncdb" class="btn btn-default btn-block">Sincronizar base de datos</button>
                      </div>
                      
                      <div class="form-group">
-                         <button id="viewpendingsales" name="viewpendingsales" class="btn btn-default">Ver ventas pendientes</button>
+                         <button id="viewpendingsales" name="viewpendingsales" class="btn btn-default btn-block">Ver ventas pendientes</button>
                      </div>
                      
                      <div class="form-group">
-                         <button id="connectserver" name="connectserver" class="btn btn-default">Conectarse al servidor</button>
+                         <button id="connectserver" name="connectserver" class="btn btn-default btn-block">Conectarse al servidor</button>
                      </div>
                     
                 </div>
@@ -378,8 +380,10 @@
                     <div id="tituloPartida"></div>
                     <div class="form-item">
                          <input type="text" id="modifyQtyTb" name="modifyQtyTb" class="form-control" placeholder="Cantidad" />
-                         <button type="button" id="savePartidaButton" class="btn btn-default">Guardar</button>
-                         <button type="button" id="removePartidaButton" class="btn btn-default">Eliminar</button>
+                         <div class="form-item">
+                            <button type="button" id="savePartidaButton" class="btn btn-primary">Guardar</button>
+                            <button type="button" id="removePartidaButton" class="btn btn-danger">Eliminar</button>
+                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">

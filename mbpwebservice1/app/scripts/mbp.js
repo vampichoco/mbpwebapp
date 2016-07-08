@@ -205,7 +205,7 @@ function instanceProd(results) {
     
     Partidas.push(newP);
     
-    total = total + newP.Precio;
+    total = calculateTotal();
 
     $("#statuslabel").removeAttr ("class"                                                            );
     $('#statuslabel').addClass   ("alert alert alert-success"                                        );
@@ -258,6 +258,7 @@ function setEditActions(partida, data){
          $('#' + data.Unique).attr("style", "color:blue;");
          $(selector).html(qty);
         
+        setStatLabel("success", "Partida removida, total: " + calculateTotal());
         saveState();
         
     }); 
@@ -267,6 +268,7 @@ function setEditActions(partida, data){
        
        $('#'+data.Unique).remove();
        
+       setStatLabel("success", "Partida removida, total: " + calculateTotal());
        saveState();
         
     });
@@ -288,7 +290,7 @@ function statCheck2(){
             $('#terminateButton'   ).unbind('click').click(terminateSell    );    // terminate sell on click
             $('#searchProdButton'  ).unbind('click').click(populateSearch   );    // On search prod click
             $('#validateProdButton').unbind('click').click(validateProd     );    // On validate product button click 
-            $('#searchClientButton').unbind('click').click(searchClient)
+            $('#searchClientButton').unbind('click').click(searchClient     );
             
             setStatLabel("success", "Sistema cargado y listo");
         }else{
@@ -318,11 +320,11 @@ function instanceProd2(results){
         
         Partidas.push(newP);
     
-        total = total + newP.Precio;
+        total = calculateTotal();
 
-        $("#statuslabel").removeAttr ("class"                                                            );
-        $('#statuslabel').addClass   ("alert alert alert-success"                                        );
-        $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
+        $("#statuslabel").removeAttr ("class"                                                             );
+        $('#statuslabel').addClass   ("alert alert alert-success"                                         );
+        $('#statuslabel').text       ('Articulo agregado, total: ' + total                                );
         $('#prods ul'   ).append     ('<li class="list-group-item">' + results.ARTICULO.DESCRIP + '</li>' );
         
         saveState();
@@ -383,7 +385,7 @@ function selectclaveadd(data, art){
                 };
                 Partidas.push(newP);
     
-                total = total + newP.Precio;
+                total = calculateTotal();
                 
                 $("#statuslabel"    ).removeAttr ("class"                                                    );
                 $('#statuslabel'    ).addClass   ("alert alert alert-success"                                );
@@ -951,12 +953,12 @@ function instanceProdOffline(prod){
     };
     Partidas.push(newP);
     
-    total = total + newP.Precio;
+    total = calculateTotal();
 
     $("#statuslabel").removeAttr ("class"                                                            );
     $('#statuslabel').addClass   ("alert alert alert-success"                                        );
     $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
-    //$('#prods ul'   ).append     ('<li class="list-group-item">' + prod.DESCRIP + '</li>'            );
+    //$('#prods ul'   ).append   ('<li class="list-group-item">' + prod.DESCRIP + '</li>'            );
     
     
     saveState();
@@ -995,7 +997,8 @@ function getPendingSales(){
     db.ventas.toCollection().each(function(item){
         var div = $('<div class="list-group-item"></div>')
         var span = '<span>' + "venta: " + item.id + ", importe: " + item.PRECIO + '<span>';
-        var button = $('<button type="button" class="btn btn-default">Enviar a MyBusiness</button>').click(
+        var br = '<br />'
+        var button = $('<button type="button" class="btn btn-success">Enviar a MyBusiness</button>').click(
             function(){
                 //window.alert(item.id);
                 terminateSell2(item);
@@ -1003,6 +1006,7 @@ function getPendingSales(){
         )
             
         div.append(span);
+        div.append(br);
         div.append(button);
             
         $('#pendingSalesList ul').append(div);
@@ -1037,8 +1041,8 @@ function saveState(){
     var _price  = $('#pricetb'  ).val();
     var _qty    = $('#qtytb'    ).val();
      
-    var _price = parseFloat(_price   ); 
-    var _qty   = parseFloat(_qty     );
+    var _price  = parseFloat(_price   ); 
+    var _qty    = parseFloat(_qty     );
     
     
     localStorage.setItem("total"               , total                              ); 
@@ -1087,11 +1091,30 @@ function getState(){
         total = 0;
     }
     
-    $("#qtytb").val(_qty);
+    $("#qtytb"    ).val(_qty    );
+    $('#pricetb'  ).val(_price  );
+    $('#clienttb' ).val(client  ); 
+    $('#prodtb'   ).val(prod    ); 
     
-    $('#pricetb').val(_price);
+}
+
+function calculateTotal(){
+    var __total__ = 0; 
     
-    $('#clienttb').val(client); 
-    $('#prodtb'  ).val(prod); 
+    Partidas.forEach(function(value){
+        var importe  = value.Precio;
+        var impuesto = value.Impuesto;
+        var cantidad = value.Cantidad;
+        
+        window.alert(importe + "," + impuesto + "," + cantidad);
+        
+        var _importePlusImpuesto = (importe + (importe * impuesto)) * cantidad;
+        
+        __total__ = __total__ + _importePlusImpuesto;
+        
+    })
+    
+    return __total__;
+    
     
 }
