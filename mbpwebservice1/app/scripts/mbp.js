@@ -157,7 +157,8 @@ function addToClientList(result){
      */ 
     
     var li = $('<li class="list-group-item"></li>').html(result.nombre).click(function(){
-                $('#clienttb').val(result.cliente); 
+                $('#clienttb').val(result.cliente);
+                setStatLabel("info", "Cliente seleccionado: " + result.nombre);
                 $('#searchClientModal').modal('hide');
                 saveState();
              })
@@ -303,7 +304,7 @@ function statCheck2(){
         $('#validateProdButton').unbind('click').click(validateProdOffline  );   // On validate product click 
         $('#searchClientButton').unbind('click').click(searchClientOffline  );
         
-        setStatLabel("danger", "No se pudo conectar al servidor: " + textStatus);
+        setStatLabel("alert", "No se pudo conectar al servidor, usando conexión local");
     });
 }
 
@@ -402,6 +403,7 @@ function selectclaveadd(data, art){
 } //selectclaveadd
 
 function terminateSell() {
+
    var clientid = $('#clienttb').val(); 
    var vend = $('#usertb').val(); 
     
@@ -805,15 +807,16 @@ function opendb(){
     */ 
     
     db = new Dexie("mbptest10");
-            db.version(1).stores({
-                prods: 'SP', 
-                ventas: "++id", 
-                clients: "cliente,nombre"
-            }); 
-            
+
+    db.version(1).stores({
+        prods: 'SP',
+        ventas: "++id",
+        clients: "cliente,nombre"
+    });
+
     db.open().catch(function (e) {
-                alert ("Open failed: " + e);
-            })
+        alert("Open failed: " + e);
+    })
 } 
 
 function syncdb(){
@@ -883,6 +886,7 @@ function syncdb(){
 
 function searchProdOffline()
 {
+    //window.alert("hello");
     /*
     var key = $('#searchProdText').val();
     var data = read(key);
@@ -1068,7 +1072,10 @@ function getState(){
     
     currentProd  = JSON.parse(localStorage.getItem("currentProd")); 
     
-    var parStr = localStorage.getItem("partidas"); 
+    if (localStorage.getItem("partidas")){
+        var parStr = localStorage.getItem("partidas"); 
+    
+    
     
     if (parStr.length > 0){
         Partidas = JSON.parse(parStr); 
@@ -1077,6 +1084,9 @@ function getState(){
            renderPartida(value); 
         });
         
+    }else{
+        Partidas = new Array();
+    }
     }else{
         Partidas = new Array();
     } 
@@ -1106,7 +1116,7 @@ function calculateTotal(){
         var impuesto = value.Impuesto;
         var cantidad = value.Cantidad;
         
-        window.alert(importe + "," + impuesto + "," + cantidad);
+        //window.alert(importe + "," + impuesto + "," + cantidad);
         
         var _importePlusImpuesto = (importe + (importe * impuesto)) * cantidad;
         

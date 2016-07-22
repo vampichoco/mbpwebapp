@@ -76,3 +76,8 @@ C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\System.Refl
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\vbc.exe
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.pdb
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.xml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\reportcenter\index.cwml
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\retina_wood_@2X.png

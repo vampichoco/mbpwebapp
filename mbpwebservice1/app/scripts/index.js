@@ -44,7 +44,7 @@ function onLoad(){
         $('#usertb').val(user);
 
         // When save button is clicked, store new url endpoint
-        $('#saveUrlBtn').click(function () { 
+        $('#saveUrlBtn').click(function () {
             var urlendpoint = $('#urltb').val();
             localStorage.setItem("endpoint", urlendpoint); 
             statCheck2();

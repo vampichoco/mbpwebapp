@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<layoutCollection>
+
+  <layout name="hello">
+    <output>
+      <div class="hello">
+        <h1>$title</h1>
+        <div>$description</div>
+      </div>
+    </output>
+  </layout>
+  
+</layoutCollection>

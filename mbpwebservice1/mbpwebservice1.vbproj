@@ -18,7 +18,7 @@
     <AssemblyName>mbpwebservice1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MyType>Custom</MyType>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -127,14 +127,270 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\config.xml" />
+    <Content Include="app\Content\bootstrap-theme.css" />
+    <Content Include="app\Content\bootstrap-theme.min.css" />
+    <Content Include="app\Content\bootstrap.css" />
+    <Content Include="app\Content\bootstrap.min.css" />
+    <Content Include="app\context_test.html" />
+    <Content Include="app\css\congruent_pentagon.png" />
+    <Content Include="app\css\images\ajax-loader.gif" />
+    <Content Include="app\css\images\icons-png\action-black.png" />
+    <Content Include="app\css\images\icons-png\action-white.png" />
+    <Content Include="app\css\images\icons-png\alert-black.png" />
+    <Content Include="app\css\images\icons-png\alert-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-d-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-d-l-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-d-l-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-d-r-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-d-r-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-d-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-l-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-l-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-r-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-r-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-u-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-u-l-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-u-l-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-u-r-black.png" />
+    <Content Include="app\css\images\icons-png\arrow-u-r-white.png" />
+    <Content Include="app\css\images\icons-png\arrow-u-white.png" />
+    <Content Include="app\css\images\icons-png\audio-black.png" />
+    <Content Include="app\css\images\icons-png\audio-white.png" />
+    <Content Include="app\css\images\icons-png\back-black.png" />
+    <Content Include="app\css\images\icons-png\back-white.png" />
+    <Content Include="app\css\images\icons-png\bars-black.png" />
+    <Content Include="app\css\images\icons-png\bars-white.png" />
+    <Content Include="app\css\images\icons-png\bullets-black.png" />
+    <Content Include="app\css\images\icons-png\bullets-white.png" />
+    <Content Include="app\css\images\icons-png\calendar-black.png" />
+    <Content Include="app\css\images\icons-png\calendar-white.png" />
+    <Content Include="app\css\images\icons-png\camera-black.png" />
+    <Content Include="app\css\images\icons-png\camera-white.png" />
+    <Content Include="app\css\images\icons-png\carat-d-black.png" />
+    <Content Include="app\css\images\icons-png\carat-d-white.png" />
+    <Content Include="app\css\images\icons-png\carat-l-black.png" />
+    <Content Include="app\css\images\icons-png\carat-l-white.png" />
+    <Content Include="app\css\images\icons-png\carat-r-black.png" />
+    <Content Include="app\css\images\icons-png\carat-r-white.png" />
+    <Content Include="app\css\images\icons-png\carat-u-black.png" />
+    <Content Include="app\css\images\icons-png\carat-u-white.png" />
+    <Content Include="app\css\images\icons-png\check-black.png" />
+    <Content Include="app\css\images\icons-png\check-white.png" />
+    <Content Include="app\css\images\icons-png\clock-black.png" />
+    <Content Include="app\css\images\icons-png\clock-white.png" />
+    <Content Include="app\css\images\icons-png\cloud-black.png" />
+    <Content Include="app\css\images\icons-png\cloud-white.png" />
+    <Content Include="app\css\images\icons-png\comment-black.png" />
+    <Content Include="app\css\images\icons-png\comment-white.png" />
+    <Content Include="app\css\images\icons-png\delete-black.png" />
+    <Content Include="app\css\images\icons-png\delete-white.png" />
+    <Content Include="app\css\images\icons-png\edit-black.png" />
+    <Content Include="app\css\images\icons-png\edit-white.png" />
+    <Content Include="app\css\images\icons-png\eye-black.png" />
+    <Content Include="app\css\images\icons-png\eye-white.png" />
+    <Content Include="app\css\images\icons-png\forbidden-black.png" />
+    <Content Include="app\css\images\icons-png\forbidden-white.png" />
+    <Content Include="app\css\images\icons-png\forward-black.png" />
+    <Content Include="app\css\images\icons-png\forward-white.png" />
+    <Content Include="app\css\images\icons-png\gear-black.png" />
+    <Content Include="app\css\images\icons-png\gear-white.png" />
+    <Content Include="app\css\images\icons-png\grid-black.png" />
+    <Content Include="app\css\images\icons-png\grid-white.png" />
+    <Content Include="app\css\images\icons-png\heart-black.png" />
+    <Content Include="app\css\images\icons-png\heart-white.png" />
+    <Content Include="app\css\images\icons-png\home-black.png" />
+    <Content Include="app\css\images\icons-png\home-white.png" />
+    <Content Include="app\css\images\icons-png\info-black.png" />
+    <Content Include="app\css\images\icons-png\info-white.png" />
+    <Content Include="app\css\images\icons-png\location-black.png" />
+    <Content Include="app\css\images\icons-png\location-white.png" />
+    <Content Include="app\css\images\icons-png\lock-black.png" />
+    <Content Include="app\css\images\icons-png\lock-white.png" />
+    <Content Include="app\css\images\icons-png\mail-black.png" />
+    <Content Include="app\css\images\icons-png\mail-white.png" />
+    <Content Include="app\css\images\icons-png\minus-black.png" />
+    <Content Include="app\css\images\icons-png\minus-white.png" />
+    <Content Include="app\css\images\icons-png\navigation-black.png" />
+    <Content Include="app\css\images\icons-png\navigation-white.png" />
+    <Content Include="app\css\images\icons-png\phone-black.png" />
+    <Content Include="app\css\images\icons-png\phone-white.png" />
+    <Content Include="app\css\images\icons-png\plus-black.png" />
+    <Content Include="app\css\images\icons-png\plus-white.png" />
+    <Content Include="app\css\images\icons-png\power-black.png" />
+    <Content Include="app\css\images\icons-png\power-white.png" />
+    <Content Include="app\css\images\icons-png\recycle-black.png" />
+    <Content Include="app\css\images\icons-png\recycle-white.png" />
+    <Content Include="app\css\images\icons-png\refresh-black.png" />
+    <Content Include="app\css\images\icons-png\refresh-white.png" />
+    <Content Include="app\css\images\icons-png\search-black.png" />
+    <Content Include="app\css\images\icons-png\search-white.png" />
+    <Content Include="app\css\images\icons-png\shop-black.png" />
+    <Content Include="app\css\images\icons-png\shop-white.png" />
+    <Content Include="app\css\images\icons-png\star-black.png" />
+    <Content Include="app\css\images\icons-png\star-white.png" />
+    <Content Include="app\css\images\icons-png\tag-black.png" />
+    <Content Include="app\css\images\icons-png\tag-white.png" />
+    <Content Include="app\css\images\icons-png\user-black.png" />
+    <Content Include="app\css\images\icons-png\user-white.png" />
+    <Content Include="app\css\images\icons-png\video-black.png" />
+    <Content Include="app\css\images\icons-png\video-white.png" />
+    <Content Include="app\css\images\icons-svg\action-black.svg" />
+    <Content Include="app\css\images\icons-svg\action-white.svg" />
+    <Content Include="app\css\images\icons-svg\alert-black.svg" />
+    <Content Include="app\css\images\icons-svg\alert-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-d-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-d-l-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-d-l-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-d-r-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-d-r-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-d-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-l-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-l-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-r-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-r-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-u-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-u-l-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-u-l-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-u-r-black.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-u-r-white.svg" />
+    <Content Include="app\css\images\icons-svg\arrow-u-white.svg" />
+    <Content Include="app\css\images\icons-svg\audio-black.svg" />
+    <Content Include="app\css\images\icons-svg\audio-white.svg" />
+    <Content Include="app\css\images\icons-svg\back-black.svg" />
+    <Content Include="app\css\images\icons-svg\back-white.svg" />
+    <Content Include="app\css\images\icons-svg\bars-black.svg" />
+    <Content Include="app\css\images\icons-svg\bars-white.svg" />
+    <Content Include="app\css\images\icons-svg\bullets-black.svg" />
+    <Content Include="app\css\images\icons-svg\bullets-white.svg" />
+    <Content Include="app\css\images\icons-svg\calendar-black.svg" />
+    <Content Include="app\css\images\icons-svg\calendar-white.svg" />
+    <Content Include="app\css\images\icons-svg\camera-black.svg" />
+    <Content Include="app\css\images\icons-svg\camera-white.svg" />
+    <Content Include="app\css\images\icons-svg\carat-d-black.svg" />
+    <Content Include="app\css\images\icons-svg\carat-d-white.svg" />
+    <Content Include="app\css\images\icons-svg\carat-l-black.svg" />
+    <Content Include="app\css\images\icons-svg\carat-l-white.svg" />
+    <Content Include="app\css\images\icons-svg\carat-r-black.svg" />
+    <Content Include="app\css\images\icons-svg\carat-r-white.svg" />
+    <Content Include="app\css\images\icons-svg\carat-u-black.svg" />
+    <Content Include="app\css\images\icons-svg\carat-u-white.svg" />
+    <Content Include="app\css\images\icons-svg\check-black.svg" />
+    <Content Include="app\css\images\icons-svg\check-white.svg" />
+    <Content Include="app\css\images\icons-svg\clock-black.svg" />
+    <Content Include="app\css\images\icons-svg\clock-white.svg" />
+    <Content Include="app\css\images\icons-svg\cloud-black.svg" />
+    <Content Include="app\css\images\icons-svg\cloud-white.svg" />
+    <Content Include="app\css\images\icons-svg\comment-black.svg" />
+    <Content Include="app\css\images\icons-svg\comment-white.svg" />
+    <Content Include="app\css\images\icons-svg\delete-black.svg" />
+    <Content Include="app\css\images\icons-svg\delete-white.svg" />
+    <Content Include="app\css\images\icons-svg\edit-black.svg" />
+    <Content Include="app\css\images\icons-svg\edit-white.svg" />
+    <Content Include="app\css\images\icons-svg\eye-black.svg" />
+    <Content Include="app\css\images\icons-svg\eye-white.svg" />
+    <Content Include="app\css\images\icons-svg\forbidden-black.svg" />
+    <Content Include="app\css\images\icons-svg\forbidden-white.svg" />
+    <Content Include="app\css\images\icons-svg\forward-black.svg" />
+    <Content Include="app\css\images\icons-svg\forward-white.svg" />
+    <Content Include="app\css\images\icons-svg\gear-black.svg" />
+    <Content Include="app\css\images\icons-svg\gear-white.svg" />
+    <Content Include="app\css\images\icons-svg\grid-black.svg" />
+    <Content Include="app\css\images\icons-svg\grid-white.svg" />
+    <Content Include="app\css\images\icons-svg\heart-black.svg" />
+    <Content Include="app\css\images\icons-svg\heart-white.svg" />
+    <Content Include="app\css\images\icons-svg\home-black.svg" />
+    <Content Include="app\css\images\icons-svg\home-white.svg" />
+    <Content Include="app\css\images\icons-svg\info-black.svg" />
+    <Content Include="app\css\images\icons-svg\info-white.svg" />
+    <Content Include="app\css\images\icons-svg\location-black.svg" />
+    <Content Include="app\css\images\icons-svg\location-white.svg" />
+    <Content Include="app\css\images\icons-svg\lock-black.svg" />
+    <Content Include="app\css\images\icons-svg\lock-white.svg" />
+    <Content Include="app\css\images\icons-svg\mail-black.svg" />
+    <Content Include="app\css\images\icons-svg\mail-white.svg" />
+    <Content Include="app\css\images\icons-svg\minus-black.svg" />
+    <Content Include="app\css\images\icons-svg\minus-white.svg" />
+    <Content Include="app\css\images\icons-svg\navigation-black.svg" />
+    <Content Include="app\css\images\icons-svg\navigation-white.svg" />
+    <Content Include="app\css\images\icons-svg\phone-black.svg" />
+    <Content Include="app\css\images\icons-svg\phone-white.svg" />
+    <Content Include="app\css\images\icons-svg\plus-black.svg" />
+    <Content Include="app\css\images\icons-svg\plus-white.svg" />
+    <Content Include="app\css\images\icons-svg\power-black.svg" />
+    <Content Include="app\css\images\icons-svg\power-white.svg" />
+    <Content Include="app\css\images\icons-svg\recycle-black.svg" />
+    <Content Include="app\css\images\icons-svg\recycle-white.svg" />
+    <Content Include="app\css\images\icons-svg\refresh-black.svg" />
+    <Content Include="app\css\images\icons-svg\refresh-white.svg" />
+    <Content Include="app\css\images\icons-svg\search-black.svg" />
+    <Content Include="app\css\images\icons-svg\search-white.svg" />
+    <Content Include="app\css\images\icons-svg\shop-black.svg" />
+    <Content Include="app\css\images\icons-svg\shop-white.svg" />
+    <Content Include="app\css\images\icons-svg\star-black.svg" />
+    <Content Include="app\css\images\icons-svg\star-white.svg" />
+    <Content Include="app\css\images\icons-svg\tag-black.svg" />
+    <Content Include="app\css\images\icons-svg\tag-white.svg" />
+    <Content Include="app\css\images\icons-svg\user-black.svg" />
+    <Content Include="app\css\images\icons-svg\user-white.svg" />
+    <Content Include="app\css\images\icons-svg\video-black.svg" />
+    <Content Include="app\css\images\icons-svg\video-white.svg" />
+    <Content Include="app\css\index.css" />
+    <Content Include="app\css\jquery.mobile-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile-1.4.5.min.css" />
+    <Content Include="app\css\jquery.mobile.external-png-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile.external-png-1.4.5.min.css" />
+    <Content Include="app\css\jquery.mobile.icons-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile.icons-1.4.5.min.css" />
+    <Content Include="app\css\jquery.mobile.inline-png-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile.inline-png-1.4.5.min.css" />
+    <Content Include="app\css\jquery.mobile.inline-svg-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile.inline-svg-1.4.5.min.css" />
+    <Content Include="app\css\jquery.mobile.structure-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile.structure-1.4.5.min.css" />
+    <Content Include="app\css\jquery.mobile.theme-1.4.5.css" />
+    <Content Include="app\css\jquery.mobile.theme-1.4.5.min.css" />
+    <Content Include="app\css\retina_wood_%402X.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\hashids.js" />
+    <Content Include="app\images\change.png" />
+    <Content Include="app\images\cordova.png" />
+    <Content Include="app\index.html" />
+    <Content Include="app\scripts\bootstrap.js" />
+    <Content Include="app\scripts\bootstrap.min.js" />
+    <Content Include="app\scripts\index.js" />
+    <None Include="app\scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="app\scripts\jquery-1.9.0.js" />
+    <Content Include="app\scripts\jquery-1.9.0.min.js" />
+    <None Include="app\scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="app\scripts\jquery-2.2.3.js" />
+    <Content Include="app\scripts\jquery-2.2.3.min.js" />
+    <Content Include="app\scripts\mbp.js" />
+    <Content Include="app\scripts\platformOverrides.js" />
+    <Content Include="app\scripts\utils.js" />
     <Content Include="Default.html" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="app\.vscode\settings.json" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="app\manifest.json" />
+    <Content Include="app\scripts\jquery-1.9.0.min.map" />
+    <Content Include="app\scripts\jquery-2.2.3.min.map" />
+    <None Include="reportcenter\index.cwml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="reportcenter\layout.xml" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cassandraHandler.vb" />
     <Compile Include="dbstatus.ashx.vb">
       <DependentUpon>dbstatus.ashx</DependentUpon>
     </Compile>
@@ -243,6 +499,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\cwml-master\cassandraParser_t2\CassandraParser\CassandraParser.vbproj">
+      <Project>{af93bdc2-8690-4d17-a0c2-7cd826408f15}</Project>
+      <Name>CassandraParser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -270,7 +532,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50162</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50162/</IISUrl>
+          <IISUrl>http://localhost/mbp</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

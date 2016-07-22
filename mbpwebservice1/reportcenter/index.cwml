@@ -1,0 +1,11 @@
+﻿<!DOCTYPE html>
+<page>
+  <head>
+	<importLayout>layout.xml</importLayout>
+  </head>
+
+  <content>
+    <h1>Hello, World :D </h1>
+	<useLayout name="hello" title="This is the title" description="This is the description"></useLayout>
+  </content>
+</page>

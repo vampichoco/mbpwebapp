@@ -4,7 +4,7 @@ body {
     -webkit-user-select: none;
     /* background-color:#32383d; */
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
-    background-image:url(congruent_pentagon.png); 
+    background-image:url(retina_wood_@2X.png); 
     background-repeat: repeat; 
     background-attachment:fixed;
     font-size:12px;
@@ -25,7 +25,7 @@ body {
 } 
 
 .opaque{
-    background-color:rgba(255, 255, 255, 0.50) !important;
+    background-color:rgba(245, 147, 84, 0.50) !important;
 }
 
 .form-item{
