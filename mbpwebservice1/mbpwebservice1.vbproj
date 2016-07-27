@@ -134,6 +134,7 @@
     <Content Include="app\Content\bootstrap.min.css" />
     <Content Include="app\context_test.html" />
     <Content Include="app\css\congruent_pentagon.png" />
+    <Content Include="app\css\escheresque_ste_%402X.png" />
     <Content Include="app\css\images\ajax-loader.gif" />
     <Content Include="app\css\images\icons-png\action-black.png" />
     <Content Include="app\css\images\icons-png\action-white.png" />

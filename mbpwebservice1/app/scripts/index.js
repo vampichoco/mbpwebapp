@@ -17,7 +17,7 @@ function onLoad(){
         $('#terminateButton'   ).click(insertPendingSell    ); 
         //$('#searchProdButton').click(populateSearch       );    // On search prod click
         //$('#searchClientButton').click(searchClient       );    // On search client click 
-        $('#searchClientButton').click(searchClientOffline    );    // On search client offline
+        $('#searchClientButton').click(searchClientOffline  );    // On search client offline
         $('#saveUserBtn'       ).click(saveUser             );    // On Save user click
         // x $('#connectdb'    ).click(opendb               );
         $('#syncdb'            ).click(syncdb               ); 

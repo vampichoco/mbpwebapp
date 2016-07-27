@@ -54,11 +54,11 @@ function populateSearch() {
             }
         }
         ).fail(function (jqXHR) {
-            setStatLabel("danger", "Un error ocurrió")
+            setStatLabel("danger", "Un error ocurrió");
         });
         
     }else{
-        setStatLabel("warning", 'Escribe un articulo para buscar')
+        setStatLabel("warning", 'Escribe un articulo para buscar');
     }
         
  
@@ -210,7 +210,12 @@ function instanceProd(results) {
 
     $("#statuslabel").removeAttr ("class"                                                            );
     $('#statuslabel').addClass   ("alert alert alert-success"                                        );
-    $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
+    $('#statuslabel').text('Articulo agregado, total: ' + total);
+
+    $('#pricetb').val(0);
+    $('#qtytb').val(1);
+    $('#prodtb').val("");
+
     
     console.log(JSON.stringify(newP));
     
@@ -256,10 +261,12 @@ function setEditActions(partida, data){
         Partidas[partida].Cantidad = qty;
         var selector = "#" + data.Unique + "-qty";
         
-         $('#' + data.Unique).attr("style", "color:blue;");
-         $(selector).html(qty);
+        $('#' + data.Unique).attr("style", "color:blue;");
+        $(selector).html(qty);
         
-        setStatLabel("success", "Partida removida, total: " + calculateTotal());
+        //setStatLabel("success", "Partida editada, total: " + calculateTotal());
+
+        $('#editPartidaStatus').html("Partida editada, total: " + calculateTotal());
         saveState();
         
     }); 
@@ -270,6 +277,7 @@ function setEditActions(partida, data){
        $('#'+data.Unique).remove();
        
        setStatLabel("success", "Partida removida, total: " + calculateTotal());
+       $('#editPartidaModal').modal('hide');
        saveState();
         
     });
@@ -432,6 +440,8 @@ function terminateSell() {
    // clear state and gui
    
    clearState();
+   } else {
+       setStatLabel("warning", "Especifica un cliente y un vendedor");
    }
    
 }
@@ -534,24 +544,28 @@ function generateClaveAddId(){
 function validateProd(){
     var prod = $('#prodtb').val(); 
     
-    var endpoint = localStorage.getItem("endpoint"); 
-    var url = endpoint + "/prods.ashx?single=true&p=" + prod; 
-    
-    $.getJSON(url, function (results) {
-        console.log(results.ARTICULO);
-        currentProd = results.ARTICULO;
-        setStatLabel("info", results.ARTICULO.DESCRIP); 
-        
-        $('#p1button').html(results.ARTICULO.PRECIO1);
-        $('#p2button').html(results.ARTICULO.PRECIO2);
-        $('#p3button').html(results.ARTICULO.PRECIO3);
-        
-        saveState();
-        
+    if (prod.length > 0) {
+        var endpoint = localStorage.getItem("endpoint");
+        var url = endpoint + "/prods.ashx?single=true&p=" + prod;
+
+        $.getJSON(url, function (results) {
+            console.log(results.ARTICULO);
+            currentProd = results.ARTICULO;
+            setStatLabel("info", results.ARTICULO.DESCRIP);
+
+            $('#p1button').html('$' + results.ARTICULO.PRECIO1).unbind('click').click(function () { $('#qtytb').val(results.ARTICULO.PRECIO1) });
+            $('#p2button').html('$' + results.ARTICULO.PRECIO2).unbind('click').click(function () { $('#qtytb').val(results.ARTICULO.PRECIO2) });
+            $('#p3button').html('$' + results.ARTICULO.PRECIO3).unbind('click').click(function () { $('#qtytb').val(results.ARTICULO.PRECIO3) });
+
+            saveState();
+
+        }
+        ).fail(function (jqXHR) {
+            setStatLabel("danger", "Ocurrió un error al obtener la información del servidor");
+        });
+    } else {
+        setStatLabel("error", "Especifica un articulo primero!")
     }
-    ).fail(function (jqXHR) {
-        setStatLabel("danger", "Ocurrió un al obtener la información del servidor")
-    });
     
 } 
 
@@ -564,7 +578,7 @@ $('#qtytb').on('input', function(){
 
 function selectPrice(){
     var qty = parseFloat( $('#qtytb').val());
-    var price = currentProd.C1 + ", " + currentProd.C2 + ", " + currentProd.C3
+    var price = currentProd.C1 + ", " + currentProd.C2 + ", " + currentProd.C3;
     
     console.log(qty); 
     console.log(price);
@@ -628,44 +642,30 @@ function validateProdOffline(){
         currentProd = result; 
         setStatLabel("info", result.DESCRIP); 
         
-        saveState()
+        saveState();
         
     })
     
 } 
 
 function removePendingSale(id){
-    var transaction = db.transaction(["ventas"], "readwrite"); 
-    
-    transaction.oncomplete = function(event) {
-    
-    };
+    //db.ventas.get(id).delete(function () {
+    //    window.alert("elemento eliminado")
+    //});
 
-    transaction.onerror = function(event) {
-        
-    };
-
-    // create an object store on the transaction
-    var objectStore = transaction.objectStore("ventas");
-
-    // Delete the specified record out of the object store
-    var objectStoreRequest = objectStore.delete(id);
-
-    objectStoreRequest.onsuccess = function(event) {
-    // report the success of our delete operation
-        
-    };
+    db.ventas.where('id').equals(id).delete();
 }
 
 function terminateSell2(item) {
    
-   var clientid = $('#clienttb').val();
     
-   if (clientid.length > 0){
+   //var clientid = $('#clienttb').val();
+    
+   //if (clientid.length > 0){
        var endpoint = localStorage.getItem("endpoint");
 
        
-       var ob = { "ClientId": item.CLIENTE, "Partidas": item.PARTIDAS };
+       var ob = { "ClientId": item.CLIENTE, Vendedor: item.vend, "Partidas": item.PARTIDAS };
 
        var data = JSON.stringify(ob);
 
@@ -678,11 +678,9 @@ function terminateSell2(item) {
             contentType: "application/json",
             dataType: 'json'
        }).done(function (res) {
-           console.log("i'm going to remove entry")
-            removePendingSale(item.id)
-           
-            setStatLabel("success", "Venta hecha")
-            console.log('res', res);
+           removePendingSale(item.id);
+           setStatLabel("success", "Venta hecha");
+           console.log('res', res);
             // Do something with the result :)
        }); 
    
@@ -693,12 +691,13 @@ function terminateSell2(item) {
    
    saveState();
     
-   }
+   //}
    
 } 
 
-function renderPendingSales(){
-    getPendingSales()
+function renderPendingSales() {
+    $('#pendingSalesList ul').empty();
+    getPendingSales();
 } 
 
 function read(key) {
@@ -753,9 +752,10 @@ function insertPendingSell(){
     var fecha = d.toLocaleDateString();
     var CANTIDAD = $('#qtytb').val();
     var cliente = $('#clienttb').val();
-    var qty = $('#qtytb').val()
+    var qty = $('#qtytb').val();
+    var vendor = $('#usertb').val();
     
-    var newvta = {PRECIO: total, CLIENTE: cliente, USUFECHA: fecha, cantidad: qty, PARTIDAS: Partidas}; 
+    var newvta = {PRECIO: total, CLIENTE: cliente, USUFECHA: fecha, cantidad: qty, PARTIDAS: Partidas, vend: vendor}; 
     
     
     
@@ -824,7 +824,7 @@ function syncdb(){
     setStatLabel("info", "Sincronizando bases de datos");
     var endpoint = localStorage.getItem("endpoint"); 
     
-    var url = endpoint + "/prods.ashx?take=5000" 
+    var url = endpoint + "/prods.ashx?take=5000";
     
     
     $.getJSON(url, function (results) {
@@ -963,6 +963,9 @@ function instanceProdOffline(prod){
     $('#statuslabel').addClass   ("alert alert alert-success"                                        );
     $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
     //$('#prods ul'   ).append   ('<li class="list-group-item">' + prod.DESCRIP + '</li>'            );
+    $('#pricetb').val(0  );
+    $('#qtytb'  ).val(1  );
+    $('#prodtb' ).val("" );
     
     
     saveState();
@@ -999,12 +1002,12 @@ function getPendingSales(){
     */ 
     
     db.ventas.toCollection().each(function(item){
-        var div = $('<div class="list-group-item"></div>')
+        var div = $('<div class="list-group-item"></div>');
         var span = '<span>' + "venta: " + item.id + ", importe: " + item.PRECIO + '<span>';
-        var br = '<br />'
+        var br = '<br />';
         var button = $('<button type="button" class="btn btn-success">Enviar a MyBusiness</button>').click(
             function(){
-                //window.alert(item.id);
+                window.alert(item.id);
                 terminateSell2(item);
             }
         )

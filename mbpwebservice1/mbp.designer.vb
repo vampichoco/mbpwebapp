@@ -67,10 +67,16 @@ Partial Public Class mbpDataContext
     End Sub
   Partial Private Sub Deleteclavesadd(instance As clavesadd)
     End Sub
+  Partial Private Sub Insertconsec(instance As consec)
+    End Sub
+  Partial Private Sub Updateconsec(instance As consec)
+    End Sub
+  Partial Private Sub Deleteconsec(instance As consec)
+    End Sub
   #End Region
 	
 	Public Sub New()
-		MyBase.New(Global.System.Configuration.ConfigurationManager.ConnectionStrings("mbpConnectionString").ConnectionString, mappingSource)
+		MyBase.New(Global.System.Configuration.ConfigurationManager.ConnectionStrings("mbpConnectionString1").ConnectionString, mappingSource)
 		OnCreated
 	End Sub
 	
@@ -139,6 +145,12 @@ Partial Public Class mbpDataContext
 	Public ReadOnly Property vends() As System.Data.Linq.Table(Of vend)
 		Get
 			Return Me.GetTable(Of vend)
+		End Get
+	End Property
+	
+	Public ReadOnly Property consecs() As System.Data.Linq.Table(Of consec)
+		Get
+			Return Me.GetTable(Of consec)
 		End Get
 	End Property
 End Class
@@ -9435,4 +9447,88 @@ Partial Public Class vend
 			End If
 		End Set
 	End Property
+End Class
+
+<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.consec")>  _
+Partial Public Class consec
+	Implements System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
+	
+	Private Shared emptyChangingEventArgs As PropertyChangingEventArgs = New PropertyChangingEventArgs(String.Empty)
+	
+	Private _Dato As String
+	
+	Private _Consec As Integer
+	
+    #Region "Extensibility Method Definitions"
+    Partial Private Sub OnLoaded()
+    End Sub
+    Partial Private Sub OnValidate(action As System.Data.Linq.ChangeAction)
+    End Sub
+    Partial Private Sub OnCreated()
+    End Sub
+    Partial Private Sub OnDatoChanging(value As String)
+    End Sub
+    Partial Private Sub OnDatoChanged()
+    End Sub
+    Partial Private Sub OnConsecChanging(value As Integer)
+    End Sub
+    Partial Private Sub OnConsecChanged()
+    End Sub
+    #End Region
+	
+	Public Sub New()
+		MyBase.New
+		OnCreated
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Dato", DbType:="NVarChar(40) NOT NULL", CanBeNull:=false, IsPrimaryKey:=true)>  _
+	Public Property Dato() As String
+		Get
+			Return Me._Dato
+		End Get
+		Set
+			If (String.Equals(Me._Dato, value) = false) Then
+				Me.OnDatoChanging(value)
+				Me.SendPropertyChanging
+				Me._Dato = value
+				Me.SendPropertyChanged("Dato")
+				Me.OnDatoChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Consec", DbType:="Int NOT NULL")>  _
+	Public Property Consec() As Integer
+		Get
+			Return Me._Consec
+		End Get
+		Set
+			If ((Me._Consec = value)  _
+						= false) Then
+				Me.OnConsecChanging(value)
+				Me.SendPropertyChanging
+				Me._Consec = value
+				Me.SendPropertyChanged("Consec")
+				Me.OnConsecChanged
+			End If
+		End Set
+	End Property
+	
+	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
+	
+	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
+	
+	Protected Overridable Sub SendPropertyChanging()
+		If ((Me.PropertyChangingEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanging(Me, emptyChangingEventArgs)
+		End If
+	End Sub
+	
+	Protected Overridable Sub SendPropertyChanged(ByVal propertyName As [String])
+		If ((Me.PropertyChangedEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+		End If
+	End Sub
 End Class

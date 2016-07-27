@@ -31,7 +31,8 @@ Public Class makesell
 
             Dim vtaId As Integer = GetID("ventas", db)
             Dim partVtaId As Integer = GetID("partvta", db)
-            Dim noRef As Integer = GetMax("ventas", "no_referen", db)
+            'Dim noRef As Integer = GetMax("consec", "ventapendiente", db)
+            Dim noRef As Integer = getNoRef("ventapendiente", db)
 
             'Dim pid As String = j("IdVenta").ToString()
             Dim cid As String = j("ClientId").ToString()
@@ -79,7 +80,7 @@ Public Class makesell
                             .IMPUESTO = impuestoTotal,
                             .ENFAC = 0,
                             .serieDocumento = "T",
-                            .TIPO_DOC = "REM",
+                            .TIPO_DOC = "PE",
                             .NO_REFEREN = noRef,
                             .VEND = vend
                         }
@@ -183,5 +184,20 @@ Public Class makesell
         Return id
 
     End Function
+
+    Public Function getNoRef(ByVal scope As String, db As mbpDataContext) As Integer
+        Dim dato = db.consecs.Single(Function(c) c.Dato = scope)
+        Dim consec = dato.Consec
+        dato.Consec += 1
+        db.SubmitChanges()
+        Return consec
+    End Function
+
+    Public Sub updateNoRef(ByVal scope As String, db As mbpDataContext)
+        Dim dato = db.consecs.Single(Function(c) c.Dato = scope)
+        dato.Consec += 1
+        db.SubmitChanges()
+
+    End Sub
 
 End Class
