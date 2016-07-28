@@ -16,18 +16,27 @@ Public Class search
             context.Request.QueryString("c"))
 
             Dim prodsQuery = From prod In db.prods Where prod.ARTICULO.Contains(term) Or prod.DESCRIP.Contains(term)
-                             Select New prodInSearch With {
+                             Select New With {
                                  .ARTICULO = prod.ARTICULO,
                                  .DESCRIP = prod.DESCRIP,
-                                 .PRECIO = prod.PRECIO1,
-                                 .PRECIO1 = prod.PRECIO1,
-                                 .PRECIO2 = prod.PRECIO2,
-                                 .PRECIO3 = prod.PRECIO3,
+                                 .PRECIO = prod.PRECIO4,
+                                 .PRECIO1 = prod.PRECIO4,
+                                 .PRECIO2 = prod.PRECIO5,
+                                 .PRECIO3 = prod.PRECIO6,
                                  .C1 = prod.C4,
                                  .C2 = prod.C5,
                                  .C3 = prod.C6,
                                  .U = GetUniqueID(prod.ARTICULO),
-                                 .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single
+                                 .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                                 .clavesadd = (From cadd In db.clavesadds
+                                               Where cadd.Articulo = prod.ARTICULO
+                                               Select New With {
+                                                   .Clave = cadd.Clave,
+                                                   .Articulo = cadd.Articulo,
+                                                   .Precio = cadd.Precio,
+                                                   .Cantidad = cadd.Cantidad,
+                                                   .Desc = cadd.Dato1,
+                                                   .U = GetUniqueID(cadd.Clave)})
                                  }
 
 
@@ -35,18 +44,28 @@ Public Class search
 
         Else
             Dim prodsQuery = From prod In db.prods
-                             Select New prodInSearch With {
+                             Select New With {
                                  .ARTICULO = prod.ARTICULO,
                                  .DESCRIP = prod.DESCRIP,
-                                 .PRECIO = prod.PRECIO1,
-                                 .PRECIO1 = prod.PRECIO1,
-                                 .PRECIO2 = prod.PRECIO2,
-                                 .PRECIO3 = prod.PRECIO3,
+                                 .PRECIO = prod.PRECIO4,
+                                 .PRECIO1 = prod.PRECIO4,
+                                 .PRECIO2 = prod.PRECIO5,
+                                 .PRECIO3 = prod.PRECIO6,
                                  .C1 = prod.C4,
                                  .C2 = prod.C5,
                                  .C3 = prod.C6,
                                  .U = GetUniqueID(prod.ARTICULO),
-                                 .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single
+                                 .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                                 .clavesadd = (From cadd In db.clavesadds
+                                               Where cadd.Articulo = prod.ARTICULO
+                                               Select New With {
+                                                   .Clave = cadd.Clave,
+                                                   .Articulo = cadd.Articulo,
+                                                   .Precio = cadd.Precio,
+                                                   .Cantidad = cadd.Cantidad,
+                                                   .Desc = cadd.Dato1,
+                                                   .U = GetUniqueID(cadd.Clave)
+                                                   })
                                  }
 
             context.Response.Write(json.Serialize(prodsQuery))

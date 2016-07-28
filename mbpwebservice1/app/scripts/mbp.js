@@ -74,31 +74,27 @@ function addToProdList(item)
           
     var li = $('<li></li>').attr("id", id).attr("class", "list-group-item").html(content).click(function(){
         //Deselecciona las lineas de abajo para agregar el articulo directamente
-        //window.alert(item.PRECIO);
-        $('#prodtb').val(item.ARTICULO);
-        $('#pricetb').val(item.PRECIO); 
-         
-        $('#p1button').html(item.PRECIO1);
-        $("#p1button").unbind('click').click(function(){
-            $('#pricetb').val(item.PRECIO1);
-        }) 
-         
-        $('#p2button').html(item.PRECIO2);
-        $("#p2button").unbind('click').click(function(){
-            $('#pricetb').val(item.PRECIO2);
-        }) 
-         
-        $('#p3button').html(item.PRECIO3);
-        $("#p3button").unbind('click').click(function(){
-            $('#pricetb').val(item.PRECIO3);
-        })
+        window.alert(item.DESCRIP);
+/*
+        
+
+*/
+
+        setPriceSelect(item);
         
         setStatLabel("info", item.DESCRIP); 
         currentProd = item;
+
+                
+        //console.log(JSON.stringify(item));
+        
          
+        $('#searchProdModal').modal('hide');
         saveState();
-         
-        $('#searchProdModal').modal('hide'); 
+        
+        //if (item.clavesadd.length > 0) {
+        //    selectclaveadd(item.clavesadd, item);
+        //}
          
         // Selecciona la linea de abajo para agregar el articulo directamente
         //selectclaveadd2(item.ARTICULO);
@@ -371,42 +367,39 @@ function selectclaveadd(data, art){
     for (i = 0; i < data.length; i++) { 
         
         var item = data[i]; 
+        var displayText = item.Desc;
+
+        var displayHtml = $('<div></div>');
+
+        var desc = $('<span></span>').html(displayText + '  ');
+        var clavedesc = $('<small></small>').html(item.Clave);
+
+        displayHtml.append(desc);
+        displayHtml.append(clavedesc);
         
-        
-        var displayText = item.Clave + '(' + item.Precio + ')';
-        
+/*
         $('#presList ul').append(
             '<li class="list-group-item" id="' +
             item.Clave +  '">' +
-            displayText+ '</li>'); 
-        
-        //$('#presList ul').append('<li class="list-group-item">' + item.Dato1 +'</li>');
+            displayText + '</li>');
+*/
+
+        var li = $('<li class="list-group-item"></li>')
+            .attr('id', "#" + item.U)
+            .html(displayHtml)
+            .click(function () {
+                $('#qtytb').val(item.Cantidad);
+                selectPrice();
+                saveState();
+                $('#clavesaddModal').modal('hide');
+            });
       
-   
-        $("#presList ul").unbind('click').on('click', '#' + item.Clave, 
-            function(){
-                var newP = {
-                    Precio: item.Precio,
-                    Cantidad: 1,
-                    Impuesto: 0,
-                    Costo: art.COSTO,
-                    Articulo: art.ARTICULO
-                };
-                Partidas.push(newP);
-    
-                total = calculateTotal();
-                
-                $("#statuslabel"    ).removeAttr ("class"                                                    );
-                $('#statuslabel'    ).addClass   ("alert alert alert-success"                                );
-                $('#statuslabel'    ).text       ('Articulo agregado, total: ' + total                       );
-                $('#prods ul'       ).append     ('<li class="list-group-item">' + art.DESCRIP + '</li>'     );
-                $('#clavesaddModal' ).modal      ('hide'                                                     );
-        } // function
-        ); // on click
+        $('#presList ul').append(li);
+      
         
     } // for
      
-    saveState();
+    
     
 } //selectclaveadd
 
@@ -553,9 +546,12 @@ function validateProd(){
             currentProd = results.ARTICULO;
             setStatLabel("info", results.ARTICULO.DESCRIP);
 
-            $('#p1button').html('$' + results.ARTICULO.PRECIO1).unbind('click').click(function () { $('#qtytb').val(results.ARTICULO.PRECIO1) });
-            $('#p2button').html('$' + results.ARTICULO.PRECIO2).unbind('click').click(function () { $('#qtytb').val(results.ARTICULO.PRECIO2) });
-            $('#p3button').html('$' + results.ARTICULO.PRECIO3).unbind('click').click(function () { $('#qtytb').val(results.ARTICULO.PRECIO3) });
+            
+            setPriceSelect(results.ARTICULO);
+
+            if (results.clavesadd.length > 0) {
+                selectclaveadd(results.clavesadd, results.ARTICULO);
+            }
 
             saveState();
 
@@ -601,7 +597,6 @@ function selectPrice(){
         }
         
         
-        
         if (qty >= currentProd.C3){
             console.log("P3");
             $('#pricetb').val(currentProd.PRECIO3);
@@ -624,6 +619,35 @@ function clearState(){
     total            =    0; 
    
     saveState();
+}
+
+function setPriceSelect(prod) {
+
+    console.log(JSON.stringify(prod));
+
+    $('#p1button').html('$' + prod.PRECIO1).unbind('click').click(function ()
+    {
+        
+        $('#qtytb').val(prod.PRECIO1);
+        selectPrice();
+        saveState();
+    });
+
+    $('#p2button').html('$' + prod.PRECIO2).unbind('click').click(function ()
+    {
+        $('#qtytb').val(prod.PRECIO2);
+        selectPrice();
+        saveState();
+    });
+
+    $('#p3button').html('$' + prod.PRECIO3).unbind('click').click(function ()
+    {
+        selectPrice();
+        $('#qtytb').val(prod.PRECIO3);
+        saveState();
+    });
+
+    
 }
 
 

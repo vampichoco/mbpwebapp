@@ -65,7 +65,9 @@ Public Class prods
                              Select New With {.Clave = cadd.Clave,
                                  .Articulo = cadd.Articulo,
                                  .Precio = cadd.Precio,
-                                 .Cantidad = cadd.Cantidad
+                                 .Cantidad = cadd.Cantidad,
+                                 .Desc = cadd.Dato1,
+                                 .U = GetUniqueID(Guid.NewGuid())
                                  })
                             }
 
@@ -101,7 +103,9 @@ Public Class prods
                                                .Clave = cadd.Clave,
                                                .Articulo = cadd.Articulo,
                                                .Precio = cadd.Precio,
-                                               .Cantidad = cadd.Cantidad
+                                               .Cantidad = cadd.Cantidad,
+                                               .Desc = cadd.Dato1,
+                                               .U = GetUniqueID(Guid.NewGuid())
                                                })}
                         Take take
 
