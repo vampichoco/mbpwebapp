@@ -81,3 +81,7 @@ C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.pd
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.xml
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\reportcenter\index.cwml
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\retina_wood_@2X.png
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\upfeathers.png
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\moment.min.js
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\bootstrap-toggle.css
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\bootstrap-toggle.js

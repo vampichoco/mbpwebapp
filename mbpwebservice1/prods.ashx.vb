@@ -48,7 +48,7 @@ Public Class prods
             Dim prodKey As String = context.Request.QueryString("p")
 
             Dim query = From prod In db.prods Where prod.ARTICULO = prodKey
-                        Select New With {.ARTICULO = New With {.ARTICULO = prod.ARTICULO,
+                        Select New With {.ARTICULO = prod.ARTICULO,
                             .SP = Trim(prod.ARTICULO),
                             .DESCRIP = prod.DESCRIP,
                             .PRECIO = prod.PRECIO4,
@@ -59,17 +59,18 @@ Public Class prods
                             .C2 = prod.C5,
                             .C3 = prod.C6,
                             .U = GetUniqueID(Guid.NewGuid()),
-                            .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single},
-                            .clavesadd =
-                            (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
-                             Select New With {.Clave = cadd.Clave,
-                                 .Articulo = cadd.Articulo,
-                                 .Precio = cadd.Precio,
-                                 .Cantidad = cadd.Cantidad,
-                                 .Desc = cadd.Dato1,
-                                 .U = GetUniqueID(Guid.NewGuid())
+                            .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                            .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
+                                          Select New With {
+                                              .Clave = cadd.Clave,
+                                              .Articulo = cadd.Articulo,
+                                              .Precio = cadd.Precio,
+                                              .Cantidad = cadd.Cantidad,
+                                              .Desc = cadd.Dato1,
+                                              .U = GetUniqueID(Guid.NewGuid())
                                  })
                             }
+
 
 
             'context.Response.Write(xml.ToString())

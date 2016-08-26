@@ -133,6 +133,10 @@
     <Content Include="app\Content\bootstrap.css" />
     <Content Include="app\Content\bootstrap.min.css" />
     <Content Include="app\context_test.html" />
+    <Content Include="app\css\bootstrap-toggle.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\css\clock.gif" />
     <Content Include="app\css\congruent_pentagon.png" />
     <Content Include="app\css\escheresque_ste_%402X.png" />
     <Content Include="app\css\images\ajax-loader.gif" />
@@ -354,14 +358,24 @@
     <Content Include="app\css\retina_wood_%402X.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="app\css\upfeathers.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="app\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="app\hashids.js" />
     <Content Include="app\images\change.png" />
     <Content Include="app\images\cordova.png" />
     <Content Include="app\index.html" />
+    <Content Include="app\scripts\bootstrap-toggle.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\scripts\moment.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="app\scripts\bootstrap.js" />
     <Content Include="app\scripts\bootstrap.min.js" />
     <Content Include="app\scripts\index.js" />
+    <Content Include="addcobdet.ashx" />
     <None Include="app\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="app\scripts\jquery-1.9.0.js" />
     <Content Include="app\scripts\jquery-1.9.0.min.js" />
@@ -381,6 +395,8 @@
     <Content Include="app\manifest.json" />
     <Content Include="app\scripts\jquery-1.9.0.min.map" />
     <Content Include="app\scripts\jquery-2.2.3.min.map" />
+    <Content Include="cob.ashx" />
+    <Content Include="cobdet.ashx" />
     <None Include="reportcenter\index.cwml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -388,10 +404,21 @@
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="style.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addcobdet.ashx.vb">
+      <DependentUpon>addcobdet.ashx</DependentUpon>
+    </Compile>
     <Compile Include="cassandraHandler.vb" />
+    <Compile Include="cob.ashx.vb">
+      <DependentUpon>cob.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="cobdet.ashx.vb">
+      <DependentUpon>cobdet.ashx</DependentUpon>
+    </Compile>
     <Compile Include="dbstatus.ashx.vb">
       <DependentUpon>dbstatus.ashx</DependentUpon>
     </Compile>
@@ -414,6 +441,9 @@
     <Compile Include="mbp.designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>mbp.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="mbp.vb">
       <DependentUpon>mbp.dbml</DependentUpon>
     </Compile>
     <Compile Include="mbpQuery.vb" />
@@ -447,6 +477,9 @@
     </Compile>
     <Compile Include="sellsingle.ashx.vb">
       <DependentUpon>sellsingle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="synccob.ashx.vb">
+      <DependentUpon>synccob.ashx</DependentUpon>
     </Compile>
     <Compile Include="vends.ashx.vb">
       <DependentUpon>vends.ashx</DependentUpon>
@@ -493,6 +526,7 @@
     <Content Include="search.ashx" />
     <Content Include="searchclient.ashx" />
     <Content Include="vends.ashx" />
+    <Content Include="synccob.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

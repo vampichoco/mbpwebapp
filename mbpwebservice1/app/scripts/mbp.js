@@ -1,10 +1,10 @@
-﻿var Partidas = new Array();
-var total = 0.0;
-var claveadd_id = 0;
-var db;
-var request;
-var currentProd;
-var _prodId_ = 0;
+﻿var Partidas        = new Array()         ;
+var total           = 0.0                 ;
+var claveadd_id     = 0                   ;
+var _prodId_        = 0                   ;
+var db                                    ;
+var request                               ;
+var currentProd                           ;
 
 function sellsingle() {
 
@@ -49,7 +49,8 @@ function populateSearch() {
         $('#prodSearch ul').empty();
     
         $.getJSON(url, function (results) {
-            for (i = 0; i < results.length; i++) { 
+            for (i = 0; i < results.length; i++) {
+                console.log(JSON.stringify(results[i]));
                 addToProdList(results[i]);
             }
         }
@@ -74,7 +75,7 @@ function addToProdList(item)
           
     var li = $('<li></li>').attr("id", id).attr("class", "list-group-item").html(content).click(function(){
         //Deselecciona las lineas de abajo para agregar el articulo directamente
-        window.alert(item.DESCRIP);
+        //window.alert(item.DESCRIP);
 /*
         
 
@@ -82,7 +83,9 @@ function addToProdList(item)
 
         setPriceSelect(item);
         
-        setStatLabel("info", item.DESCRIP); 
+        setStatLabel("info", item.DESCRIP);
+        //console.log(JSON.stringify(item));
+        $('#prodtb').val(item.ARTICULO);
         currentProd = item;
 
                 
@@ -107,18 +110,21 @@ function addToProdList(item)
        
 }
 
-function searchClient(){
+function searchClient() {
+    //window.alert('Attempting to retrive clients');
     var endpoint = localStorage.getItem("endpoint");
-    var term = $('#searchClientText').val(); 
+    var term = $('#searchClientText').val();
+    var vend = $('#usertb').val();
     
     if (term.length > 0)
     {
-        var url = 
-        endpoint + '/searchclient.ashx?c=' + term;
+        var url =
+        endpoint + '/searchclient.ashx?c=' + term + "&vend=" + vend;
         
         $('#clientSearch ul').empty(); 
      
         $.getJSON(url, function (results) {
+            console.log(JSON.stringify(results));
             for (i = 0; i < results.length; i++) { 
             addToClientList(results[i]);
             } 
@@ -134,23 +140,7 @@ function searchClient(){
 } 
 
 function addToClientList(result){
-    /*
-    $('#clientSearch ul').append(
-         '<li class="list-group-item" id="' +
-          result.cliente +  '">' +
-          result.nombre + '</li>');
-      
-    
-     
-     $(document).on('click', '#' + result.cliente, 
-     function(){
-         
-         $('#clienttb').val(result.cliente); 
-         $('#searchClientModal').modal('hide');
-         saveState();
-     } ); 
-     
-     */ 
+   
     
     var li = $('<li class="list-group-item"></li>').html(result.nombre).click(function(){
                 $('#clienttb').val(result.cliente);
@@ -190,14 +180,17 @@ function instanceProd(results) {
     //{
     //    selectclaveadd(results.clavesadd, results.ARTICULO);
     //}else{
+
+    //window.alert(JSON.stringify(results));
+
         var newP = {
         Precio: price,
         Cantidad: qty,
-        Impuesto: results.ARTICULO.TX,
-        Costo: results.ARTICULO.COSTO,
-        Descrip: results.ARTICULO.DESCRIP,
-        Articulo: results.ARTICULO.ARTICULO, 
-        Unique: results.ARTICULO.U, 
+        Impuesto: results.TX,
+        Costo: results.COSTO,
+        Descrip: results.DESCRIP,
+        Articulo: results.ARTICULO, 
+        Unique: results.U, 
     }; 
     
     Partidas.push(newP);
@@ -281,35 +274,58 @@ function setEditActions(partida, data){
 
 function statCheck2(){
     //window.alert("intentando conexión")
-    setStatLabel("info", "intentando conexion");
     
-    
-    var endpoint = localStorage.getItem("endpoint"); 
-    
-    var url = endpoint + '/dbstatus.ashx'; 
-    
-    var stat = $.getJSON(url, function(result){
-        if (result.exists == true){
-            
-            $('#addButton'         ).unbind('click').click(addProd          );    // Add prod to prods to be sent
-            $('#terminateButton'   ).unbind('click').click(terminateSell    );    // terminate sell on click
-            $('#searchProdButton'  ).unbind('click').click(populateSearch   );    // On search prod click
-            $('#validateProdButton').unbind('click').click(validateProd     );    // On validate product button click 
-            $('#searchClientButton').unbind('click').click(searchClient     );
-            
-            setStatLabel("success", "Sistema cargado y listo");
-        }else{
-            setStatLabel("danger", "No se pudo conectar a la base de datos");
-        }
-    }).error(function(jqXHR, textStatus, errorThrown){
-        $('#addButton'         ).unbind('click').click(addProdOffline       );    // Add prod to prods to be sent
-        $('#terminateButton'   ).unbind('click').click(insertPendingSell    );
-        $('#searchProdButton'  ).unbind('click').click(searchProdOffline    );
-        $('#validateProdButton').unbind('click').click(validateProdOffline  );   // On validate product click 
-        $('#searchClientButton').unbind('click').click(searchClientOffline  );
-        
-        setStatLabel("alert", "No se pudo conectar al servidor, usando conexión local");
-    });
+    var wo = localStorage.getItem("workoffline")
+
+    //window.alert(wo);
+
+    if (wo == "true") {
+        workOffline()
+    } else {
+        setStatLabel("info", "intentando conexion");
+
+
+        var endpoint = localStorage.getItem("endpoint");
+
+        var url = endpoint + '/dbstatus.ashx';
+
+        setStatLabel("info", "intentando conexion a " + url);
+
+        var stat = $.getJSON(url, function (result) {
+            if (result.exists == true) {
+
+                $('#addButton').unbind('click').click(addProd);    // Add prod to prods to be sent
+                $('#terminateButton').unbind('click').click(terminateSell);    // terminate sell on click
+                $('#searchProdButton').unbind('click').click(populateSearch);    // On search prod click
+                $('#validateProdButton').unbind('click').click(validateProd);    // On validate product button click 
+                $('#searchClientButton').unbind('click').click(searchClient);    // On search client
+
+                setStatLabel("success", "Sistema cargado y listo");
+            } else {
+                setStatLabel("danger", "No se pudo conectar a la base de datos");
+            }
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            $('#addButton').unbind('click').click(addProdOffline);    // Add prod to prods to be sent
+            $('#terminateButton').unbind('click').click(insertPendingSell);    // On terminate sell button
+            $('#searchProdButton').unbind('click').click(searchProdOffline);    // On search prod
+            $('#validateProdButton').unbind('click').click(validateProdOffline);    // On validate product click 
+            $('#searchClientButton').unbind('click').click(searchClientOffline);    // On search client
+
+            setStatLabel("alert", "No se pudo conectar al servidor, usando conexión local");
+        });
+    }
+}
+
+function workOffline() {
+    //localStorage.setItem("workoffile", "true");
+
+    $('#addButton').unbind('click').click(addProdOffline);    // Add prod to prods to be sent
+    $('#terminateButton').unbind('click').click(insertPendingSell);    // On terminate sell button
+    $('#searchProdButton').unbind('click').click(searchProdOffline);    // On search prod
+    $('#validateProdButton').unbind('click').click(validateProdOffline);    // On validate product click 
+    $('#searchClientButton').unbind('click').click(searchClientOffline);    // On search client
+
+    setStatLabel("info", "Usando bases de datos local");
 }
 
 function instanceProd2(results){
@@ -377,12 +393,7 @@ function selectclaveadd(data, art){
         displayHtml.append(desc);
         displayHtml.append(clavedesc);
         
-/*
-        $('#presList ul').append(
-            '<li class="list-group-item" id="' +
-            item.Clave +  '">' +
-            displayText + '</li>');
-*/
+
 
         var li = $('<li class="list-group-item"></li>')
             .attr('id', "#" + item.U)
@@ -425,7 +436,7 @@ function terminateSell() {
             contentType: "application/json",
             dataType: 'json'
        }).done(function (res) {
-            setStatLabel("success", "Venta hecha")
+            setStatLabel("success", "Venta hecha");
             console.log('res', res);
             // Do something with the result :)
        }); 
@@ -482,7 +493,7 @@ function saveUser(){
         if (results.success = true){
             localStorage.setItem("user", user);
             
-            var message = 'Iniciaste sesión como ' + user
+            var message = 'Iniciaste sesión como ' + user;
             setStatLabel("success", message);
             $('#configModal').modal('hide');
         }else{
@@ -543,15 +554,15 @@ function validateProd(){
 
         $.getJSON(url, function (results) {
             console.log(results.ARTICULO);
-            currentProd = results.ARTICULO;
-            setStatLabel("info", results.ARTICULO.DESCRIP);
+            currentProd = results;
+            setStatLabel("info", results.DESCRIP);
 
             
-            setPriceSelect(results.ARTICULO);
+            setPriceSelect(results);
 
-            if (results.clavesadd.length > 0) {
-                selectclaveadd(results.clavesadd, results.ARTICULO);
-            }
+            //if (results.clavesadd.length > 0) {
+            //    selectclaveadd(results.clavesadd, results.ARTICULO);
+            //}
 
             saveState();
 
@@ -560,11 +571,16 @@ function validateProd(){
             setStatLabel("danger", "Ocurrió un error al obtener la información del servidor");
         });
     } else {
-        setStatLabel("error", "Especifica un articulo primero!")
+        setStatLabel("error", "Especifica un articulo primero!");
     }
     
 } 
 
+function displayClavesadd() {
+    if (currentProd.clavesadd.length > 0) {
+        selectclaveadd(currentProd.clavesadd, currentProd);
+    }
+}
 
 $('#qtytb').on('input', function(){
     text = $('#qtytb').val(); 
@@ -650,6 +666,121 @@ function setPriceSelect(prod) {
     
 }
 
+function getCob() {
+    $('#cobtable tbody').remove();
+
+    var endpoint = localStorage.getItem("endpoint");
+    var client = $('#clienttb').val()
+    var url = endpoint + "cob.ashx?client=" + client;
+
+    
+
+    $.getJSON(url, function (cobjson) {
+        //console.log(JSON.stringify(cobjson));
+        $.each(cobjson, function (index) {
+            
+            var item = cobjson[index];
+            var li = $('<li class="list-group-item"></li>').html(item.COBRANZA);
+            var tr = $('<tr></tr>')
+
+            tr.append($('<td></td>').html(item.COBRANZA));
+            tr.append($('<td></td>').html(item.VENTA));
+            tr.append($('<td></td>').html(item.FECHA_VENC));
+            tr.append($('<td></td>').html(item.SALDO));
+            
+
+            var button =
+                $('<button class="btn btn-default"></button>').html("Abonar").click(function () {
+                    showCobdet(item);
+                })
+            
+            tr.append($('<td></td>').html(button));
+
+            $('#cobtable').append($('<tbody></tbody'));
+
+            $('#cobtable tbody').append(tr);
+
+           
+                
+        });
+
+        $('#loadingCob').hide();
+
+    });
+}
+
+function showCobdet(cob) {
+
+    $('#cobModal').modal("show");
+    $('#cobdetTable tbody').remove();
+
+    $('#cobdetTable').append($('<tbody></tbody>'));
+
+    var endpoint = localStorage.getItem("endpoint");
+    var url = endpoint + "/cobdet.ashx?cob=" + cob.COBRANZA;
+
+    $.getJSON(url, function (cobdet) {
+        $.each(cobdet, function (index, value) {
+            //var cobdetItem = cobdet[index];
+
+            var tr = $('<tr></tr>');
+
+
+            tr.append($('<td></td>').html(value.ID     ));
+            tr.append($('<td></td>').html(value.FECHA  ));
+            tr.append($('<td></td>').html(value.IMPORTE));
+            
+
+            $('#cobdetTable tbody').append(tr);
+        });
+    });
+    
+    $('#cobTitle').html("<h3></h3>").html("Detalles de cobranza: " + cob.COBRANZA);
+    $('#btn-addcob').unbind('click').click(function () {
+        var newCob = {
+            "Cobranza" : cob.COBRANZA,
+            "Importe"  : $('#pricecobtb').val(),
+            "Fecha"    : moment().format('DD/MM/YY'),
+            "Hora"     : moment().format("LT")
+        }
+        
+
+        console.log(JSON.stringify(newCob));
+        sendCob(newCob);
+
+        
+
+    });
+}
+
+function sendCob(newcob) {
+    var endpoint = localStorage.getItem("endpoint")
+    var url = endpoint + '/addcobdet.ashx';
+
+    $.ajax({
+        type: "POST",
+        data: JSON.stringify(newcob),
+        url: url,
+        contentType: "application/json",
+        dataType: 'json'
+    }).done(function (res) {
+        //setStatLabel("success", "Venta hecha");
+        window.alert("Abono hecho")
+        console.log('res', res);
+
+        var tr = $('<tr></tr>');
+
+
+        tr.append($('<td></td>').html(res.ID       ));
+        tr.append($('<td></td>').html(res.FECHA    ));
+        tr.append($('<td></td>').html(res.IMPORTE  ));
+
+
+        $('#cobdetTable tbody').append(tr);
+
+        // Do something with the result :)
+    });
+}
 
 /* 
 ===========================================================================================
@@ -670,7 +801,94 @@ function validateProdOffline(){
         
     })
     
-} 
+}
+
+function showCobdetOffline(OfflineCob) {
+
+    $('#cobModal').modal("show");
+    $('#cobdetTable tbody').remove();
+
+    $('#cobdetTable').append($('<tbody></tbody>'));
+
+    //var endpoint = localStorage.getItem("endpoint");
+    //var url = endpoint + "/cobdet.ashx?cob=" + cob.COBRANZA;
+
+    //console.log(JSON.stringify(OfflineCob));
+
+    $.each(OfflineCob.cobdet, function (index, value) {
+
+
+        //console.log('DETALLE DE COBRANZA' + JSON.stringify(value));
+
+        var tr = $('<tr></tr>');
+
+        
+
+        tr.append($('<td></td>').html(value.id));
+        tr.append($('<td></td>').html(value.FECHA));
+        tr.append($('<td></td>').html(value.IMPORTE));
+
+
+        $('#cobdetTable tbody').append(tr);
+    });
+
+    
+
+    $('#cobTitle').html("<h3></h3>").html("Detalles de cobranza: " + OfflineCob.COBRANZA.COBRANZA);
+    $('#btn-addcob').unbind('click').click(function () {
+        var newCob = {
+            "Cobranza": OfflineCob.cobId,
+            "Importe": $('#pricecobtb').val(),
+            "Fecha": moment().format('DD/MM/YY'),
+            "Hora": moment().format("LT")
+        }
+
+
+        
+        
+        db.pendigCob.add(newCob).then(function () {
+            setStatLabel("success", "Abono almacenado como pendiente");
+        });
+
+        console.log(JSON.stringify(newCob));
+
+    });
+}
+
+function getCobOffline() {
+    $('#cobtable tbody').remove();
+
+    var client = $('#clienttb').val();
+    //console.log("Cliente: " + client);
+
+    db.cob.where('client').equals(client).each(function (cob) {
+        var item = cob;
+        //console.log(JSON.stringify(item));
+        var li = $('<li class="list-group-item"></li>').html(item.COBRANZA);
+        var tr = $('<tr></tr>')
+
+        //console.log("cobid" + item.cobId);
+
+        tr.append($('<td></td>').html(item.cobId));
+        tr.append($('<td></td>').html(item.cob.VENTA));
+        tr.append($('<td></td>').html(item.cob.FECHA_VENC));
+        tr.append($('<td></td>').html(item.cob.SALDO));
+
+        var button =
+                $('<button class="btn btn-default"></button>').html("Abonar").click(function () {
+                    //window.alert(JSON.stringify(item.cob));
+                    showCobdetOffline(item.cob);
+                })
+
+        tr.append($('<td></td>').html(button));
+
+        $('#cobtable').append($('<tbody></tbody'));
+
+        $('#cobtable tbody').append(tr);
+
+    });
+
+}
 
 function removePendingSale(id){
     //db.ventas.get(id).delete(function () {
@@ -704,8 +922,7 @@ function terminateSell2(item) {
        }).done(function (res) {
            removePendingSale(item.id);
            setStatLabel("success", "Venta hecha");
-           console.log('res', res);
-            // Do something with the result :)
+           console.log(res);
        }); 
    
    // clear state and gui
@@ -793,49 +1010,14 @@ function insertPendingSell(){
 
 function opendb(){
     
-    /*
-    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
- 
-
-    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-    
-    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
- 
-    if (!window.indexedDB) {
-        window.alert("Your browser doesn't support a stable version of IndexedDB.");
-    }else{
-        //window.alert("Listo para conectarse");
-    }
-     
-    
-    var request = window.indexedDB.open("mbptest8", 1);
- 
-    request.onerror = function(event) {
-        console.log("error: ");
-    };
- 
-    request.onsuccess = function(event) {
-        db = request.result;
-        console.log("success: "+ db);
-    };
- 
-    request.onupgradeneeded = function(event) {
-        db = event.target.result;
-        var prodStore = db.createObjectStore("prods" , {keyPath: "SP"                       });
-        var sellStore = db.createObjectStore("ventas", {keyPath: "id", autoIncrement: true  }); 
-        
-         
-        
-    } 
-    
-    */ 
-    
-    db = new Dexie("mbptest10");
+    db = new Dexie("mbptest13");
 
     db.version(1).stores({
         prods: 'SP',
         ventas: "++id",
-        clients: "cliente,nombre"
+        clients: "cliente,nombre",
+        cob: "cobId,client",
+        pendigCob: "++id"
     });
 
     db.open().catch(function (e) {
@@ -843,7 +1025,9 @@ function opendb(){
     })
 } 
 
-function syncdb(){
+function syncdb() {
+
+    var step = 0.0;
     
     setStatLabel("info", "Sincronizando bases de datos");
     var endpoint = localStorage.getItem("endpoint"); 
@@ -853,37 +1037,10 @@ function syncdb(){
     
     $.getJSON(url, function (results) {
         var count = 0; 
-        
-        /*
-        for (count = 0; count < results.length; count++){
-            var item = results[count]; 
-            
-            var request = db.transaction('prods', "readwrite")
-                .objectStore("prods")
-                .add(item);
-                                 
-            request.onsuccess = function(event) {
-                console.log(item.DESCRIP + " agregado"); 
-                setStatLabel("info", item.DESCRIP + " agregado");
-            };
-         
-            request.onerror = function(event) {
-                
-                var request = db.transaction('prods', "readwrite")
-                .objectStore("prods")
-                .put(item);
-                
-                console.log(item.DESCRIP + " actualizado"); 
-                setStatLabel("info", item.DESCRIP + " actualizado");
-                       
-            }
-
-        } // for
-        
-        */ 
-        
+        step++;
+       
         db.prods.bulkPut(results).then(function(){
-            setStatLabel("success", "base de datos sincronizada con exito");
+            setStatLabel("success", "Productos sincronizados (" + step + "/3)");
         }); 
         
         
@@ -891,18 +1048,29 @@ function syncdb(){
         
     }// function
     ).fail(function (jqXHR) {
-        window.alert("Error al descargar información del servidor :()")
+        window.alert("Error al descargar información del servidor :(")
     }).done(function(){
-        setStatLabel("success", "Bases de datos sincronizadas con exito");
+        
     }).complete(function(){
-        setStatLabel("info", "Sincronizando base de datos");
+        //setStatLabel("info", "Sincronizando base de datos");
     }); 
     
     var clientsUrl = endpoint + 'searchclient.ashx';
     
     $.getJSON(clientsUrl, function(r){
-        db.clients.bulkPut(r).then(function(){
-            setStatLabel("success", "Base de datos sincronizada con exito")
+        db.clients.bulkPut(r).then(function () {
+            step++;
+            setStatLabel("success", "Clientes sincronizados(" +  step + "/3)")
+        })
+    });
+
+    var cob = localStorage.getItem("user");
+    var coburl = endpoint + "synccob.ashx?cob=" + cob;
+
+    $.getJSON(coburl, function (r) {
+        db.cob.bulkPut(r.Cobranza).then(function () {
+            step++;
+            setStatLabel("success", "Cobranza sincronizada(" + step + "/3)");
         })
     });
     
@@ -910,20 +1078,11 @@ function syncdb(){
 
 function searchProdOffline()
 {
-    //window.alert("hello");
-    /*
-    var key = $('#searchProdText').val();
-    var data = read(key);
-    if (data){
-        $('#prodtb').val(data.DESCRIP);
-    } 
-    */ 
+   
     
     var key = $('#searchProdText').val();
     
-    //db.prods.get(key, function(item){
-    //  window.alert(item.DESCRIP);
-    //}) 
+   
     
     db.prods.where("SP").startsWith(key).each(function(prod){
         addToProdList(prod);
@@ -931,30 +1090,9 @@ function searchProdOffline()
 } 
 
 function addProdOffline(){
-   //var transaction = db.transaction(["prods"]);
-   //var objectStore = transaction.objectStore("prods");
+   
    var key = $('#prodtb').val();
-   //var request = objectStore.get(key);
    
-   /*
-   
-   request.onerror = function(event) {
-      setStatLabel("danger", "no se pudo extraer información de la base de datos");
-   };
-   
-   request.onsuccess = function(event) {
-      if(request.result) {
-         
-         instanceProdOffline(request.result);
-         
-      }
-      
-      else {
-         setStatLabel("danger", "no se pudo extraer información de la base de datos");
-      }
-   }; 
-   
-   */
   
   
   db.prods.get(key, function(item){
@@ -1000,30 +1138,7 @@ function instanceProdOffline(prod){
 }
 
 function getPendingSales(){
-    /*
-    var trans = db.transaction("ventas", "readwrite");
-    var store = trans.objectStore("ventas");
-    var items = [];
- 
-    trans.oncomplete = function(evt) {  
-        callback(items);
-    };
- 
-    var cursorRequest = store.openCursor();
- 
-    cursorRequest.onerror = function(error) {
-        console.log(error);
-    };
- 
-    cursorRequest.onsuccess = function(evt) {                    
-        var cursor = evt.target.result;
-        if (cursor) {
-            items.push(cursor.value);
-            cursor.continue();
-        }
-    };
     
-    */ 
     
     db.ventas.toCollection().each(function(item){
         var div = $('<div class="list-group-item"></div>');
@@ -1085,7 +1200,7 @@ function saveState(){
     localStorage.setItem("currentProd"         , JSON.stringify(currentProd)        );
     localStorage.setItem("producto"            , JSON.stringify(prod)               ); 
     
-    console.log("cantidad" + _qty)
+    //console.log("cantidad" + _qty)
 }
 
 function getState(){

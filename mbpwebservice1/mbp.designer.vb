@@ -73,6 +73,18 @@ Partial Public Class mbpDataContext
     End Sub
   Partial Private Sub Deleteconsec(instance As consec)
     End Sub
+  Partial Private Sub Insertcobranza(instance As cobranza)
+    End Sub
+  Partial Private Sub Updatecobranza(instance As cobranza)
+    End Sub
+  Partial Private Sub Deletecobranza(instance As cobranza)
+    End Sub
+  Partial Private Sub Insertcobdet(instance As cobdet)
+    End Sub
+  Partial Private Sub Updatecobdet(instance As cobdet)
+    End Sub
+  Partial Private Sub Deletecobdet(instance As cobdet)
+    End Sub
   #End Region
 	
 	Public Sub New()
@@ -151,6 +163,18 @@ Partial Public Class mbpDataContext
 	Public ReadOnly Property consecs() As System.Data.Linq.Table(Of consec)
 		Get
 			Return Me.GetTable(Of consec)
+		End Get
+	End Property
+	
+	Public ReadOnly Property cobranzas() As System.Data.Linq.Table(Of cobranza)
+		Get
+			Return Me.GetTable(Of cobranza)
+		End Get
+	End Property
+	
+	Public ReadOnly Property cobdets() As System.Data.Linq.Table(Of cobdet)
+		Get
+			Return Me.GetTable(Of cobdet)
 		End Get
 	End Property
 End Class
@@ -3165,8 +3189,6 @@ Partial Public Class partvta
 	
 	Private _FactCierre As String
 	
-	Private _venta1 As EntityRef(Of venta)
-	
     #Region "Extensibility Method Definitions"
     Partial Private Sub OnLoaded()
     End Sub
@@ -3350,7 +3372,6 @@ Partial Public Class partvta
 	
 	Public Sub New()
 		MyBase.New
-		Me._venta1 = CType(Nothing, EntityRef(Of venta))
 		OnCreated
 	End Sub
 	
@@ -3361,9 +3382,6 @@ Partial Public Class partvta
 		End Get
 		Set
 			If (Me._VENTA.Equals(value) = false) Then
-				If Me._venta1.HasLoadedOrAssignedValue Then
-					Throw New System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException()
-				End If
 				Me.OnVENTAChanging(value)
 				Me.SendPropertyChanging
 				Me._VENTA = value
@@ -4067,34 +4085,6 @@ Partial Public Class partvta
 		End Set
 	End Property
 	
-	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="venta_partvta", Storage:="_venta1", ThisKey:="VENTA", OtherKey:="VENTA", IsForeignKey:=true)>  _
-	Public Property venta1() As venta
-		Get
-			Return Me._venta1.Entity
-		End Get
-		Set
-			Dim previousValue As venta = Me._venta1.Entity
-			If ((Object.Equals(previousValue, value) = false)  _
-						OrElse (Me._venta1.HasLoadedOrAssignedValue = false)) Then
-				Me.SendPropertyChanging
-				If ((previousValue Is Nothing)  _
-							= false) Then
-					Me._venta1.Entity = Nothing
-					previousValue.partvtas.Remove(Me)
-				End If
-				Me._venta1.Entity = value
-				If ((value Is Nothing)  _
-							= false) Then
-					value.partvtas.Add(Me)
-					Me._VENTA = value.VENTA
-				Else
-					Me._VENTA = CType(Nothing, Nullable(Of Integer))
-				End If
-				Me.SendPropertyChanged("venta1")
-			End If
-		End Set
-	End Property
-	
 	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
 	
 	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
@@ -4363,8 +4353,6 @@ Partial Public Class venta
 	Private _UUID As String
 	
 	Private _ComprobanteXML As String
-	
-	Private _partvtas As EntitySet(Of partvta)
 	
     #Region "Extensibility Method Definitions"
     Partial Private Sub OnLoaded()
@@ -4865,7 +4853,6 @@ Partial Public Class venta
 	
 	Public Sub New()
 		MyBase.New
-		Me._partvtas = New EntitySet(Of partvta)(AddressOf Me.attach_partvtas, AddressOf Me.detach_partvtas)
 		OnCreated
 	End Sub
 	
@@ -6828,16 +6815,6 @@ Partial Public Class venta
 		End Set
 	End Property
 	
-	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="venta_partvta", Storage:="_partvtas", ThisKey:="VENTA", OtherKey:="VENTA")>  _
-	Public Property partvtas() As EntitySet(Of partvta)
-		Get
-			Return Me._partvtas
-		End Get
-		Set
-			Me._partvtas.Assign(value)
-		End Set
-	End Property
-	
 	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
 	
 	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
@@ -6854,16 +6831,6 @@ Partial Public Class venta
 					= false) Then
 			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
 		End If
-	End Sub
-	
-	Private Sub attach_partvtas(ByVal entity As partvta)
-		Me.SendPropertyChanging
-		entity.venta1 = Me
-	End Sub
-	
-	Private Sub detach_partvtas(ByVal entity As partvta)
-		Me.SendPropertyChanging
-		entity.venta1 = Nothing
 	End Sub
 End Class
 
@@ -9510,6 +9477,1010 @@ Partial Public Class consec
 				Me._Consec = value
 				Me.SendPropertyChanged("Consec")
 				Me.OnConsecChanged
+			End If
+		End Set
+	End Property
+	
+	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
+	
+	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
+	
+	Protected Overridable Sub SendPropertyChanging()
+		If ((Me.PropertyChangingEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanging(Me, emptyChangingEventArgs)
+		End If
+	End Sub
+	
+	Protected Overridable Sub SendPropertyChanged(ByVal propertyName As [String])
+		If ((Me.PropertyChangedEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+		End If
+	End Sub
+End Class
+
+<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.cobranza")>  _
+Partial Public Class cobranza
+	Implements System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
+	
+	Private Shared emptyChangingEventArgs As PropertyChangingEventArgs = New PropertyChangingEventArgs(String.Empty)
+	
+	Private _COBRANZA As Integer
+	
+	Private _CLIENTE As String
+	
+	Private _FECHA As System.Nullable(Of Date)
+	
+	Private _serieDocumento As String
+	
+	Private _TIPO_DOC As String
+	
+	Private _NO_REFEREN As System.Nullable(Of Integer)
+	
+	Private _FECHA_VENC As System.Nullable(Of Date)
+	
+	Private _IMPORTE As System.Nullable(Of Double)
+	
+	Private _MONEDA As String
+	
+	Private _SALDO As System.Nullable(Of Double)
+	
+	Private _TIP_CAM As System.Nullable(Of Double)
+	
+	Private _VENTA As System.Nullable(Of Integer)
+	
+	Private _COBRADOR As String
+	
+	Private _ESTADO As String
+	
+	Private _OBSERV As String
+	
+	Private _CONTAB As System.Nullable(Of Short)
+	
+	Private _USUARIO As String
+	
+	Private _USUFECHA As System.Nullable(Of Date)
+	
+	Private _USUHORA As String
+	
+	Private _Leyenda As String
+	
+	Private _SSMA_TimeStamp As System.Data.Linq.Binary
+	
+    #Region "Extensibility Method Definitions"
+    Partial Private Sub OnLoaded()
+    End Sub
+    Partial Private Sub OnValidate(action As System.Data.Linq.ChangeAction)
+    End Sub
+    Partial Private Sub OnCreated()
+    End Sub
+    Partial Private Sub OnCOBRANZAChanging(value As Integer)
+    End Sub
+    Partial Private Sub OnCOBRANZAChanged()
+    End Sub
+    Partial Private Sub OnCLIENTEChanging(value As String)
+    End Sub
+    Partial Private Sub OnCLIENTEChanged()
+    End Sub
+    Partial Private Sub OnFECHAChanging(value As System.Nullable(Of Date))
+    End Sub
+    Partial Private Sub OnFECHAChanged()
+    End Sub
+    Partial Private Sub OnserieDocumentoChanging(value As String)
+    End Sub
+    Partial Private Sub OnserieDocumentoChanged()
+    End Sub
+    Partial Private Sub OnTIPO_DOCChanging(value As String)
+    End Sub
+    Partial Private Sub OnTIPO_DOCChanged()
+    End Sub
+    Partial Private Sub OnNO_REFERENChanging(value As System.Nullable(Of Integer))
+    End Sub
+    Partial Private Sub OnNO_REFERENChanged()
+    End Sub
+    Partial Private Sub OnFECHA_VENCChanging(value As System.Nullable(Of Date))
+    End Sub
+    Partial Private Sub OnFECHA_VENCChanged()
+    End Sub
+    Partial Private Sub OnIMPORTEChanging(value As System.Nullable(Of Double))
+    End Sub
+    Partial Private Sub OnIMPORTEChanged()
+    End Sub
+    Partial Private Sub OnMONEDAChanging(value As String)
+    End Sub
+    Partial Private Sub OnMONEDAChanged()
+    End Sub
+    Partial Private Sub OnSALDOChanging(value As System.Nullable(Of Double))
+    End Sub
+    Partial Private Sub OnSALDOChanged()
+    End Sub
+    Partial Private Sub OnTIP_CAMChanging(value As System.Nullable(Of Double))
+    End Sub
+    Partial Private Sub OnTIP_CAMChanged()
+    End Sub
+    Partial Private Sub OnVENTAChanging(value As System.Nullable(Of Integer))
+    End Sub
+    Partial Private Sub OnVENTAChanged()
+    End Sub
+    Partial Private Sub OnCOBRADORChanging(value As String)
+    End Sub
+    Partial Private Sub OnCOBRADORChanged()
+    End Sub
+    Partial Private Sub OnESTADOChanging(value As String)
+    End Sub
+    Partial Private Sub OnESTADOChanged()
+    End Sub
+    Partial Private Sub OnOBSERVChanging(value As String)
+    End Sub
+    Partial Private Sub OnOBSERVChanged()
+    End Sub
+    Partial Private Sub OnCONTABChanging(value As System.Nullable(Of Short))
+    End Sub
+    Partial Private Sub OnCONTABChanged()
+    End Sub
+    Partial Private Sub OnUSUARIOChanging(value As String)
+    End Sub
+    Partial Private Sub OnUSUARIOChanged()
+    End Sub
+    Partial Private Sub OnUSUFECHAChanging(value As System.Nullable(Of Date))
+    End Sub
+    Partial Private Sub OnUSUFECHAChanged()
+    End Sub
+    Partial Private Sub OnUSUHORAChanging(value As String)
+    End Sub
+    Partial Private Sub OnUSUHORAChanged()
+    End Sub
+    Partial Private Sub OnLeyendaChanging(value As String)
+    End Sub
+    Partial Private Sub OnLeyendaChanged()
+    End Sub
+    Partial Private Sub OnSSMA_TimeStampChanging(value As System.Data.Linq.Binary)
+    End Sub
+    Partial Private Sub OnSSMA_TimeStampChanged()
+    End Sub
+    #End Region
+	
+	Public Sub New()
+		MyBase.New
+		OnCreated
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_COBRANZA", AutoSync:=AutoSync.OnInsert, DbType:="Int NOT NULL IDENTITY", IsPrimaryKey:=true, IsDbGenerated:=true, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property COBRANZA() As Integer
+		Get
+			Return Me._COBRANZA
+		End Get
+		Set
+			If ((Me._COBRANZA = value)  _
+						= false) Then
+				Me.OnCOBRANZAChanging(value)
+				Me.SendPropertyChanging
+				Me._COBRANZA = value
+				Me.SendPropertyChanged("COBRANZA")
+				Me.OnCOBRANZAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CLIENTE", DbType:="NVarChar(30)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property CLIENTE() As String
+		Get
+			Return Me._CLIENTE
+		End Get
+		Set
+			If (String.Equals(Me._CLIENTE, value) = false) Then
+				Me.OnCLIENTEChanging(value)
+				Me.SendPropertyChanging
+				Me._CLIENTE = value
+				Me.SendPropertyChanged("CLIENTE")
+				Me.OnCLIENTEChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_FECHA", DbType:="DateTime", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property FECHA() As System.Nullable(Of Date)
+		Get
+			Return Me._FECHA
+		End Get
+		Set
+			If (Me._FECHA.Equals(value) = false) Then
+				Me.OnFECHAChanging(value)
+				Me.SendPropertyChanging
+				Me._FECHA = value
+				Me.SendPropertyChanged("FECHA")
+				Me.OnFECHAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_serieDocumento", DbType:="NChar(20)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property serieDocumento() As String
+		Get
+			Return Me._serieDocumento
+		End Get
+		Set
+			If (String.Equals(Me._serieDocumento, value) = false) Then
+				Me.OnserieDocumentoChanging(value)
+				Me.SendPropertyChanging
+				Me._serieDocumento = value
+				Me.SendPropertyChanged("serieDocumento")
+				Me.OnserieDocumentoChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_TIPO_DOC", DbType:="NVarChar(3)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property TIPO_DOC() As String
+		Get
+			Return Me._TIPO_DOC
+		End Get
+		Set
+			If (String.Equals(Me._TIPO_DOC, value) = false) Then
+				Me.OnTIPO_DOCChanging(value)
+				Me.SendPropertyChanging
+				Me._TIPO_DOC = value
+				Me.SendPropertyChanged("TIPO_DOC")
+				Me.OnTIPO_DOCChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_NO_REFEREN", DbType:="Int", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property NO_REFEREN() As System.Nullable(Of Integer)
+		Get
+			Return Me._NO_REFEREN
+		End Get
+		Set
+			If (Me._NO_REFEREN.Equals(value) = false) Then
+				Me.OnNO_REFERENChanging(value)
+				Me.SendPropertyChanging
+				Me._NO_REFEREN = value
+				Me.SendPropertyChanged("NO_REFEREN")
+				Me.OnNO_REFERENChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_FECHA_VENC", DbType:="DateTime", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property FECHA_VENC() As System.Nullable(Of Date)
+		Get
+			Return Me._FECHA_VENC
+		End Get
+		Set
+			If (Me._FECHA_VENC.Equals(value) = false) Then
+				Me.OnFECHA_VENCChanging(value)
+				Me.SendPropertyChanging
+				Me._FECHA_VENC = value
+				Me.SendPropertyChanged("FECHA_VENC")
+				Me.OnFECHA_VENCChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_IMPORTE", DbType:="Float", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property IMPORTE() As System.Nullable(Of Double)
+		Get
+			Return Me._IMPORTE
+		End Get
+		Set
+			If (Me._IMPORTE.Equals(value) = false) Then
+				Me.OnIMPORTEChanging(value)
+				Me.SendPropertyChanging
+				Me._IMPORTE = value
+				Me.SendPropertyChanged("IMPORTE")
+				Me.OnIMPORTEChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_MONEDA", DbType:="NVarChar(5)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property MONEDA() As String
+		Get
+			Return Me._MONEDA
+		End Get
+		Set
+			If (String.Equals(Me._MONEDA, value) = false) Then
+				Me.OnMONEDAChanging(value)
+				Me.SendPropertyChanging
+				Me._MONEDA = value
+				Me.SendPropertyChanged("MONEDA")
+				Me.OnMONEDAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_SALDO", DbType:="Float", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property SALDO() As System.Nullable(Of Double)
+		Get
+			Return Me._SALDO
+		End Get
+		Set
+			If (Me._SALDO.Equals(value) = false) Then
+				Me.OnSALDOChanging(value)
+				Me.SendPropertyChanging
+				Me._SALDO = value
+				Me.SendPropertyChanged("SALDO")
+				Me.OnSALDOChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_TIP_CAM", DbType:="Float", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property TIP_CAM() As System.Nullable(Of Double)
+		Get
+			Return Me._TIP_CAM
+		End Get
+		Set
+			If (Me._TIP_CAM.Equals(value) = false) Then
+				Me.OnTIP_CAMChanging(value)
+				Me.SendPropertyChanging
+				Me._TIP_CAM = value
+				Me.SendPropertyChanged("TIP_CAM")
+				Me.OnTIP_CAMChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_VENTA", DbType:="Int", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property VENTA() As System.Nullable(Of Integer)
+		Get
+			Return Me._VENTA
+		End Get
+		Set
+			If (Me._VENTA.Equals(value) = false) Then
+				Me.OnVENTAChanging(value)
+				Me.SendPropertyChanging
+				Me._VENTA = value
+				Me.SendPropertyChanged("VENTA")
+				Me.OnVENTAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_COBRADOR", DbType:="NVarChar(5)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property COBRADOR() As String
+		Get
+			Return Me._COBRADOR
+		End Get
+		Set
+			If (String.Equals(Me._COBRADOR, value) = false) Then
+				Me.OnCOBRADORChanging(value)
+				Me.SendPropertyChanging
+				Me._COBRADOR = value
+				Me.SendPropertyChanged("COBRADOR")
+				Me.OnCOBRADORChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_ESTADO", DbType:="NVarChar(1)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property ESTADO() As String
+		Get
+			Return Me._ESTADO
+		End Get
+		Set
+			If (String.Equals(Me._ESTADO, value) = false) Then
+				Me.OnESTADOChanging(value)
+				Me.SendPropertyChanging
+				Me._ESTADO = value
+				Me.SendPropertyChanged("ESTADO")
+				Me.OnESTADOChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_OBSERV", DbType:="NVarChar(255)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property OBSERV() As String
+		Get
+			Return Me._OBSERV
+		End Get
+		Set
+			If (String.Equals(Me._OBSERV, value) = false) Then
+				Me.OnOBSERVChanging(value)
+				Me.SendPropertyChanging
+				Me._OBSERV = value
+				Me.SendPropertyChanged("OBSERV")
+				Me.OnOBSERVChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CONTAB", DbType:="SmallInt", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property CONTAB() As System.Nullable(Of Short)
+		Get
+			Return Me._CONTAB
+		End Get
+		Set
+			If (Me._CONTAB.Equals(value) = false) Then
+				Me.OnCONTABChanging(value)
+				Me.SendPropertyChanging
+				Me._CONTAB = value
+				Me.SendPropertyChanged("CONTAB")
+				Me.OnCONTABChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_USUARIO", DbType:="NVarChar(10)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property USUARIO() As String
+		Get
+			Return Me._USUARIO
+		End Get
+		Set
+			If (String.Equals(Me._USUARIO, value) = false) Then
+				Me.OnUSUARIOChanging(value)
+				Me.SendPropertyChanging
+				Me._USUARIO = value
+				Me.SendPropertyChanged("USUARIO")
+				Me.OnUSUARIOChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_USUFECHA", DbType:="DateTime", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property USUFECHA() As System.Nullable(Of Date)
+		Get
+			Return Me._USUFECHA
+		End Get
+		Set
+			If (Me._USUFECHA.Equals(value) = false) Then
+				Me.OnUSUFECHAChanging(value)
+				Me.SendPropertyChanging
+				Me._USUFECHA = value
+				Me.SendPropertyChanged("USUFECHA")
+				Me.OnUSUFECHAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_USUHORA", DbType:="NVarChar(8)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property USUHORA() As String
+		Get
+			Return Me._USUHORA
+		End Get
+		Set
+			If (String.Equals(Me._USUHORA, value) = false) Then
+				Me.OnUSUHORAChanging(value)
+				Me.SendPropertyChanging
+				Me._USUHORA = value
+				Me.SendPropertyChanged("USUHORA")
+				Me.OnUSUHORAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Leyenda", DbType:="NVarChar(15)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Leyenda() As String
+		Get
+			Return Me._Leyenda
+		End Get
+		Set
+			If (String.Equals(Me._Leyenda, value) = false) Then
+				Me.OnLeyendaChanging(value)
+				Me.SendPropertyChanging
+				Me._Leyenda = value
+				Me.SendPropertyChanged("Leyenda")
+				Me.OnLeyendaChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_SSMA_TimeStamp", AutoSync:=AutoSync.Always, DbType:="rowversion NOT NULL", CanBeNull:=false, IsDbGenerated:=true, IsVersion:=true, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property SSMA_TimeStamp() As System.Data.Linq.Binary
+		Get
+			Return Me._SSMA_TimeStamp
+		End Get
+		Set
+			If (Object.Equals(Me._SSMA_TimeStamp, value) = false) Then
+				Me.OnSSMA_TimeStampChanging(value)
+				Me.SendPropertyChanging
+				Me._SSMA_TimeStamp = value
+				Me.SendPropertyChanged("SSMA_TimeStamp")
+				Me.OnSSMA_TimeStampChanged
+			End If
+		End Set
+	End Property
+	
+	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
+	
+	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
+	
+	Protected Overridable Sub SendPropertyChanging()
+		If ((Me.PropertyChangingEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanging(Me, emptyChangingEventArgs)
+		End If
+	End Sub
+	
+	Protected Overridable Sub SendPropertyChanged(ByVal propertyName As [String])
+		If ((Me.PropertyChangedEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+		End If
+	End Sub
+End Class
+
+<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.cobdet")>  _
+Partial Public Class cobdet
+	Implements System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
+	
+	Private Shared emptyChangingEventArgs As PropertyChangingEventArgs = New PropertyChangingEventArgs(String.Empty)
+	
+	Private _id As Integer
+	
+	Private _COBRANZA As System.Nullable(Of Integer)
+	
+	Private _CLIENTE As String
+	
+	Private _FECHA As System.Nullable(Of Date)
+	
+	Private _serieDocumento As String
+	
+	Private _TIPO_DOC As String
+	
+	Private _NO_REFEREN As String
+	
+	Private _Cargo_ab As String
+	
+	Private _IMPORTE As System.Nullable(Of Double)
+	
+	Private _MONEDA As String
+	
+	Private _TIP_CAM As System.Nullable(Of Double)
+	
+	Private _VENTA As System.Nullable(Of Integer)
+	
+	Private _COBRADOR As String
+	
+	Private _OBSERV As String
+	
+	Private _CONTAB As System.Nullable(Of Short)
+	
+	Private _ABONO As System.Nullable(Of Integer)
+	
+	Private _USUARIO As String
+	
+	Private _USUFECHA As System.Nullable(Of Date)
+	
+	Private _USUHORA As String
+	
+	Private _concepto As String
+	
+	Private _SSMA_TimeStamp As System.Data.Linq.Binary
+	
+    #Region "Extensibility Method Definitions"
+    Partial Private Sub OnLoaded()
+    End Sub
+    Partial Private Sub OnValidate(action As System.Data.Linq.ChangeAction)
+    End Sub
+    Partial Private Sub OnCreated()
+    End Sub
+    Partial Private Sub OnidChanging(value As Integer)
+    End Sub
+    Partial Private Sub OnidChanged()
+    End Sub
+    Partial Private Sub OnCOBRANZAChanging(value As System.Nullable(Of Integer))
+    End Sub
+    Partial Private Sub OnCOBRANZAChanged()
+    End Sub
+    Partial Private Sub OnCLIENTEChanging(value As String)
+    End Sub
+    Partial Private Sub OnCLIENTEChanged()
+    End Sub
+    Partial Private Sub OnFECHAChanging(value As System.Nullable(Of Date))
+    End Sub
+    Partial Private Sub OnFECHAChanged()
+    End Sub
+    Partial Private Sub OnserieDocumentoChanging(value As String)
+    End Sub
+    Partial Private Sub OnserieDocumentoChanged()
+    End Sub
+    Partial Private Sub OnTIPO_DOCChanging(value As String)
+    End Sub
+    Partial Private Sub OnTIPO_DOCChanged()
+    End Sub
+    Partial Private Sub OnNO_REFERENChanging(value As String)
+    End Sub
+    Partial Private Sub OnNO_REFERENChanged()
+    End Sub
+    Partial Private Sub OnCargo_abChanging(value As String)
+    End Sub
+    Partial Private Sub OnCargo_abChanged()
+    End Sub
+    Partial Private Sub OnIMPORTEChanging(value As System.Nullable(Of Double))
+    End Sub
+    Partial Private Sub OnIMPORTEChanged()
+    End Sub
+    Partial Private Sub OnMONEDAChanging(value As String)
+    End Sub
+    Partial Private Sub OnMONEDAChanged()
+    End Sub
+    Partial Private Sub OnTIP_CAMChanging(value As System.Nullable(Of Double))
+    End Sub
+    Partial Private Sub OnTIP_CAMChanged()
+    End Sub
+    Partial Private Sub OnVENTAChanging(value As System.Nullable(Of Integer))
+    End Sub
+    Partial Private Sub OnVENTAChanged()
+    End Sub
+    Partial Private Sub OnCOBRADORChanging(value As String)
+    End Sub
+    Partial Private Sub OnCOBRADORChanged()
+    End Sub
+    Partial Private Sub OnOBSERVChanging(value As String)
+    End Sub
+    Partial Private Sub OnOBSERVChanged()
+    End Sub
+    Partial Private Sub OnCONTABChanging(value As System.Nullable(Of Short))
+    End Sub
+    Partial Private Sub OnCONTABChanged()
+    End Sub
+    Partial Private Sub OnABONOChanging(value As System.Nullable(Of Integer))
+    End Sub
+    Partial Private Sub OnABONOChanged()
+    End Sub
+    Partial Private Sub OnUSUARIOChanging(value As String)
+    End Sub
+    Partial Private Sub OnUSUARIOChanged()
+    End Sub
+    Partial Private Sub OnUSUFECHAChanging(value As System.Nullable(Of Date))
+    End Sub
+    Partial Private Sub OnUSUFECHAChanged()
+    End Sub
+    Partial Private Sub OnUSUHORAChanging(value As String)
+    End Sub
+    Partial Private Sub OnUSUHORAChanged()
+    End Sub
+    Partial Private Sub OnconceptoChanging(value As String)
+    End Sub
+    Partial Private Sub OnconceptoChanged()
+    End Sub
+    Partial Private Sub OnSSMA_TimeStampChanging(value As System.Data.Linq.Binary)
+    End Sub
+    Partial Private Sub OnSSMA_TimeStampChanged()
+    End Sub
+    #End Region
+	
+	Public Sub New()
+		MyBase.New
+		OnCreated
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_id", AutoSync:=AutoSync.OnInsert, DbType:="Int NOT NULL IDENTITY", IsPrimaryKey:=true, IsDbGenerated:=true, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property id() As Integer
+		Get
+			Return Me._id
+		End Get
+		Set
+			If ((Me._id = value)  _
+						= false) Then
+				Me.OnidChanging(value)
+				Me.SendPropertyChanging
+				Me._id = value
+				Me.SendPropertyChanged("id")
+				Me.OnidChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_COBRANZA", DbType:="Int", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property COBRANZA() As System.Nullable(Of Integer)
+		Get
+			Return Me._COBRANZA
+		End Get
+		Set
+			If (Me._COBRANZA.Equals(value) = false) Then
+				Me.OnCOBRANZAChanging(value)
+				Me.SendPropertyChanging
+				Me._COBRANZA = value
+				Me.SendPropertyChanged("COBRANZA")
+				Me.OnCOBRANZAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CLIENTE", DbType:="NVarChar(30)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property CLIENTE() As String
+		Get
+			Return Me._CLIENTE
+		End Get
+		Set
+			If (String.Equals(Me._CLIENTE, value) = false) Then
+				Me.OnCLIENTEChanging(value)
+				Me.SendPropertyChanging
+				Me._CLIENTE = value
+				Me.SendPropertyChanged("CLIENTE")
+				Me.OnCLIENTEChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_FECHA", DbType:="DateTime", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property FECHA() As System.Nullable(Of Date)
+		Get
+			Return Me._FECHA
+		End Get
+		Set
+			If (Me._FECHA.Equals(value) = false) Then
+				Me.OnFECHAChanging(value)
+				Me.SendPropertyChanging
+				Me._FECHA = value
+				Me.SendPropertyChanged("FECHA")
+				Me.OnFECHAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_serieDocumento", DbType:="NChar(20)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property serieDocumento() As String
+		Get
+			Return Me._serieDocumento
+		End Get
+		Set
+			If (String.Equals(Me._serieDocumento, value) = false) Then
+				Me.OnserieDocumentoChanging(value)
+				Me.SendPropertyChanging
+				Me._serieDocumento = value
+				Me.SendPropertyChanged("serieDocumento")
+				Me.OnserieDocumentoChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_TIPO_DOC", DbType:="NVarChar(3)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property TIPO_DOC() As String
+		Get
+			Return Me._TIPO_DOC
+		End Get
+		Set
+			If (String.Equals(Me._TIPO_DOC, value) = false) Then
+				Me.OnTIPO_DOCChanging(value)
+				Me.SendPropertyChanging
+				Me._TIPO_DOC = value
+				Me.SendPropertyChanged("TIPO_DOC")
+				Me.OnTIPO_DOCChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_NO_REFEREN", DbType:="NVarChar(50)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property NO_REFEREN() As String
+		Get
+			Return Me._NO_REFEREN
+		End Get
+		Set
+			If (String.Equals(Me._NO_REFEREN, value) = false) Then
+				Me.OnNO_REFERENChanging(value)
+				Me.SendPropertyChanging
+				Me._NO_REFEREN = value
+				Me.SendPropertyChanged("NO_REFEREN")
+				Me.OnNO_REFERENChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_Cargo_ab", DbType:="NVarChar(1)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property Cargo_ab() As String
+		Get
+			Return Me._Cargo_ab
+		End Get
+		Set
+			If (String.Equals(Me._Cargo_ab, value) = false) Then
+				Me.OnCargo_abChanging(value)
+				Me.SendPropertyChanging
+				Me._Cargo_ab = value
+				Me.SendPropertyChanged("Cargo_ab")
+				Me.OnCargo_abChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_IMPORTE", DbType:="Float", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property IMPORTE() As System.Nullable(Of Double)
+		Get
+			Return Me._IMPORTE
+		End Get
+		Set
+			If (Me._IMPORTE.Equals(value) = false) Then
+				Me.OnIMPORTEChanging(value)
+				Me.SendPropertyChanging
+				Me._IMPORTE = value
+				Me.SendPropertyChanged("IMPORTE")
+				Me.OnIMPORTEChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_MONEDA", DbType:="NVarChar(5)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property MONEDA() As String
+		Get
+			Return Me._MONEDA
+		End Get
+		Set
+			If (String.Equals(Me._MONEDA, value) = false) Then
+				Me.OnMONEDAChanging(value)
+				Me.SendPropertyChanging
+				Me._MONEDA = value
+				Me.SendPropertyChanged("MONEDA")
+				Me.OnMONEDAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_TIP_CAM", DbType:="Float", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property TIP_CAM() As System.Nullable(Of Double)
+		Get
+			Return Me._TIP_CAM
+		End Get
+		Set
+			If (Me._TIP_CAM.Equals(value) = false) Then
+				Me.OnTIP_CAMChanging(value)
+				Me.SendPropertyChanging
+				Me._TIP_CAM = value
+				Me.SendPropertyChanged("TIP_CAM")
+				Me.OnTIP_CAMChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_VENTA", DbType:="Int", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property VENTA() As System.Nullable(Of Integer)
+		Get
+			Return Me._VENTA
+		End Get
+		Set
+			If (Me._VENTA.Equals(value) = false) Then
+				Me.OnVENTAChanging(value)
+				Me.SendPropertyChanging
+				Me._VENTA = value
+				Me.SendPropertyChanged("VENTA")
+				Me.OnVENTAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_COBRADOR", DbType:="NVarChar(5)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property COBRADOR() As String
+		Get
+			Return Me._COBRADOR
+		End Get
+		Set
+			If (String.Equals(Me._COBRADOR, value) = false) Then
+				Me.OnCOBRADORChanging(value)
+				Me.SendPropertyChanging
+				Me._COBRADOR = value
+				Me.SendPropertyChanged("COBRADOR")
+				Me.OnCOBRADORChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_OBSERV", DbType:="NVarChar(255)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property OBSERV() As String
+		Get
+			Return Me._OBSERV
+		End Get
+		Set
+			If (String.Equals(Me._OBSERV, value) = false) Then
+				Me.OnOBSERVChanging(value)
+				Me.SendPropertyChanging
+				Me._OBSERV = value
+				Me.SendPropertyChanged("OBSERV")
+				Me.OnOBSERVChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CONTAB", DbType:="SmallInt", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property CONTAB() As System.Nullable(Of Short)
+		Get
+			Return Me._CONTAB
+		End Get
+		Set
+			If (Me._CONTAB.Equals(value) = false) Then
+				Me.OnCONTABChanging(value)
+				Me.SendPropertyChanging
+				Me._CONTAB = value
+				Me.SendPropertyChanged("CONTAB")
+				Me.OnCONTABChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_ABONO", DbType:="Int", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property ABONO() As System.Nullable(Of Integer)
+		Get
+			Return Me._ABONO
+		End Get
+		Set
+			If (Me._ABONO.Equals(value) = false) Then
+				Me.OnABONOChanging(value)
+				Me.SendPropertyChanging
+				Me._ABONO = value
+				Me.SendPropertyChanged("ABONO")
+				Me.OnABONOChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_USUARIO", DbType:="NVarChar(10)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property USUARIO() As String
+		Get
+			Return Me._USUARIO
+		End Get
+		Set
+			If (String.Equals(Me._USUARIO, value) = false) Then
+				Me.OnUSUARIOChanging(value)
+				Me.SendPropertyChanging
+				Me._USUARIO = value
+				Me.SendPropertyChanged("USUARIO")
+				Me.OnUSUARIOChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_USUFECHA", DbType:="DateTime", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property USUFECHA() As System.Nullable(Of Date)
+		Get
+			Return Me._USUFECHA
+		End Get
+		Set
+			If (Me._USUFECHA.Equals(value) = false) Then
+				Me.OnUSUFECHAChanging(value)
+				Me.SendPropertyChanging
+				Me._USUFECHA = value
+				Me.SendPropertyChanged("USUFECHA")
+				Me.OnUSUFECHAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_USUHORA", DbType:="NVarChar(8)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property USUHORA() As String
+		Get
+			Return Me._USUHORA
+		End Get
+		Set
+			If (String.Equals(Me._USUHORA, value) = false) Then
+				Me.OnUSUHORAChanging(value)
+				Me.SendPropertyChanging
+				Me._USUHORA = value
+				Me.SendPropertyChanged("USUHORA")
+				Me.OnUSUHORAChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_concepto", DbType:="NVarChar(5)", UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property concepto() As String
+		Get
+			Return Me._concepto
+		End Get
+		Set
+			If (String.Equals(Me._concepto, value) = false) Then
+				Me.OnconceptoChanging(value)
+				Me.SendPropertyChanging
+				Me._concepto = value
+				Me.SendPropertyChanged("concepto")
+				Me.OnconceptoChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_SSMA_TimeStamp", AutoSync:=AutoSync.Always, DbType:="rowversion NOT NULL", CanBeNull:=false, IsDbGenerated:=true, IsVersion:=true, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property SSMA_TimeStamp() As System.Data.Linq.Binary
+		Get
+			Return Me._SSMA_TimeStamp
+		End Get
+		Set
+			If (Object.Equals(Me._SSMA_TimeStamp, value) = false) Then
+				Me.OnSSMA_TimeStampChanging(value)
+				Me.SendPropertyChanging
+				Me._SSMA_TimeStamp = value
+				Me.SendPropertyChanged("SSMA_TimeStamp")
+				Me.OnSSMA_TimeStampChanged
 			End If
 		End Set
 	End Property

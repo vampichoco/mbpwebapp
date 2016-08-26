@@ -2,28 +2,44 @@
     onLoad();
 }); 
 
-function onLoad(){ 
+function onLoad() {
+
+        
     
         opendb();
         statCheck2();
         getState();
     
         // Main page handlers   
-        $('#sendButton'        ).click(sellsingle           );    // Sell Single Click
-        //$('#addButton'       ).click(addProd              );    // Add prod to prods to be sent
-        $('#addButton'         ).click(addProdOffline       );    // Add prod to prods to be sent
-        //$('#terminateButton' ).click(terminateSell        );    // terminate sell on click
-        //$('#terminateButton' ).click(insertPendingSell    );
-        $('#terminateButton'   ).click(insertPendingSell    ); 
-        //$('#searchProdButton').click(populateSearch       );    // On search prod click
-        //$('#searchClientButton').click(searchClient       );    // On search client click 
-        $('#searchClientButton').click(searchClientOffline  );    // On search client offline
-        $('#saveUserBtn'       ).click(saveUser             );    // On Save user click
-        // x $('#connectdb'    ).click(opendb               );
-        $('#syncdb'            ).click(syncdb               ); 
-        $('#searchProdButton'  ).click(searchProdOffline    );
-        $('#connectserver'     ).click(statCheck2           );
-        
+        $('#sendButton'            ).click(sellsingle           );    // Sell Single Click
+        //$('#addButton'           ).click(addProd              );    // Add prod to prods to be sent
+        $('#addButton'             ).click(addProdOffline       );    // Add prod to prods to be sent
+        //$('#terminateButton'     ).click(terminateSell        );    // terminate sell on click
+        //$('#terminateButton'     ).click(insertPendingSell    );
+        $('#terminateButton'       ).click(insertPendingSell    ); 
+        //$('#searchProdButton'    ).click(populateSearch       );    // On search prod click
+        //$('#searchClientButton'  ).click(searchClient         );    // On search client click 
+        $('#searchClientButton'    ).click(searchClientOffline  );    // On search client offline
+        $('#saveUserBtn').click(saveUser);    // On Save user click
+        $('#syncdb').click(syncdb);
+        // x $('#connectdb'        ).click(opendb               );    
+         
+        $('#searchProdButton'      ).click(searchProdOffline    );
+        $('#connectserver'         ).click(statCheck2           );
+        $('#displayClavesaddBtn'   ).click(displayClavesadd     );
+        $('#mnuDisplayCob').click(openCob);
+
+        //$('#connectserver').click(function () {
+        //    localStorage.setItem("workoffline", "false");
+        //    statCheck2();
+        //    window.alert("hello1");
+        //});
+
+        //$('#workofflineButton').click(function () {
+        //    window.alert("Attemting to work Offline");
+        //    localStorage.setItem("workoffline", "true");
+        //    workOffline()
+        //});
         
         $('#viewpendingsales'  ).click(function(){
             renderPendingSales(); 
@@ -33,6 +49,39 @@ function onLoad(){
         $('#prodtb').click(function(){
            $('#searchProdModal').modal("show"); 
         });
+
+        var wo = localStorage.getItem("workoffline")
+        if (wo == "true") {
+            $('#connToggle').bootstrapToggle('off')
+        } else {
+            $('#connToggle').bootstrapToggle('on')
+        }
+
+        $('#connToggle').change(function () {
+            var val = $(this).prop('checked');
+            if (val == true) {
+                localStorage.setItem("workoffline", "false");
+                statCheck2();
+                
+            } else {
+                //window.alert("Attemting to work Offline");
+                localStorage.setItem("workoffline", "true");
+                workOffline()
+            }
+        });
+
+        function openCob() {
+            var wo = localStorage.getItem("workoffline");
+
+            if (wo == "true") {
+                getCobOffline();
+            } else {
+                getCob();
+            }
+
+            $('#cobScreen').attr("style", "width:100%");
+            
+        }
 
         //Get enpoint setting
         var endpoint = localStorage.getItem("endpoint");
@@ -87,4 +136,6 @@ function onLoad(){
             saveState();
             
         });
+
+  
 }

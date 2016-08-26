@@ -176,7 +176,6 @@
       <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
       <Column Name="iepslitro" Type="System.Decimal" DbType="SmallMoney" CanBeNull="true" />
       <Column Name="FactCierre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="venta_partvta" Member="venta1" ThisKey="VENTA" OtherKey="VENTA" Type="venta" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ventas" Member="ventas">
@@ -303,7 +302,6 @@
       <Column Name="pedimentos" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="UUID" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
       <Column Name="ComprobanteXML" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="venta_partvta" Member="partvtas" ThisKey="VENTA" OtherKey="VENTA" Type="partvta" />
     </Type>
   </Table>
   <Table Name="dbo.clients" Member="clients">
@@ -448,6 +446,56 @@
     <Type Name="consec">
       <Column Name="Dato" Type="System.String" DbType="NVarChar(40) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Consec" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.cobranza" Member="cobranzas">
+    <Type Name="cobranza">
+      <Column Name="COBRANZA" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CLIENTE" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="FECHA" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="serieDocumento" Type="System.String" DbType="NChar(20)" CanBeNull="true" />
+      <Column Name="TIPO_DOC" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="NO_REFEREN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FECHA_VENC" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IMPORTE" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="MONEDA" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="SALDO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="TIP_CAM" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="VENTA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="COBRADOR" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="ESTADO" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Column Name="OBSERV" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CONTAB" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="USUARIO" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="USUFECHA" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="USUHORA" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="Leyenda" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.cobdet" Member="cobdets">
+    <Type Name="cobdet">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="COBRANZA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CLIENTE" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="FECHA" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="serieDocumento" Type="System.String" DbType="NChar(20)" CanBeNull="true" />
+      <Column Name="TIPO_DOC" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="NO_REFEREN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Cargo_ab" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Column Name="IMPORTE" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="MONEDA" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="TIP_CAM" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="VENTA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="COBRADOR" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="OBSERV" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CONTAB" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="ABONO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="USUARIO" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="USUFECHA" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="USUHORA" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="concepto" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
     </Type>
   </Table>
 </Database>
