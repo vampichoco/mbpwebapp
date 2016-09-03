@@ -20,14 +20,15 @@ function onLoad() {
         //$('#searchProdButton'    ).click(populateSearch       );    // On search prod click
         //$('#searchClientButton'  ).click(searchClient         );    // On search client click 
         $('#searchClientButton'    ).click(searchClientOffline  );    // On search client offline
-        $('#saveUserBtn').click(saveUser);    // On Save user click
-        $('#syncdb').click(syncdb);
+        $('#saveUserBtn'           ).click(saveUser             );    // On Save user click
+        $('#syncdb'                ).click(syncdb               );
         // x $('#connectdb'        ).click(opendb               );    
          
         $('#searchProdButton'      ).click(searchProdOffline    );
         $('#connectserver'         ).click(statCheck2           );
         $('#displayClavesaddBtn'   ).click(displayClavesadd     );
-        $('#mnuDisplayCob').click(openCob);
+        $('#mnuDisplayCob'         ).click(openCob              );
+        $('#pendingButton'         ).click(insertPendingSell    );
 
         //$('#connectserver').click(function () {
         //    localStorage.setItem("workoffline", "false");
@@ -42,7 +43,8 @@ function onLoad() {
         //});
         
         $('#viewpendingsales'  ).click(function(){
-            renderPendingSales(); 
+            renderPendingSales();
+            getPendingCob();
             $('#pendingSalesModal').modal("show");
         }) 
         
@@ -137,5 +139,16 @@ function onLoad() {
             
         });
 
+
+        $('#pricetb').change(function () {
+            var p = $('#pricetb').val();
+            localStorage.setItem("price", p);
+        })
+
+        $('#qtytb').change(function () {
+            window.alert("hello");
+            var q = $('#qtytb').val();
+            localStorage.setItem("qty", q);
+        });
   
 }

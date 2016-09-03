@@ -158,7 +158,7 @@
 
                         <button type="button" id="terminateButton" name="terminateButton" class="btn btn-success">Terminar</button>
 
-                        <button type="button" id="terminateButton" name="terminateButton" class="btn btn-warning">Pendiente</button>
+                        <button type="button" id="pendingButton" name="pendingButton" class="btn btn-warning">Pendiente</button>
                     </div>
                 </div>
                 
@@ -395,11 +395,16 @@
                 <div class="modal-body">
                     <div class="form-item">
                         <h4>Ventas pendientes</h4>
+
+                        <div id="pendingSalesList">
+                            <ul class="list-group"></ul>
+                        </div>
+
                     </div>
                     <div class="form-item">
                         <h4>Abonos pendientes</h4>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table id="pendingCobTable" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th><strong>Documento</strong></th>
