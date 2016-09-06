@@ -4,11 +4,16 @@
 
 function onLoad() {
 
-        
+    messageBox('Hola', "Cuadro de mensaje",
+        function () { window.alert("ok") },
+        function () { window.alert("cancel") },
+        function () { window.alert("Style"); YesNo("Sí", "No")});
     
         opendb();
         statCheck2();
         getState();
+
+        
     
         // Main page handlers   
         $('#sendButton'            ).click(sellsingle           );    // Sell Single Click

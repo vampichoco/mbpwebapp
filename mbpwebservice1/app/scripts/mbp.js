@@ -229,8 +229,8 @@ function renderPartida(partida){
     li.append(content); 
     
     li.click(function(){
-        var i = Partidas.length - 1;
-        var p = Partidas[i]; 
+        var i = Partidas.indexOf(partida);
+        var p = partida; 
         
         $('#tituloPartida').html(p.Descrip);
         setEditActions(i, p)
@@ -1152,28 +1152,61 @@ function getPendingSales(){
     
     
     db.ventas.toCollection().each(function(item){
-        var div = $('<div class="list-group-item"></div>');
-        var span = '<span>' + "venta: " + item.id + ", importe: " + item.PRECIO + '<span>';
-        var br = '<br />';
-        var button = $('<button type="button" class="btn btn-success">Enviar a MyBusiness</button>').click(
+        //var div = $('<div class="list-group-item"></div>');
+        //var span = '<span>' + "venta: " + item.id + ", importe: " + item.PRECIO + '<span>';
+        //var br = '<br />';
+        //var button = $('<button type="button" class="btn btn-small btn-success">Enviar a MyBusiness</button>').click(
+        //    function () {
+        //        window.alert(item.id);
+        //        terminateSell2(item);
+        //    }
+        //);
+
+        //var button2 = $('<button tuype="button" class="btn btn-small btn-success">Modificar venta</button>').click(
+        //    function () {
+        //        restorePendingSale(item.id);
+        //        $('#pendingSalesModal').modal('hide');
+        //    });
+
+        //div.append(span);
+        //div.append(br);
+        //div.append(button);
+        //div.append(button2);
+
+        //$('#pendingSalesList ul').append(div);
+
+        // --------------------------- //
+
+        var tr = $('<tr></tr>');
+        var terminateButton = $('<button type="button" class="btn btn-sm btn-success">modificar</button>').click(
+            function () {
+                restorePendingSale(item.id);
+                $('#pendingSalesModal').modal('hide');
+            }
+        );
+
+        var modifyButton = $('<button type="button" class="btn btn-sm btn-success">terminar</button>').click(
             function () {
                 window.alert(item.id);
                 terminateSell2(item);
             }
         );
 
-        var button2 = $('<button tuype="button" class="btn btn-success">Modificar venta</button>').click(
-            function () {
-                restorePendingSale(item.id);
-                $('#pendingSalesModal').modal('hide');
-            });
+        var removeButton = $('<button type="button" class="btn btn-sm btn-success">terminar</button>');
+
+        tr.append($('<th></th>').html(item.id))
+        tr.append($('<th></th>').html(item.CLIENTE))
+
+        tr.append($('<th></th>').html(terminateButton));
+        tr.append($('<th></th>').html(modifyButton));
+        tr.append($('<th></th>').html(removeButton));
+
+        $('#pendingSaleTable tbody').remove()
+
+        $('#pendingSaleTable').append($('<tbody></tbody>'));
+        $('#pendingSaleTable tbody').append(tr)
             
-        div.append(span);
-        div.append(br);
-        div.append(button);
-        div.append(button2);
-            
-        $('#pendingSalesList ul').append(div);
+        
     }); 
     
 }
@@ -1274,7 +1307,7 @@ function getState(){
     if (parStr.length > 0){
         Partidas = JSON.parse(parStr); 
         
-        $.each(Partidas, function(inde, value){
+        $.each(Partidas, function(index, value){
            renderPartida(value); 
         });
         
@@ -1324,32 +1357,83 @@ function calculateTotal(){
 }
 
 function restorePendingSale(id) {
-    
+
     var cliente = $('#clienttb').val();
     var vendor = $('#usertb').val();
 
-    if (isEmpty(cliente) == false && isEmpty(vendor) == false) {
-        insertPendingSell();
-        clearState();
+    messageBox(
+            'Venta pendiente?',
+            '¿Deseas conservar la venta actual como pendiente?',
+            function () {
+                insertPendingSell();
+                restorePendingSale(id);
+                closeMessage();
+                $('#configModal').modal('hide');
+            },
+            function () {
+                restorePendingSale2(id);
+                $('#configModal').modal('hide');
+                closeMessage();
+            }, 
+            function () { YesNo("Sí", "No") });
 
-        db.ventas.get(id, function (item) {
-            Partidas = item.PARTIDAS
-            cliente = item.CLIENTE
+}
 
-            saveState();
 
-            $.each(item.PARTIDAS, function (i, k) {
-                window.alert(JSON.stringify(k));
-                renderPartida(k);
-            });
+function restorePendingSale2(id) {
+    clearState();
 
+    db.ventas.get(id, function (item) {
+        Partidas = item.PARTIDAS
+        cliente = item.CLIENTE
+
+        saveState();
+
+        $.each(item.PARTIDAS, function (i, k) {
+            window.alert(JSON.stringify(k));
+            renderPartida(k);
         });
 
-    } else {
-        setStatLabel("warning", "Para realizar esta accion especifica cliente y vendedor")
-    }
+    });
+
+    db.ventas.delete(id).then(function () { console.log("deleted from ventas: " + id) });
+}
+
+function closeMessage() {
+    window.alert('close message');
+    $('#messageModal').modal('hide');
 }
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
+}
+
+function messageBox(title, text, accept, cancel, style) {
+    $('#messageTitle' ).html(title );
+    $('#messageText'  ).html(text  );
+    $('#messageAccept').unbind('click').click(accept);
+    $('#messageCancel').unbind('click').click(cancel);
+
+    $('#messageModal').modal('show');
+
+    style();
+}
+
+// Message styles 
+
+function YesNo(yes, no) {
+    window.alert(yes);
+    $('#messageAccept').html(yes);
+    $('#messageCancel').html(no);
+}
+
+function AcceptCancel(accept, cancel) {
+    $('#messageAccept').val(accept);
+    $('#messageCancel').val(cancel);
+}
+
+function accept(accept) {
+    $('#messageAccept').val(accept);
+    $('#messageCancel').attr('style', 'visibility:hidden');
+
 }

@@ -393,14 +393,26 @@
                     <h4 class="modal-title">Transacciones pendientes</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-item">
-                        <h4>Ventas pendientes</h4>
+                    <h4>Ventas pendientes</h4>
 
-                        <div id="pendingSalesList">
-                            <ul class="list-group"></ul>
+                    <div>
+                        <div class="table-responsive">
+                            <table id="pendingSaleTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><strong>id</strong></th>
+                                        <th><strong>cliente</strong></th>
+                                        <th><strong>terminar</strong></th>
+                                        <th><strong>editar</strong></th>
+                                        <th><strong>eliminar</strong></th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
-
                     </div>
+
+                    <hr />
+
                     <div class="form-item">
                         <h4>Abonos pendientes</h4>
                         <div class="table-responsive">
@@ -594,6 +606,32 @@
 
         </div>
     </div><!-- End of cobdet modal-->
+
+    <div class="modal fade" id="messageModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span id="messageTitle"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="messageText">
+
+                    </div>
+                    <hr />
+                    <button class="btn btn-info" id="messageAccept">Aceptar</button>
+                    <button class="btn btn-danger" id="messageCancel">Cancelar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 
     <script src="scripts/jquery-2.2.3.min.js"></script>
