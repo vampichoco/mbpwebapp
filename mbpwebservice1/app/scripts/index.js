@@ -4,10 +4,10 @@
 
 function onLoad() {
 
-    messageBox('Hola', "Cuadro de mensaje",
-        function () { window.alert("ok") },
-        function () { window.alert("cancel") },
-        function () { window.alert("Style"); YesNo("Sí", "No")});
+    //inputBox('Hola', "Cuadro de mensaje",
+    //    function () { window.alert($("#messagetb").val()) },
+    //    function () { window.alert("cancel") },
+    //    function () { window.alert("Style"); accept("Aceptar")});
     
         opendb();
         statCheck2();
@@ -45,7 +45,19 @@ function onLoad() {
         //    window.alert("Attemting to work Offline");
         //    localStorage.setItem("workoffline", "true");
         //    workOffline()
-        //});
+    //});
+
+        var __user__ = localStorage.getItem("user");
+
+        if (isEmpty(__user__)){
+            inputBox("Usuario", "Por favor introduce tu clave de vendedor",
+                function () {
+                    localStorage.setItem("user", $('#messagetb').val());
+                    closeInput();
+                },
+                function () { },
+                function () { accept(); });
+        }
         
         $('#viewpendingsales'  ).click(function(){
             renderPendingSales();
@@ -53,8 +65,16 @@ function onLoad() {
             $('#pendingSalesModal').modal("show");
         }) 
         
-        $('#prodtb').click(function(){
-           $('#searchProdModal').modal("show"); 
+        $('#prodtb').click(function (e) {
+            e.preventDefault();
+
+            $('#searchProdModal').modal("show");
+
+            var input = $("#searchProdText");
+            input[0].selectionStart = 0
+
+            $('#searchProdText').focus()
+            $('#prodSearch ul').empty();
         });
 
         var wo = localStorage.getItem("workoffline")

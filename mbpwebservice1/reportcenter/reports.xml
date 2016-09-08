@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<reportList>
+  <report name="prods">
+    <info>
+      <descrip>
+        <![CDATA[Obtiene una lista filtrada de articulos que incluye su clave y descripción]]>
+      </descrip>
+      <author>Víctor</author>
+    </info>
+    <filter>
+      <where><![CDATA[ARTICULO == @0]]></where>
+      <select>New(Articulo, DESCRIP)</select>
+      <scope>prods</scope>
+    </filter>
+  </report>
+</reportList>

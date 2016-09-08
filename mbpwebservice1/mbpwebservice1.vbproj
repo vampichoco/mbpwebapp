@@ -397,10 +397,7 @@
     <Content Include="app\scripts\jquery-2.2.3.min.map" />
     <Content Include="cob.ashx" />
     <Content Include="cobdet.ashx" />
-    <None Include="reportcenter\index.cwml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <Content Include="reportcenter\layout.xml" />
+    <Content Include="reportcenter\reports.xml" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="style.css" />
@@ -469,6 +466,10 @@
     <Compile Include="prods.ashx.vb">
       <DependentUpon>prods.ashx</DependentUpon>
     </Compile>
+    <Compile Include="reportcenter\DynamicLinq.vb" />
+    <Compile Include="reportcenter\getreport.ashx.vb">
+      <DependentUpon>getreport.ashx</DependentUpon>
+    </Compile>
     <Compile Include="search.ashx.vb">
       <DependentUpon>search.ashx</DependentUpon>
     </Compile>
@@ -527,6 +528,7 @@
     <Content Include="searchclient.ashx" />
     <Content Include="vends.ashx" />
     <Content Include="synccob.ashx" />
+    <Content Include="reportcenter\getreport.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

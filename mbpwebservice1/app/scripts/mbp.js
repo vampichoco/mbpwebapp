@@ -96,6 +96,8 @@ function addToProdList(item)
          
         $('#searchProdModal').modal('hide');
         saveState();
+
+        $('#prodSearch ul').empty();
         
         //if (item.clavesadd.length > 0) {
         //    selectclaveadd(item.clavesadd, item);
@@ -103,6 +105,8 @@ function addToProdList(item)
          
         // Selecciona la linea de abajo para agregar el articulo directamente
         //selectclaveadd2(item.ARTICULO);
+
+        
     })
       
     console.log(id + ";");
@@ -422,6 +426,8 @@ function terminateSell() {
    var clientid = $('#clienttb').val(); 
    var vend = $('#usertb').val(); 
     
+   console.log(Partidas.length + ", " + clientid.length + ", " + vend.length)
+
    if (Partidas.length > 0 && clientid.length > 0 && vend.length > 0){
        var endoint = localStorage.getItem("endpoint");
 
@@ -448,7 +454,7 @@ function terminateSell() {
    
    clearState();
    } else {
-       setStatLabel("warning", "Especifica un cliente y un vendedor");
+       setStatLabel("warning", "Especifica un cliente y un vendedor==");
    }
    
 }
@@ -1187,7 +1193,7 @@ function getPendingSales(){
 
         var modifyButton = $('<button type="button" class="btn btn-sm btn-success">terminar</button>').click(
             function () {
-                window.alert(item.id);
+                //window.alert(item.id);
                 terminateSell2(item);
             }
         );
@@ -1390,7 +1396,7 @@ function restorePendingSale2(id) {
         saveState();
 
         $.each(item.PARTIDAS, function (i, k) {
-            window.alert(JSON.stringify(k));
+            //window.alert(JSON.stringify(k));
             renderPartida(k);
         });
 
@@ -1400,8 +1406,12 @@ function restorePendingSale2(id) {
 }
 
 function closeMessage() {
-    window.alert('close message');
+    //window.alert('close message');
     $('#messageModal').modal('hide');
+}
+
+function closeInput() {
+    $('#inputModal').modal('hide');
 }
 
 function isEmpty(str) {
@@ -1419,21 +1429,47 @@ function messageBox(title, text, accept, cancel, style) {
     style();
 }
 
+function inputBox(title, text, accept, cancel, style) {
+    $('#inputTitle').html(title);
+    $('#inputText').html(text);
+    $('#inputAccept').unbind('click').click(accept);
+    $('#inputCancel').unbind('click').click(cancel);
+
+    $('#inputModal').modal('show');
+
+    
+
+    style();
+}
+
 // Message styles 
 
 function YesNo(yes, no) {
-    window.alert(yes);
-    $('#messageAccept').html(yes);
-    $('#messageCancel').html(no);
+    //window.alert(yes);
+    $('#messageAccept'     ).html(yes );
+    $('#messageCancel'     ).html(no  );
+    $('#inputAccept'       ).html(yes );
+    $('#inputCancel'       ).html(no  );
+
+    $('#inputAccept').removeAttr("style");
+    $('#inputAccept').attr('style', 'visibility:visible');
 }
 
 function AcceptCancel(accept, cancel) {
-    $('#messageAccept').val(accept);
-    $('#messageCancel').val(cancel);
+    $('#messageAccept' ).val(accept  );
+    $('#messageCancel' ).val(cancel  );
+    $('#inputAccept'   ).val(accept  );
+    $('#inputCancel'   ).val(cancel  );
+
+    $('#inputCancel').removeAttr("style");
+    $('#inputCancel').attr('style', 'visibility:visible');
 }
 
 function accept(accept) {
     $('#messageAccept').val(accept);
     $('#messageCancel').attr('style', 'visibility:hidden');
+
+    $('#inputAccept').val(accept);
+    $('#inputCancel').attr('style', 'visibility:hidden');
 
 }

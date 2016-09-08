@@ -294,7 +294,7 @@
                     <div class="form-group">
 
                         <div class="form-item">
-                            <input type="text" id="searchProdText" name="usearchProdText" class="form-control" placeholder="Descripci&oacute;n del articulo" />
+                            <input type="text" id="searchProdText" name="usearchProdText" class="form-control" placeholder="Descripci&oacute;n del articulo" autofocus />
 
                         </div>
 
@@ -620,9 +620,43 @@
                     <div id="messageText">
 
                     </div>
+
                     <hr />
+
                     <button class="btn btn-info" id="messageAccept">Aceptar</button>
                     <button class="btn btn-danger" id="messageCancel">Cancelar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="inputModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span id="inputTitle"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="inputText">
+
+                    </div>
+
+                    <div class="form-item">
+                        <input type="text" class="form-control" id="messagetb" />
+                    </div>
+
+                    <hr />
+
+                    <button class="btn btn-info" id="inputAccept">Aceptar</button>
+                    <button class="btn btn-danger" id="inputCancel">Cancelar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
