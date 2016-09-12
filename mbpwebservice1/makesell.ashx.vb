@@ -161,8 +161,19 @@ Public Class makesell
 
                 db.SubmitChanges()
             Catch ex As Exception
-                .Response.StatusCode = 500
+
+                Dim json As New JavaScriptSerializer
+
                 Debug.WriteLine("==" & ex.Message)
+
+                Dim err As New With {.error = ex.Message,
+                    .stackTrace = ex.StackTrace,
+                    .targetSite = ex.TargetSite}
+
+                context.Response.Write(json.Serialize(err))
+                .Response.StatusCode = 500
+
+
             End Try
 
 

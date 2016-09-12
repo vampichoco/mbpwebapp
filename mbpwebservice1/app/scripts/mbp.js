@@ -448,7 +448,9 @@ function terminateSell() {
             setStatLabel("success", "Venta hecha");
             console.log('res', res);
             // Do something with the result :)
-       }); 
+       }).fail(function (err) {
+           console.log('err', err);
+       })
    
    // clear state and gui
    
