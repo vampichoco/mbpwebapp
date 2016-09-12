@@ -99,8 +99,8 @@ Public Class prods
                             .C3 = prod.C6,
                             .U = GetUniqueID(Guid.NewGuid()),
                             .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
-                            .clavessadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
-                                           Select New With {
+                            .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
+                                          Select New With {
                                                .Clave = cadd.Clave,
                                                .Articulo = cadd.Articulo,
                                                .Precio = cadd.Precio,

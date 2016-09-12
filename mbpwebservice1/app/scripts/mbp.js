@@ -586,7 +586,9 @@ function validateProd(){
 } 
 
 function displayClavesadd() {
+    console.log(JSON.stringify(currentProd))
     if (currentProd.clavesadd.length > 0) {
+        console.log(JSON.stringify(currentProd))
         selectclaveadd(currentProd.clavesadd, currentProd);
     }
 }
@@ -802,15 +804,13 @@ function sendCob(newcob) {
 
 function validateProdOffline(){
     
-    var prod = $('#prodtb').val(); 
-    
-    read(prod, function(result){
-        
-        currentProd = result; 
-        setStatLabel("info", result.DESCRIP); 
-        
+    var prod = $('#prodtb').val();
+
+    db.prods.get(prod, function (item) {
+        currentProd = item;
+        setStatLabel("info", item.DESCRIP);
+
         saveState();
-        
     })
     
 }
@@ -1035,10 +1035,10 @@ function insertPendingSell(){
 
 function opendb(){
     
-    db = new Dexie("mbptest14");
+    db = new Dexie("mbptest16");
 
     db.version(1).stores({
-        prods: 'SP',
+        prods: 'SP,DESCRIP',
         ventas: "++id",
         clients: "cliente,nombre",
         cob: "cobId,client",
@@ -1101,7 +1101,7 @@ function searchProdOffline()
     
    
     
-    db.prods.where("SP").startsWith(key).each(function(prod){
+    db.prods.where("DESCRIP").startsWith(key).each(function(prod){
         addToProdList(prod);
     });
 } 

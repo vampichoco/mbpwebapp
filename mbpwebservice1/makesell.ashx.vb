@@ -118,7 +118,7 @@ Public Class makesell
 
 
                     Dim pv As New partvta With {
-                                 .PRECIO = precio,
+                                 .PRECIO = Math.Round(precio, 3),
                                  .ALMACEN = 1,
                                  .ARTICULO = p.ARTICULO,
                                  .VENTA = v.VENTA,
