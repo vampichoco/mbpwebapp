@@ -1285,7 +1285,7 @@ function saveState() {
     localStorage.setItem("cliente"             , client                             ); 
     localStorage.setItem("price"               , _price                             ); 
     localStorage.setItem("qty"                 , _qty                               );
-    localStorage.setItem("partidas"            , JSON.stringify(Partidas)           );
+    localStorage.setItem("partidas", JSON.stringify(Partidas));
     localStorage.setItem("currentProd", JSON.stringify(currentProd));
     
     //localStorage.setItem("producto"            , JSON.stringify(prod)               ); 
@@ -1298,12 +1298,37 @@ function getState(){
     console.log("Get state");
     
     var client = localStorage.getItem("cliente");
-    var _qty = localStorage.getItem("qty");
+
+    var _qtyStr = localStorage.getItem("qty");
+
+    var _qty = 0.0
+
+    if (!isEmpty(_qtyStr)) {
+        var _qty = parseFloat(_qtyStr)
+    } else {
+
+    }
+
+    
 
     //var prod = JSON.parse(localStorage.getItem("producto"));
-    currentProd = JSON.parse(localStorage.getItem("currentProd"));
+
+    var strCurrentProd = localStorage.getItem("currentProd");
+
+    if (strCurrentProd) {
+        currentProd = JSON.parse(strCurrentProd);
+    } else {
+
+    }
+
+    var _priceStr = localStorage.getItem("price");
     
-    var _price = parseFloat(localStorage.getItem("price"));
+    
+    if (!isEmpty(_priceStr)) {
+        _price = parseFloat(_priceStr)
+    } else {
+        _price = 0.0
+    }
      
     
     if (localStorage.getItem("partidas")){
@@ -1339,7 +1364,10 @@ function getState(){
     $("#qtytb"    ).val(_qty                    );
     $('#pricetb'  ).val(_price                  );
     $('#clienttb' ).val(client                  ); 
-    $('#prodtb'   ).val(currentProd.ARTICULO    ); 
+    
+    if (!isEmpty(currentProd)) {
+        $('#prodtb').val(currentProd.ARTICULO);
+    }
     
 }
 
