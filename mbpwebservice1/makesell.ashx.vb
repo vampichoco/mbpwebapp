@@ -10,7 +10,7 @@ Public Class makesell
 
     Sub ProcessRequest(ByVal context As HttpContext) Implements IHttpHandler.ProcessRequest
 
-
+        Dim pvCache As New List(Of partvta)
 
         With context
 
@@ -148,18 +148,26 @@ Public Class makesell
                                  }
 
                     db.partvtas.InsertOnSubmit(pv)
+                    pvCache.Add(pv)
 
                 Next
 
 
 
 
-                .Response.StatusCode = 200
+
                 Dim json As New JavaScriptSerializer()
 
-                .Response.Write(json.Serialize(v))
 
-                db.SubmitChanges()
+
+                Try
+                    db.SubmitChanges()
+                    .Response.Write(json.Serialize(v))
+                    .Response.StatusCode = 200
+                Catch ex As Exception
+                    Dim err = New With {.m = ex.Message, .v = v, .pv = pvCache}
+                    context.Response.Write(err)
+                End Try
             Catch ex As Exception
 
                 Dim json As New JavaScriptSerializer
@@ -172,6 +180,10 @@ Public Class makesell
                 context.Response.Clear()
                 context.Response.Write(json.Serialize(err))
                 .Response.StatusCode = 500
+
+
+
+
 
 
             End Try
