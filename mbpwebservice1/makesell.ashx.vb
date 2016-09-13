@@ -167,8 +167,7 @@ Public Class makesell
                 Debug.WriteLine("==" & ex.Message)
 
                 Dim err As New With {.error = ex.Message,
-                    .stackTrace = ex.StackTrace,
-                    .targetSite = ex.TargetSite}
+                    .stackTrace = ex.StackTrace}
 
                 context.Response.Clear()
                 context.Response.Write(json.Serialize(err))
