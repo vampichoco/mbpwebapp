@@ -170,6 +170,7 @@ Public Class makesell
                     .stackTrace = ex.StackTrace,
                     .targetSite = ex.TargetSite}
 
+                context.Response.Clear()
                 context.Response.Write(json.Serialize(err))
                 .Response.StatusCode = 500
 
