@@ -60,6 +60,7 @@ Public Class prods
                             .C3 = prod.C6,
                             .U = GetUniqueID(Guid.NewGuid()),
                             .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                            .CST = (prod.COSTO_U),
                             .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
                                           Select New With {
                                               .Clave = cadd.Clave,
@@ -99,6 +100,7 @@ Public Class prods
                             .C3 = prod.C6,
                             .U = GetUniqueID(Guid.NewGuid()),
                             .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                            .CST = prod.COSTO_U,
                             .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
                                           Select New With {
                                                .Clave = cadd.Clave,

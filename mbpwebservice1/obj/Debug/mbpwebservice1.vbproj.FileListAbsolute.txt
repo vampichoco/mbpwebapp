@@ -84,3 +84,4 @@ C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\upfeathers
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\moment.min.js
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\bootstrap-toggle.css
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\bootstrap-toggle.js
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\dexie.js

@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.myappd4dbbf" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.phonegap.mybusinessweb" versionCode="10" version="1.0.0">
+
+  <name>
+    MyBusiness
+  </name>
+
+  <description>
+    Aplicación web de MyBusiness
+  </description>
+
+  <author>
+    Sadzee Media
+  </author>
+  
+  <icon src="change.png" />
+  
 <access origin="*" />
-<access origin="http://192.168.100.15/" />
+<allow-intent href="*" />
+<allow-navigation href="*" />
+  
+<plugin name="cordova-plugin-whitelist" source="npm" />
+
 </widget>

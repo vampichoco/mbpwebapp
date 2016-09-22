@@ -28,6 +28,7 @@ Public Class search
                                  .C3 = prod.C6,
                                  .U = GetUniqueID(prod.ARTICULO),
                                  .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                                 .CST = prod.COSTO,
                                  .clavesadd = (From cadd In db.clavesadds
                                                Where cadd.Articulo = prod.ARTICULO
                                                Select New With {
@@ -56,6 +57,7 @@ Public Class search
                                  .C3 = prod.C6,
                                  .U = GetUniqueID(prod.ARTICULO),
                                  .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
+                                 .CST = prod.COSTO,
                                  .clavesadd = (From cadd In db.clavesadds
                                                Where cadd.Articulo = prod.ARTICULO
                                                Select New With {

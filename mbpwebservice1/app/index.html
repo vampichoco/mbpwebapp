@@ -4,9 +4,26 @@
 <head>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <meta name="mobile-web-app-capable" content="yes">
+
     <link rel="icon" sizes="256x256" href="images/change.png">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+
     <link rel="stylesheet" type="text/css" href="Content/bootstrap.min.css" />
+    <link href="css/bootstrap-toggle.css" rel="stylesheet" />
+
+    <script src="scripts/jquery-2.2.3.min.js"></script>
+    <script src="scripts/dexie.js"></script>
+
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/mbp.js"></script>
+
+    <script type="text/javascript" src="hashids.js"></script>
+    <script type="text/javascript" src="scripts/moment.min.js"></script>
+
+    <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+
+    <link href="css/bootstrap-toggle.css" rel="stylesheet" />
+    <script src="scripts/bootstrap-toggle.js" type="text/javascript"></script>
     
 
     <link rel="manifest" href="manifest.json">
@@ -168,16 +185,27 @@
 
 
        
-        <div id="prods">
-            <ul class="list-group">
-                
-            </ul>
-        </div>
+        
 
 
 
     </div>
-    <! -- Main Container -->
+    <!-- Main Container -->
+
+    
+
+    <div id="prods" class="prods">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>Total: <span id="totalLabel"></span></div>
+            </div>
+        </div>
+
+        <ul class="list-group"></ul>
+    </div>
+
+    
 
 
     <!-- =========================================================================================== -->
@@ -366,12 +394,36 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Seleccionar clave adicional</h4>
                 </div>
+                
                 <div class="modal-body">
+
+                    <div class="form-item">
+                        <div class="input-group">
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="button-press-plus">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                </button>
+                            </span>
+                            <input type="text" id="pressqtytb" name="pressqtytb" class="form-control" placeholder="Cantidad..." />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="button-press-minus">
+                                    <span class="glyphicon glyphicon-minus-sign"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <h4>Seleccione presentaci&oacute;n</h4>
+
                     <div id="presList">
                         <ul class="list-group">
                         </ul>
                     </div>    
                 </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
@@ -485,69 +537,84 @@
 
     <script type="text/javascript">
         function openNav() {
-            document.getElementById("cobScreen").style.width = "100%";
+
+            $('mainCobModal').modal('show')
+
+            
         }
 
         /* Close when someone clicks on the "x" symbol inside the overlay */
         function closeNav() {
-            document.getElementById("cobScreen").style.width = "0%";
+            $('mainCobModal').modal('hide')
         }
     </script>
 
-    <div id="cobScreen" class="overlay">
+    <div class="modal fade" id="mainCobModal" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Button to close the overlay navigation -->
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-        <!-- Overlay content -->
-        <div class="overlay-content">
-            
-            <div class="main-container">
-                <h3>Modulo de Cobranza</h3>
-                <div id="loadingCob" class="loading">
-                    <svg width='66px' height='66px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-clock">
-                        <rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect>
-                        <circle cx="50" cy="50" r="30" fill="#f7faf8" stroke="#4c5630" stroke-width="8px"></circle>
-                        <line x1="50" y1="50" x2="50" y2="30" stroke="#80aaf3" stroke-width="5" stroke-linecap="round">
-                            <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="5s" repeatCount="indefinite"></animateTransform>
-                        </line>
-                        <line x1="50" y1="50" x2="50" y2="20" stroke="#984f48" stroke-width="2px" stroke-linecap="round" opacity="0">
-                            <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1s" repeatCount="indefinite"></animateTransform>
-                        </line>
-                    </svg>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modificar partida</h4>
                 </div>
-                <div id="coblist" class="coblist">
-                    <div class="table-responsive">
-                        <table id="cobtable" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>
-                                       <strong>Id</strong>
-                                    </th>
-                                    <th>
-                                        <strong>Venta</strong>
-                                    </th>
-                                    <th>
-                                        <strong>Vence</strong>
-                                    </th>
-                                    <th>
-                                        <strong>Saldo</strong>
-                                    </th>
-                                    <th>
-                                        <strong>Abono</strong>
-                                    </th>
-                                </tr>
-                            </thead>
-                           <tbody>
+                <div class="modal-body">
+                    
 
-                           </tbody>
-                        </table>
+                    <div>
+                        <h3>Modulo de Cobranza</h3>
+                        <div id="loadingCob" class="loading">
+                            <svg width='66px' height='66px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-clock">
+                                <rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect>
+                                <circle cx="50" cy="50" r="30" fill="#f7faf8" stroke="#4c5630" stroke-width="8px"></circle>
+                                <line x1="50" y1="50" x2="50" y2="30" stroke="#80aaf3" stroke-width="5" stroke-linecap="round">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="5s" repeatCount="indefinite"></animateTransform>
+                                </line>
+                                <line x1="50" y1="50" x2="50" y2="20" stroke="#984f48" stroke-width="2px" stroke-linecap="round" opacity="0">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </line>
+                            </svg>
+                        </div>
+                        <div id="coblist" class="coblist">
+                            <div class="table-responsive">
+                                <table id="cobtable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <strong>Id</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Venta</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Vence</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Saldo</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Abono</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
+
         </div>
 
-    </div> <!-- End of cob screen-->
+    </div>
+
+    
 
     <div class="modal fade" id="cobModal" role="dialog">
         <div class="modal-dialog">
@@ -668,19 +735,7 @@
     </div>
 
 
-    <script src="scripts/jquery-2.2.3.min.js"></script>
-    <script src="https://npmcdn.com/dexie@1.4.1/dist/dexie.js"></script>
     
-    <script type="text/javascript" src="scripts/index.js"></script>
-    <script type="text/javascript" src="scripts/mbp.js"></script>
-    
-    <script type="text/javascript" src="hashids.js"></script>
-    <script type="text/javascript" src="scripts/moment.min.js"></script>
-
-    <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
-
-    <link href="css/bootstrap-toggle.css" rel="stylesheet" />
-    <script src="scripts/bootstrap-toggle.js" type="text/javascript"></script>
     
 
 

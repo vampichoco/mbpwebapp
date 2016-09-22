@@ -76,3 +76,12 @@ C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Release\mbpwebserv
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Release\mbpwebservice1.dll
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Release\mbpwebservice1.xml
 C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\obj\Release\mbpwebservice1.pdb
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\bootstrap-toggle.css
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\retina_wood_@2X.png
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\css\upfeathers.png
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\bootstrap-toggle.js
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\dexie.js
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\app\scripts\moment.min.js
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.dll
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.pdb
+C:\Users\victor\Documents\GitHub\mbpwebapp\mbpwebservice1\bin\CassandraParser.xml

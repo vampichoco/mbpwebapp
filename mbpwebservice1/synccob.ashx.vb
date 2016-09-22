@@ -9,47 +9,161 @@ Public Class synccob
         Dim db As New mbpDataContext
 
         Dim cob As String = context.Request.QueryString("cob")
-
-        Dim q = From cl In db.clients
-                Where cl.COBRADOR = cob
-                Select New With {
-                    .Cobranza = (From c In db.cobranzas
-                                 Where c.CLIENTE = cl.CLIENTE
-                                 Select New With {
-                                     .client = c.CLIENTE,
-                                     .cobId = c.COBRANZA,
-                                     .cob = New With {
-                                        .COBRANZA = c.COBRANZA,
-                                        .CLIENTE = c.CLIENTE,
-                                        .FECHA = c.CLIENTE,
-                                        .NO_REFEREN = c.NO_REFEREN,
-                                        .VENTA = c.VENTA,
-                                        .FECHA_VENC =
-                                            c.FECHA_VENC.Value.ToShortDateString,
-                                        .SALDO = c.SALDO,
-                                        .cobdet =
-                                            From cd In db.cobdets
-                                            Where cd.COBRANZA = c.COBRANZA
-                                            Select New With {
-                                                .id = cd.id,
-                                                .COBRANZA = cd.COBRANZA,
-                                                .CLIENTE = cd.CLIENTE,
-                                                .NO_REFEREN = cd.NO_REFEREN,
-                                                .VENTA = cd.VENTA,
-                                                .IMPORTE = cd.IMPORTE,
-                                                .FECHA =
-                                                    cd.FECHA.Value.ToShortDateString
-                                            }
-                                     }
-                                     }).AsEnumerable
-                    }
-
-
+        Dim operation As String = context.Request.QueryString("op")
+        Dim client As String = ""
         Dim json As New JavaScriptSerializer
-        Dim result = json.Serialize(q.Single)
 
-        context.Response.Write(result)
 
+        Select Case operation
+            Case "synccob"
+
+                Dim q = From cli In db.clients, cobr In db.cobranzas
+                        Where cli.COBRADOR = cob And cobr.CLIENTE = cli.CLIENTE
+                        Select New With {
+                            .CLIENTE = cobr.CLIENTE,
+                            .COBRANZA = cobr.COBRANZA,
+                            .fecha = cobr.FECHA,
+                            .NO_FEREFEREN = cobr.NO_REFEREN,
+                            .FECHA_VENC = cobr.FECHA_VENC.Value.ToShortDateString,
+                            .SALDO = cobr.SALDO,
+                            .VENTA = cobr.VENTA,
+                            .cobdet =
+                                From cd In db.cobdets
+                                Where cd.COBRANZA = cobr.COBRANZA
+                                Select New With {
+                                        .id = cd.id,
+                                        .COBRANZA = cd.COBRANZA,
+                                        .CLIENTE = cd.CLIENTE,
+                                        .NO_REFEREN = cd.NO_REFEREN,
+                                        .VENTA = cd.VENTA,
+                                        .IMPORTE = cd.IMPORTE,
+                                        .FECHA =
+                                            cd.FECHA.Value.ToShortDateString
+                                        }
+                            }
+
+                context.Response.Write(json.Serialize(q))
+
+            Case "cobbyclient"
+
+                client = context.Request.QueryString("cl")
+
+                Dim q = From cobr In db.cobranzas
+                        Where cobr.CLIENTE = client
+                        Select New With {
+                                .CLIENTE = cobr.CLIENTE,
+                                .cobranza = cobr.COBRANZA,
+                                .fecha = cobr.FECHA,
+                                .NO_FEREFEREN = cobr.NO_REFEREN,
+                                .FECHA_VENC = cobr.FECHA_VENC.Value.ToShortDateString,
+                                .SALDO = cobr.SALDO,
+                                .VENTA = cobr.VENTA,
+                                .cobdet =
+                                    From cd In db.cobdets
+                                    Where cd.COBRANZA = cobr.COBRANZA
+                                    Select New With {
+                                            .id = cd.id,
+                                            .COBRANZA = cd.COBRANZA,
+                                            .CLIENTE = cd.CLIENTE,
+                                            .NO_REFEREN = cd.NO_REFEREN,
+                                            .VENTA = cd.VENTA,
+                                            .IMPORTE = cd.IMPORTE,
+                                            .FECHA =
+                                                cd.FECHA.Value.ToShortDateString
+                                            }
+                                }
+
+                context.Response.Write(json.Serialize(q))
+
+            Case "getcob"
+
+                Dim cobranza = context.Request.QueryString("cobranza")
+
+                Dim q = From cobr In db.cobranzas
+                        Where cobr.COBRANZA = cobranza
+                        Select New With {
+                                .CLIENTE = cobr.CLIENTE,
+                                .cobranza = cobr.COBRANZA,
+                                .fecha = cobr.FECHA,
+                                .NO_FEREFEREN = cobr.NO_REFEREN,
+                                .FECHA_VENC = cobr.FECHA_VENC.Value.ToShortDateString,
+                                .SALDO = cobr.SALDO,
+                                .VENTA = cobr.VENTA,
+                                .cobdet =
+                                    From cd In db.cobdets
+                                    Where cd.COBRANZA = cobr.COBRANZA
+                                    Select New With {
+                                            .id = cd.id,
+                                            .COBRANZA = cd.COBRANZA,
+                                            .CLIENTE = cd.CLIENTE,
+                                            .NO_REFEREN = cd.NO_REFEREN,
+                                            .VENTA = cd.VENTA,
+                                            .IMPORTE = cd.IMPORTE,
+                                            .FECHA =
+                                                cd.FECHA.Value.ToShortDateString
+                                            }
+                                }
+
+                context.Response.Write(json.Serialize(q))
+
+
+
+        End Select
+
+
+        'Dim q = From cl In db.clients
+        '        Where cl.COBRADOR = cob
+        '        Select New With {
+        '            .Cobranza = (From c In db.cobranzas
+        '                         Where c.CLIENTE = cl.CLIENTE
+        '                         Select New With {
+        '                             .client = c.CLIENTE,
+        '                             .cobId = c.COBRANZA,
+        '                             .cob = New With {
+        '                                .COBRANZA = c.COBRANZA,
+        '                                .CLIENTE = c.CLIENTE,
+        '                                .FECHA = c.CLIENTE,
+        '                                .NO_REFEREN = c.NO_REFEREN,
+        '                                .VENTA = c.VENTA,
+        '                                .FECHA_VENC =
+        '                                    c.FECHA_VENC.Value.ToShortDateString,
+        '                                .SALDO = c.SALDO,
+        '                                .cobdet =
+        '                                    From cd In db.cobdets
+        '                                    Where cd.COBRANZA = c.COBRANZA
+        '                                    Select New With {
+        '                                        .id = cd.id,
+        '                                        .COBRANZA = cd.COBRANZA,
+        '                                        .CLIENTE = cd.CLIENTE,
+        '                                        .NO_REFEREN = cd.NO_REFEREN,
+        '                                        .VENTA = cd.VENTA,
+        '                                        .IMPORTE = cd.IMPORTE,
+        '                                        .FECHA =
+        '                                            cd.FECHA.Value.ToShortDateString
+        '                                    }
+        '                             }
+        '                             }).AsEnumerable
+        '            }
+
+
+
+
+
+
+
+
+
+
+
+
+        'If ([single] = True) Then
+        '    Dim result = json.Serialize(q.Single)
+        '    context.Response.Write(result)
+        'Else
+        '    Dim l = (From item In q.ToList Where item.Cobranza.Count > 0).ToList
+
+        '    context.Response.Write(json.Serialize(l))
+        'End If
 
     End Sub
 

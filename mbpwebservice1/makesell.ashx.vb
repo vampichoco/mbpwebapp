@@ -70,7 +70,8 @@ Public Class makesell
                                 .VENTA = vtaId,
                                 .PRECIO = total,
                                 .CLIENTE = c.CLIENTE,
-                                .USUFECHA = DateTime.Now,
+                                .USUFECHA = DateTime.Now.Date,
+                                .USUHORA = DateTime.Now.ToString("hh:mm:ss"),
                                 .IMPORTE = total,
                                 .sucremota = "Local",
                                 .businessintelligence = 0,
@@ -142,7 +143,7 @@ Public Class makesell
                                  .serieDocumento = 0,
                                  .TIPO_DOC = "PE",
                                  .OBSERV = p.DESCRIP,
-                                 .UsuHora = DateTime.Now.ToShortTimeString,
+                                 .UsuHora = DateTime.Now.ToString("hh:mm:ss"),
                                  .UsuFecha = DateTime.Now.Date,
                                  .Usuario = "SUP"
                                  }

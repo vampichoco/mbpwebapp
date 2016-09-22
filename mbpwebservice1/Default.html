@@ -6,40 +6,51 @@
 	<meta charset="utf-8" />
     <link href="app/css/index.css" type="text/css" rel="stylesheet" /> 
 
+    <script src="app/scripts/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="app/Content/bootstrap.min.css" />
+
+    <script src="app/scripts/dexie.js"></script>
+
+    <script src="app/scripts/jquery-2.2.3.min.js"></script>
+    
+    
+    <script type="text/javascript" src="app/scripts/bootstrap.min.js"></script>
+
 </head>
 <body>
+
     <script type="text/javascript">
-        function openNav() {
-            document.getElementById("myNav").style.width = "100%";
-        }
+        $(document).ready(function () {
+            $('#navigateInstall').click(function () {
+                window.location.href = "https://build.phonegap.com/apps/2076500/";
+            });
 
-        /* Close when someone clicks on the "x" symbol inside the overlay */
-        function closeNav() {
-            document.getElementById("myNav").style.width = "0%";
-        }
+            $('#navigateUse').click(function () {
+                window.location.href = "app/index.html";
+            });
+        });
+
+        
     </script>
+   
+    <div class="panel panel-primary" style="margin:10px;">
+        <div class="panel-heading">MyBusiness</div>
+        <div class="panel-body">
+            <h4>Bienvenido al servicio web de MyBusiness</h4>
+            <div>
+                <div class="form-item">
+                    <button id="navigateInstall" class="btn btn-default btn-block btn-success">Instalar aplicaci&oacute;n</button> 
+                </div>
 
-    <div id="myNav" class="overlay">
+                <hr />
 
-        <!-- Button to close the overlay navigation -->
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <div class="form-item">
+                    <button id="navigateUse" class="btn btn-default btn-block">Usar sin instalar</button>
+                </div>
 
-        <!-- Overlay content -->
-        <div class="overlay-content">
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
+            </div>
         </div>
-
     </div>
 
-    <!-- Use any element to open/show the overlay navigation menu -->
-    <span onclick="openNav()">open</span>
-
-    <h1>Bienvenido al servicio web de MyBusiness POS</h1>
-    <p>
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">☰ open</span>
-    </p>
 </body>
 </html>

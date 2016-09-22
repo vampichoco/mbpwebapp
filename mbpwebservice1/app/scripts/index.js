@@ -106,7 +106,7 @@ function onLoad() {
                 getCob();
             }
 
-            $('#cobScreen').attr("style", "width:100%");
+            $('#mainCobModal').modal('show');
             
         }
 
@@ -139,7 +139,9 @@ function onLoad() {
             qty = qty + 1; 
             
             $('#qtytb').val(qty);
-            selectPrice();
+            
+            updatePrice();
+            
             saveState();
         });
         
@@ -154,14 +156,49 @@ function onLoad() {
             
             if (qty < 0){
                 $('#qtytb').val(0);
-                selectPrice();
+                updatePrice();
             }else{
                 $('#qtytb').val(qty);
-                selectPrice();
+                updatePrice();
             }
             
             saveState();
             
+        });
+
+
+        $('#button-press-plus').click(function () {
+            //window.alert("press plus");
+            var val = $('#pressqtytb').val();
+
+            if (isEmpty(val) == false) {
+                val++;
+
+            } else {
+                val = 1;
+            }
+
+            $('#pressqtytb').val(val);
+
+        });
+
+        $('#button-press-minus').click(function () {
+            //window.alert("press minus");
+            var val = $('#pressqtytb').val();
+
+            if (isEmpty(val) == false) {
+                val--;
+
+                if (val <= 1) {
+                    val = 1
+                }
+
+            } else {
+                val = 1;
+            }
+
+            $('#pressqtytb').val(val);
+
         });
 
 
@@ -171,9 +208,13 @@ function onLoad() {
         })
 
         $('#qtytb').change(function () {
-            window.alert("hello");
+            //window.alert("hello");
             var q = $('#qtytb').val();
             localStorage.setItem("qty", q);
+            updatePrice();
         });
+
+        var __total = calculateTotal();
+        $('#totalLabel').html(__total);
   
 }
