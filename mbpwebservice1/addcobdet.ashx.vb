@@ -27,7 +27,7 @@ Public Class addcobdet
 
         Dim Importe = Double.Parse(j("Importe").ToString())
         Dim fecha As Date = Date.Parse(j("Fecha").ToString())
-        Dim hora = DateTime.Parse(j("Hora").ToString())
+        Dim hora = DateTime.Now
 
         Dim db As New mbpDataContext
 
@@ -40,7 +40,7 @@ Public Class addcobdet
             .IMPORTE = Importe,
             .USUFECHA = fecha,
             .FECHA = fecha,
-            .USUHORA = hora.ToLongTimeString,
+            .USUHORA = hora.ToString("hh:mm:ss"),
             .VENTA = cob.VENTA,
             .CLIENTE = cob.CLIENTE,
             .serieDocumento = 0,

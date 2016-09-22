@@ -68,7 +68,7 @@ Public Class makesell
                 Dim v As New venta With {
                                 .ALMACEN = 1,
                                 .VENTA = vtaId,
-                                .PRECIO = total,
+                                .PRECIO = total + impuestoTotal,
                                 .CLIENTE = c.CLIENTE,
                                 .USUFECHA = DateTime.Now.Date,
                                 .USUHORA = DateTime.Now.ToString("hh:mm:ss"),
@@ -234,7 +234,7 @@ Public Class makesell
             .TipoVenta = ""
             .AplicarDes = 1
             .Relacion = "(Al mismo)"
-            .USUHORA = DateTime.Now.ToShortTimeString
+            .USUHORA = DateTime.Now.ToString("hh:mm:ss")
             .USUARIO = "SUP"
 
             .PRECIO = 1
