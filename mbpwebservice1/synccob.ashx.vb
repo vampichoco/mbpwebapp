@@ -17,8 +17,10 @@ Public Class synccob
         Select Case operation
             Case "synccob"
 
+                Dim future As Date = DateTime.Now.AddDays(7).Date
+
                 Dim q = From cli In db.clients, cobr In db.cobranzas
-                        Where cli.COBRADOR = cob And cobr.CLIENTE = cli.CLIENTE
+                        Where cli.COBRADOR = cob And cobr.CLIENTE = cli.CLIENTE And cobr.SALDO > 0 And cobr.FECHA_VENC < future
                         Select New With {
                             .CLIENTE = cobr.CLIENTE,
                             .COBRANZA = cobr.COBRANZA,
@@ -49,7 +51,7 @@ Public Class synccob
                 client = context.Request.QueryString("cl")
 
                 Dim q = From cobr In db.cobranzas
-                        Where cobr.CLIENTE = client
+                        Where cobr.CLIENTE = client And cobr.SALDO > 0
                         Select New With {
                                 .CLIENTE = cobr.CLIENTE,
                                 .cobranza = cobr.COBRANZA,

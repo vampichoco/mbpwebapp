@@ -66,6 +66,7 @@ Public Class makesell
                 Next
 
                 Dim v As New venta With {
+                                .OCUPADO = 0,
                                 .ALMACEN = 1,
                                 .VENTA = vtaId,
                                 .PRECIO = total + impuestoTotal,
@@ -86,7 +87,8 @@ Public Class makesell
                                 .VEND = vend,
                                 .DATOS = c.NOMBRE,
                                 .F_EMISION = DateTime.Now.Date,
-                                .F_VENC = DateTime.Now.Date
+                                .F_VENC = DateTime.Now.Date,
+                                .comodin = ""
                             }
 
                 db.ventas.InsertOnSubmit(FillVta(v))
@@ -101,6 +103,8 @@ Public Class makesell
                     Dim precioU As Single = Single.Parse(precioStr, System.Globalization.CultureInfo.InvariantCulture)
                     Dim cantidad As Single = Single.Parse(data("Cantidad"))
                     Dim impuesto As Single = Single.Parse(data("Impuesto"))
+                    Dim prcantidad As Single = Single.Parse(data("Prcantidad"))
+                    Dim prdescrip As String = data("Prdescrip")
 
                     impuesto = impuesto / 100
 
@@ -114,9 +118,6 @@ Public Class makesell
                     Dim p = db.prods.SingleOrDefault(Function(_p) _p.ARTICULO = artStr)
 
                     Console.WriteLine(precio)
-
-
-
 
                     Dim pv As New partvta With {
                                  .PRECIO = Math.Round(precio, 3),
@@ -145,7 +146,10 @@ Public Class makesell
                                  .OBSERV = p.DESCRIP,
                                  .UsuHora = DateTime.Now.ToString("hh:mm:ss"),
                                  .UsuFecha = DateTime.Now.Date,
-                                 .Usuario = "SUP"
+                                 .Usuario = "SUP",
+                                 .estado = "PE",
+                                 .PRCANTIDAD = prcantidad,
+                                 .PRDESCRIP = prdescrip
                                  }
 
                     db.partvtas.InsertOnSubmit(pv)
@@ -154,11 +158,7 @@ Public Class makesell
                 Next
 
 
-
-
-
                 Dim json As New JavaScriptSerializer()
-
 
 
                 Try
@@ -183,12 +183,7 @@ Public Class makesell
                 .Response.StatusCode = 500
 
 
-
-
-
-
             End Try
-
 
 
         End With

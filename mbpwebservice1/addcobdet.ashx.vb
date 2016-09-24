@@ -63,10 +63,12 @@ Public Class addcobdet
 
         Dim json As New JavaScriptSerializer
 
-        Dim result As New With {.ID = cobdet.id,
+        Dim result As New With {
+            .ID = cobdet.id,
             .FECHA = cobdet.FECHA.Value.ToShortDateString,
             .IMPORTE = cobdet.IMPORTE.Value,
-            .ABONO = cobdet.ABONO.Value}
+            .ABONO = cobdet.ABONO.Value
+        }
 
         context.Response.Write(json.Serialize(result))
 
