@@ -35,17 +35,6 @@ function onLoad() {
         $('#mnuDisplayCob'         ).click(openCob              );
         $('#pendingButton'         ).click(insertPendingSell    );
 
-        //$('#connectserver').click(function () {
-        //    localStorage.setItem("workoffline", "false");
-        //    statCheck2();
-        //    window.alert("hello1");
-        //});
-
-        //$('#workofflineButton').click(function () {
-        //    window.alert("Attemting to work Offline");
-        //    localStorage.setItem("workoffline", "true");
-        //    workOffline()
-    //});
 
         var __user__ = localStorage.getItem("user");
 
@@ -168,7 +157,6 @@ function onLoad() {
 
 
         $('#button-press-plus').click(function () {
-            //window.alert("press plus");
             var val = $('#pressqtytb').val();
 
             if (isEmpty(val) == false) {
@@ -183,7 +171,6 @@ function onLoad() {
         });
 
         $('#button-press-minus').click(function () {
-            //window.alert("press minus");
             var val = $('#pressqtytb').val();
 
             if (isEmpty(val) == false) {
@@ -230,7 +217,6 @@ function onLoad() {
         });
 
         $('#qtytb').change(function () {
-            //window.alert("hello");
             var q = $('#qtytb').val();
             localStorage.setItem("qty", q);
             updatePrice();
