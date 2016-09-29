@@ -204,8 +204,30 @@ function onLoad() {
 
         $('#pricetb').change(function () {
             var p = $('#pricetb').val();
+
+            if (!isEmpty(p)) {
+                p = parseFloat(p);
+            }
+
             localStorage.setItem("price", p);
-        })
+
+            var __currentProd = localStorage.getItem("currentProd");
+
+            if (!isEmpty("currentProd")) {
+                __currentProd = JSON.parse(__currentProd)
+                if (p < __currentProd.CST) {
+
+                    messageBox("¿Precio?", "El precio especificado es menor al costo del articulo",
+                        function () { closeMessage(); },
+                        function () { },
+                        function () { accept("Aceptar"); }
+                        );
+
+                    $('#pricetb').val(__currentProd.CST)
+                }
+            }
+
+        });
 
         $('#qtytb').change(function () {
             //window.alert("hello");
@@ -216,5 +238,4 @@ function onLoad() {
 
         var __total = calculateTotal();
         $('#totalLabel').html(__total);
-  
 }

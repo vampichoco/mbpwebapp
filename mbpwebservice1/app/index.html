@@ -256,31 +256,7 @@
                         <input type="checkbox" id="connToggle" checked data-toggle="toggle" data-on="Conectado" data-off="Desconectado" data-width="130">
                     </div>
 
-                    <!--<div class="form-group">
-                        <button id="syncdb" name="syncdb" class="btn btn-default btn-block">Sincronizar base de datos</button>
-                     </div>-->
-
-                      <!--<div class="form-group">
-                          <button id="workofflineButton" name="workofflineButton" class="btn btn-default btn-block">Trabajar sin conexi&oacute;n</button>
-                      </div>-->
-                     
-                     <!--<div class="form-group">
-                         <button id="viewpendingsales" name="viewpendingsales" class="btn btn-default btn-block">Ver transacciones pendientes</button>
-                     </div>-->
-                     
-                     <!--<div class="form-group">
-                         <button id="connectserver" name="connectserver" class="btn btn-default btn-block">Conectarse al servidor</button>
-                     </div>--> 
-
-                    <!--<div class="btn-group-vertical" role="group" aria-label="...">
-                        <button id="syncdb" name="syncdb" class="btn btn-default btn-block">Sincronizar base de datos</button>
-                        <button id="viewpendingsales" name="viewpendingsales" class="btn btn-default btn-block">Ver transacciones pendientes</button>
-                    </div>-->
-
-                    <!--<div class="list-group">
-                        <button id="syncdb" name="syncdb" class="list-group-item">Sincronizar base de datos</button>
-                        <button id="viewpendingsales" name="viewpendingsales" class="list-group-item">Ver transacciones pendientes</button>
-                    </div>-->
+                   
 
                     <div class="form-item" style="text-align:center">
                         <div class="btn-group" role="group">
@@ -421,7 +397,23 @@
                     <div id="presList">
                         <ul class="list-group">
                         </ul>
-                    </div>    
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table id="presTable" class="table table-striped" style="font-size:smaller">
+                            <thead>
+                                <tr>
+                                    <!--<th>Prod</th>-->
+                                    <th>Pres</th>
+                                    <th>Precio</th>
+                                    <th>acci&oacute;n</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>   
                 </div>
                 
                 <div class="modal-footer">
@@ -449,13 +441,13 @@
 
                     <div>
                         <div class="table-responsive">
-                            <table id="pendingSaleTable" class="table table-striped">
+                            <table id="pendingSaleTable" class="table table-striped" style="font-size:smaller">
                                 <thead>
                                     <tr>
                                         <th><strong>id</strong></th>
                                         <th><strong>cliente</strong></th>
-                                        <th><strong>terminar</strong></th>
                                         <th><strong>editar</strong></th>
+                                        <th><strong>terminar</strong></th>
                                         <th><strong>eliminar</strong></th>
                                     </tr>
                                 </thead>
@@ -733,10 +725,6 @@
         </div>
 
     </div>
-
-
-    
-    
 
 
 </body>

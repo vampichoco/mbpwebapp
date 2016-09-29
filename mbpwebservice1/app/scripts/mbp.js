@@ -93,7 +93,6 @@ function addToProdList(item)
         $('#prodtb').val(item.ARTICULO);
         currentProd = item;
 
-        
          
         $('#searchProdModal').modal('hide');
         saveState();
@@ -112,8 +111,6 @@ function addToProdList(item)
       
     console.log(id + ";");
     $('#prodSearch ul').append(li);
-   
-
        
 }
 
@@ -244,10 +241,12 @@ function renderPartida(partida){
     
     var qtyId = partida.Unique + "-qty"; 
     var descId = partida.Unique + "-desc";
+    var prId = partida.Unique + "-price";
     
-    var qty = $('<div id="qtyArea" class="col-xs-1"></div').attr("id", qtyId).html(partida.Cantidad); 
-    var descrip = $('<div class="col-xs-5"></div>').html(partida.Descrip);
-    var content = $('<div class="row"></div>').append([qty, descrip]);
+    var qty   = $('<div id="qtyArea" class="col-xs-1"></div').attr("id", qtyId).html(partida.Cantidad);
+    var price = $('<div id="prArea" class="col-xs-2"></div').attr("id", prId).html((partida.Precio * partida.Cantidad).toFixed(2));
+    var descrip = $('<div class="col-xs-8"></div>').html(partida.Descrip);
+    var content = $('<div class="row"></div>').append([qty, price, descrip]);
     
     li.append(content); 
     
@@ -283,7 +282,7 @@ function setEditActions(partida, data){
         var total = calculateTotal();
 
         
-        $('#editPartidaStatus').html("Partida editada, total: " + total);
+        $('#editPartidaStatus').html("Partida editada, total: " + total.toFixed(2));
         $('#totalLabel').html(total)
         saveState();
         
@@ -297,7 +296,7 @@ function setEditActions(partida, data){
        var total = calculateTotal();
 
 
-       setStatLabel("success", "Partida removida, total: " + total);
+       setStatLabel("success", "Partida removida, total: " + total.toFixed());
        $('#totalLabel').html(total)
        $('#editPartidaModal').modal('hide');
        saveState();
@@ -409,14 +408,20 @@ function selectclaveadd2(art){
 function selectclaveadd(data, art){
     $('#presList ul').empty();
     $('#clavesaddModal').modal('show');
+
+    $('#presTable tbody').remove();
+    $('#presTable').append('<tbody></tbody>');
     
-    for (i = 0; i < data.length; i++) { 
-        
-        
+    //window.alert(data.length);
+
+    for (i = 0; i < data.length; i++) {
+
+        //window.alert(JSON.stringify(art));
 
         var item = data[i];
 
-        console.log(JSON.stringify(item));
+        var pr = art.PRECIO1;
+        var qty = item.Cantidad;
 
         var displayText = item.Desc;
 
@@ -430,11 +435,21 @@ function selectclaveadd(data, art){
         
 
 
-        var li = $('<li class="list-group-item"></li>')
-            .attr('id', "#" + item.U)
-            .html(displayHtml)
-            .click(function () {
+        //var li = $('<li class="list-group-item"></li>')
+        //    .attr('id', "#" + item.U)
+        //    .html(displayHtml)
+        //    .click(function () {
 
+                
+        //    });
+      
+        //$('#presList ul').append(li);
+
+        //var artth = $('<th></th>').html(item.Articulo);
+        var clath = $('<th></th>').html(item.Clave   );
+
+        var button =
+            $('<button class="btn btn-default btn-sm">Usar</button>').click(function () {
                 localStorage.setItem("prcantidad", item.Cantidad)
 
                 localStorage.setItem("prdescrip", item.Desc)
@@ -450,9 +465,40 @@ function selectclaveadd(data, art){
                 saveState();
                 $('#clavesaddModal').modal('hide');
             });
-      
-        $('#presList ul').append(li);
-      
+
+        
+
+        if (qty < art.C2) {
+            console.log("P1");
+            pr = art.PRECIO1
+
+        }
+
+        if (qty >= art.C2 && qty < art.C3) {
+            console.log("P2");
+            //window.alert("P2" + currentProd.PRECIO2);
+            pr = art.PRECIO2
+
+        }
+
+
+        if (qty >= art.C3) {
+            pr = art.PRECIO3;
+            $('#pricetb').val(currentProd.PRECIO3);
+
+        }
+
+        
+        var prth = $('<th></th>').html(pr);
+
+        var tr = $('<tr></tr>');
+
+        //tr.append(artth);
+        tr.append(clath);
+        tr.append(prth);
+        tr.append($('<th></th>').html(button));
+
+        $('#presTable tbody').append(tr);
         
     } // for
      
@@ -486,16 +532,19 @@ function terminateSell() {
        }).done(function (res) {
             setStatLabel("success", "Venta " + res.VENTA + " hecha :D");
             console.log('res', res);
+            clearState();
             // Do something with the result :)
        }).fail(function (err) {
+           insertPendingSell();
            console.log('err', err);
+           clearState();
        })
    
    // clear state and gui
    
-   clearState();
+   
    } else {
-       setStatLabel("warning", "Especifica un cliente y un vendedor==");
+       setStatLabel("warning", "Especifica un cliente y un vendedor o agrega al menos una partida");
    }
    
 }
@@ -510,7 +559,7 @@ function saveUser(){
     var user = $('#usertb').val(); 
     
     var endpoint = localStorage.getItem("endpoint"); 
-    var url = endpoint + 'vends.ashx?single=true&vend=' + user; 
+    var url = endpoint + '/vends.ashx?single=true&vend=' + user; 
     
     $.getJSON(url, function (results) {
         if (results.success = true){
@@ -527,8 +576,6 @@ function saveUser(){
     ).fail(function (jqXHR) {
         setStatLabel("danger", "Ocurrió un error al iniciar sesión :()");
     });
-    
-    
     
 }
 
@@ -565,8 +612,6 @@ function generateClaveAddId(){
     claveadd_id += 1; 
     
 } 
-
-
 
 function validateProd(){
     var prod = $('#prodtb').val(); 
@@ -613,8 +658,6 @@ $('#qtytb').on('input', function(){
 })  
 
 function updatePrice() {
-
-
     var qty = parseFloat( $('#qtytb').val());
     var price = currentProd.C1 + ", " + currentProd.C2 + ", " + currentProd.C3;
     
@@ -667,26 +710,26 @@ function setPriceSelect(prod) {
 
     console.log(JSON.stringify(prod));
 
-    $('#p1button').html('$' + prod.PRECIO1).unbind('click').click(function ()
+    $('#p1button').html('$' + prod.PRECIO1.toFixed(2)).unbind('click').click(function ()
     {
         
-        $('#pricetb').val(prod.PRECIO1);
+        $('#pricetb').val(prod.PRECIO1.toFixed(2));
         //selectPrice();
         saveState();
     });
 
-    $('#p2button').html('$' + prod.PRECIO2).unbind('click').click(function ()
+    $('#p2button').html('$' + prod.PRECIO2.toFixed(2)).unbind('click').click(function ()
     {
-        $('#pricetb').val(prod.PRECIO2);
+        $('#pricetb').val(prod.PRECIO2.toFixed(2));
         //window.alert("PRECIO2")
         //selectPrice();
         saveState();
     });
 
-    $('#p3button').html('$' + prod.PRECIO3).unbind('click').click(function ()
+    $('#p3button').html('$' + prod.PRECIO3.toFixed(2)).unbind('click').click(function ()
     {
         //selectPrice();
-        $('#pricetb').val(prod.PRECIO3);
+        $('#pricetb').val(prod.PRECIO3.toFixed(2));
         saveState();
     });
 
@@ -698,7 +741,7 @@ function getCob() {
 
     var endpoint = localStorage.getItem("endpoint");
     var client = $('#clienttb').val()
-    var url = endpoint + "synccob.ashx?op=cobbyclient&cl=" + client;
+    var url = endpoint + "/synccob.ashx?op=cobbyclient&cl=" + client;
 
     
 
@@ -727,8 +770,6 @@ function getCob() {
 
             $('#cobtable tbody').append(tr);
 
-           
-                
         });
 
         $('#loadingCob').hide();
@@ -752,7 +793,6 @@ function showCobdet(cob) {
 
             var tr = $('<tr></tr>');
 
-
             tr.append($('<td></td>').html(value.ID     ));
             tr.append($('<td></td>').html(value.FECHA  ));
             tr.append($('<td></td>').html(value.IMPORTE));
@@ -774,8 +814,6 @@ function showCobdet(cob) {
 
         console.log(JSON.stringify(newCob));
         sendCob(newCob);
-
-        
 
     });
 }
@@ -801,7 +839,6 @@ function sendCob(newcob) {
         tr.append($('<td></td>').html(res.ID       ));
         tr.append($('<td></td>').html(res.FECHA    ));
         tr.append($('<td></td>').html(res.IMPORTE  ));
-
 
         $('#cobdetTable tbody').append(tr);
 
@@ -846,8 +883,6 @@ function showCobdetOffline(OfflineCob) {
         $('#cobdetTable tbody').append(tr);
     });
 
-    
-
     $('#cobTitle').html("<h3></h3>").html("Detalles de cobranza: " + OfflineCob.COBRANZA);
     $('#btn-addcob').unbind('click').click(function () {
         var newCob = {
@@ -857,8 +892,6 @@ function showCobdetOffline(OfflineCob) {
             "Hora": moment().format("LT")
         }
 
-
-        
         
         db.pendigCob.add(newCob).then(function () {
             setStatLabel("success", "Abono almacenado como pendiente");
@@ -919,7 +952,7 @@ function terminateSell2(item) {
 
        var data = JSON.stringify(ob);
 
-       var url = endpoint + '//makesell.ashx';
+       var url = endpoint + '/makesell.ashx';
 
        $.ajax({
             type: "POST",
@@ -993,8 +1026,6 @@ function read(key, callback) {
    };
 } 
 
-
-
 function insertPendingSell(){ 
     
     var d = new Date();
@@ -1066,7 +1097,9 @@ function syncdb() {
         window.alert("Error al descargar información del servidor :(");
     }) 
     
-    var clientsUrl = endpoint + 'searchclient.ashx?vend=' + vend;
+    var clientsUrl = endpoint + '/searchclient.ashx?vend=' + vend;
+
+    db.clients.clear();
     
     $.getJSON(clientsUrl, function(r){
         db.clients.bulkPut(r).then(function () {
@@ -1076,7 +1109,9 @@ function syncdb() {
     });
 
     var cob = localStorage.getItem("user");
-    var coburl = endpoint + "synccob.ashx?op=synccob&cob=" + cob;
+    var coburl = endpoint + "/synccob.ashx?op=synccob&cob=" + cob;
+
+    db.cob.clear();
 
     $.getJSON(coburl, function (r) {
 
@@ -1093,10 +1128,7 @@ function syncdb() {
 function searchProdOffline()
 {
    
-    
     var key = $('#searchProdText').val();
-    
-   
     
     db.prods.where("DESCRIP").startsWithIgnoreCase(key).each(function(prod){
         addToProdList(prod);
@@ -1106,8 +1138,6 @@ function searchProdOffline()
 function addProdOffline(){
    
    var key = $('#prodtb').val();
-   
-  
   
   db.prods.get(key, function(item){
       instanceProdOffline(item);
@@ -1143,7 +1173,6 @@ function instanceProdOffline(prod){
     $('#qtytb'  ).val(1  );
     $('#prodtb' ).val("" );
     
-    
     saveState();
     
     renderPartida(newP);
@@ -1151,41 +1180,46 @@ function instanceProdOffline(prod){
     //}
 }
 
-function getPendingSales(){
+function getPendingSales() {
     
+    $('#pendingSaleTable tbody').remove();
+    $('#pendingSaleTable').append($('<tbody></tbody>'));
     
-    db.ventas.toCollection().each(function(item){
+    db.ventas.toCollection().each(function (item) {
+
+        var pencil = $('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'       );
+        var remove = $('<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>');
+        var save =   $('<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>'  );
        
 
         var tr = $('<tr></tr>');
-        var terminateButton = $('<button type="button" class="btn btn-sm btn-success">modificar</button>').click(
+        var terminateButton =
+            $('<button type="button" class="btn btn-success"></button>').html(pencil).click(
             function () {
                 restorePendingSale(item.id);
                 $('#pendingSalesModal').modal('hide');
             }
         );
 
-        var modifyButton = $('<button type="button" class="btn btn-sm btn-success">terminar</button>').click(
+        var modifyButton =
+            $('<button type="button" class="btn btn-default"></button>').html(save).click(
             function () {
                 //window.alert(item.id);
                 terminateSell2(item);
             }
         );
 
-        var removeButton = $('<button type="button" class="btn btn-sm btn-success">terminar</button>');
+        var removeButton =
+            $('<button type="button" class="btn btn-default"></button>').html(remove);
 
-        tr.append($('<th></th>').html(item.id))
-        tr.append($('<th></th>').html(item.CLIENTE))
+        tr.append($('<th></th>').html(item.id         ));
+        tr.append($('<th></th>').html(item.CLIENTE    ));
 
-        tr.append($('<th></th>').html(terminateButton));
-        tr.append($('<th></th>').html(modifyButton));
-        tr.append($('<th></th>').html(removeButton));
-
-        $('#pendingSaleTable tbody').remove()
-
-        $('#pendingSaleTable').append($('<tbody></tbody>'));
-        $('#pendingSaleTable tbody').append(tr)
-            
+        tr.append($('<th></th>').html(terminateButton ));
+        tr.append($('<th></th>').html(modifyButton    ));
+        tr.append($('<th></th>').html(removeButton    ));
+        
+        $('#pendingSaleTable tbody').append(tr);
         
     }); 
     
@@ -1435,8 +1469,6 @@ function inputBox(title, text, accept, cancel, style) {
     $('#inputCancel').unbind('click').click(cancel);
 
     $('#inputModal').modal('show');
-
-    
 
     style();
 }

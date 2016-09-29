@@ -5,35 +5,44 @@ body {
     /* background-color:#32383d; */
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
     background-image:url(congruent_pentagon.png); 
-    background-repeat: repeat; 
+    /*background-image:linear-gradient(top, #62324C, #7A4F60);
+    background-image:-webkit-linear-gradient(top, #7A4F60, #FF7676);*/
     background-attachment:fixed;
     font-size:12px;
     background-color:#9FDEE3 !important;
+    height:100%
 } 
 
 .prods{
     float:right !important; 
     padding:20px;
     padding-left:5px;
-    width:65%
+    width:60%
 }
 
 
 .main-container{
-    max-width:33%;
+    max-width:40%;
     float:left;
     padding:10px;
     position:fixed;
-    
 }  
 
 .menu-container{
     padding:10px;
-    
 } 
 
 .opaque{
-    background-color:rgba(255, 255, 255, 0.50) !important;
+    /*background-color:rgba(255, 118, 118, 1.0) !important;*/
+    background-color:#7A4F60 !important;
+
+    background-image:linear-gradient(top, #73ECD2, #FFF0B7);
+    background-image:-webkit-linear-gradient(top, #73ECD2, #FFF0B7);
+
+    border:0px solid black !important;
+
+    /*background-image:linear-gradient(top, #62324C, #7A4F60);
+    background-image:-webkit-linear-gradient(top, #7A4F60, #FF7676);*/
 }
 
 .form-item{
