@@ -434,7 +434,6 @@ function selectclaveadd(data, art){
 
         if (qty >= art.C3) {
             pr = art.PRECIO3;
-            $('#pricetb').val(currentProd.PRECIO3);
 
         }
 
@@ -607,21 +606,21 @@ function updatePrice() {
         
         if (qty < currentProd.C2) {
             console.log("P1");
-            $('#pricetb').val(currentProd.PRECIO1);
+            $('#pricetb').val(currentProd.PRECIO1.toFixed(2));
             return;
             
         } 
         
         if (qty >= currentProd.C2 && qty < currentProd.C3){
             console.log("P2");
-            $('#pricetb').val(currentProd.PRECIO2);
+            $('#pricetb').val(currentProd.PRECIO2.toFixed(2));
             return;
             
         }
         
         if (qty >= currentProd.C3){
             console.log("P3");
-            $('#pricetb').val(currentProd.PRECIO3);
+            $('#pricetb').val(currentProd.PRECIO3.toFixed(2));
             
         } 
         
@@ -644,6 +643,7 @@ function clearState(){
 }
 
 function setPriceSelect(prod) {
+    
 
     console.log(JSON.stringify(prod));
 

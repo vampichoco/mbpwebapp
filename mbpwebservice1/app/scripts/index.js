@@ -224,4 +224,27 @@ function onLoad() {
 
         var __total = calculateTotal();
         $('#totalLabel').html(__total);
+
+
+    // BETA FEATURE: use plugin plugin 
+
+   //var html = '<div><button id="plugin-button-1">hola</button></div>';
+   //var js = "$('#plugin-button-1').click(function(){window.alert('fuck, yeah');});";
+
+   //var htmlBlob = new Blob([html], { type: "text/html" });
+   //var jsBlob = new Blob([js], { type: "text/js" });
+
+
+   //var myReader = new FileReader();
+   // //handler executed once reading(blob content referenced to a variable) from blob is finished. 
+   //myReader.addEventListener("loadend", function (e) {
+   //    document.getElementById("paragraph").innerHTML = e.srcElement.result;//prints a string
+
+   //    $('#plugins').html()
+
+   //});
+   // //start the reading process.
+   //myReader.readAsText(myBlob);
+
+
 }

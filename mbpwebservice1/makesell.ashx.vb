@@ -57,7 +57,6 @@ Public Class makesell
                     Dim precioU As Single = Single.Parse(data("Precio").ToString)
                     Dim impuesto As Single = Single.Parse(data("Impuesto").ToString)
 
-                    impuesto = impuesto / 100
 
                     Dim precio As Double = precioU * cantidad
                     impuestoTotal = impuestoTotal + ((precioU * cantidad) * impuesto)
@@ -69,7 +68,7 @@ Public Class makesell
                                 .OCUPADO = 0,
                                 .ALMACEN = 1,
                                 .VENTA = vtaId,
-                                .PRECIO = total + impuestoTotal,
+                                .PRECIO = 1,
                                 .CLIENTE = c.CLIENTE,
                                 .USUFECHA = DateTime.Now.Date,
                                 .USUHORA = DateTime.Now.ToString("hh:mm:ss"),
@@ -101,19 +100,17 @@ Public Class makesell
                     Dim precioStr = data("Precio").ToString().Replace(",", ".")
 
                     Dim precioU As Single = Single.Parse(precioStr, System.Globalization.CultureInfo.InvariantCulture)
-                    Dim cantidad As Single = Single.Parse(data("Cantidad"))
-                    Dim impuesto As Single = Single.Parse(data("Impuesto"))
-                    Dim prcantidad As Single = Single.Parse(data("Prcantidad"))
+                    Dim cantidad As Single = Single.Parse(data("Cantidad"), System.Globalization.CultureInfo.InvariantCulture)
+                    Dim impuesto As Single = Single.Parse(data("Impuesto"), System.Globalization.CultureInfo.InvariantCulture)
+                    Dim prcantidad As Single = Single.Parse(data("Prcantidad"), System.Globalization.CultureInfo.InvariantCulture)
                     Dim prdescrip As String = data("Prdescrip")
-
-                    impuesto = impuesto / 100
 
                     Dim artStr As String = (data("Articulo")).ToString()
 
-                    Dim precio As Double = precioU * cantidad
+                    Dim precio As Double = precioU
                     Console.WriteLine(precio)
 
-                    precio = precio + (precio * impuesto)
+                    Dim taxFactor = impuesto / 100
 
                     Dim p = db.prods.SingleOrDefault(Function(_p) _p.ARTICULO = artStr)
 
@@ -124,17 +121,17 @@ Public Class makesell
                                  .ALMACEN = 1,
                                  .ARTICULO = p.ARTICULO,
                                  .VENTA = v.VENTA,
-                                 .COSTO = p.COSTO * cantidad,
+                                 .COSTO = p.COSTO,
                                  .CANTIDAD = cantidad,
                                  .DESCUENTO = 0,
-                                 .IMPUESTO = (precio * impuesto) * cantidad,
+                                 .IMPUESTO = impuesto * 100,
                                  .ID_SALIDA = pvid,
                                  .PrecioBase = precioU,
                                  .Devolucion = 0,
                                  .DevConf = 0,
                                  .ID_entrada = 0,
                                  .Invent = 0,
-                                 .importe = (precio * cantidad),
+                                 .importe = (precio + (precio * taxFactor)),
                                  .kit = 0,
                                  .costo_u = p.COSTO,
                                  .iespecial = 0,
