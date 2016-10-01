@@ -4,6 +4,8 @@
 
 function onLoad() {
 
+    var beta = false;
+
     //inputBox('Hola', "Cuadro de mensaje",
     //    function () { window.alert($("#messagetb").val()) },
     //    function () { window.alert("cancel") },
@@ -228,23 +230,30 @@ function onLoad() {
 
     // BETA FEATURE: use plugin plugin 
 
-   //var html = '<div><button id="plugin-button-1">hola</button></div>';
-   //var js = "$('#plugin-button-1').click(function(){window.alert('fuck, yeah');});";
+        if (beta == true) {
+            var html = '<div><button id="plugin-button-1" class="btn btn-default">hola</button></div>';
+            var js = "$('#plugin-button-1').click(function(){window.alert('fuck, yeah');});";
 
-   //var htmlBlob = new Blob([html], { type: "text/html" });
-   //var jsBlob = new Blob([js], { type: "text/js" });
+            var htmlBlob = new Blob([html], { type: "text/html" });
+            var jsBlob = new Blob([js], { type: "text/javascript" });
 
 
-   //var myReader = new FileReader();
-   // //handler executed once reading(blob content referenced to a variable) from blob is finished. 
-   //myReader.addEventListener("loadend", function (e) {
-   //    document.getElementById("paragraph").innerHTML = e.srcElement.result;//prints a string
+            var htmlReader = new FileReader();
+            //handler executed once reading(blob content referenced to a variable) from blob is finished. 
+            htmlReader.addEventListener("loadend", function (e) {
+                $('#plugins').html(e.srcElement.result);
+            });
+            //start the reading process.
+            htmlReader.readAsText(htmlBlob);
 
-   //    $('#plugins').html()
+            var script = document.createElement('script');
+            //createObjectURL returns a blob URL as a string.
+            script.src = window.URL.createObjectURL(jsBlob);
+            document.body.appendChild(script);
 
-   //});
-   // //start the reading process.
-   //myReader.readAsText(myBlob);
 
+
+            $('#pluginModal').modal('show');
+        }
 
 }
