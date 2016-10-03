@@ -397,7 +397,7 @@ function selectclaveadd(data, art){
         displayHtml.append(desc);
         displayHtml.append(clavedesc);
 
-        var clath = $('<th></th>').html(item.Clave   );
+        var clath = $('<th></th>').html(item.Desc   );
 
         var button =
             $('<button class="btn btn-default btn-sm">Usar</button>').click(function () {
@@ -421,20 +421,19 @@ function selectclaveadd(data, art){
 
         if (qty < art.C2) {
             console.log("P1");
-            pr = art.PRECIO1
+            pr = (art.PRECIO1 + (art.PRECIO1 * art.TX))
 
         }
 
         if (qty >= art.C2 && qty < art.C3) {
             console.log("P2");
-            pr = art.PRECIO2
+            pr = (art.PRECIO2 + (art.PRECIO2 * art.TX)) * art.C2
 
         }
 
 
         if (qty >= art.C3) {
-            pr = art.PRECIO3;
-
+            pr = (art.PRECIO3 + (art.PRECIO3 * art.TX)) * art.C3;
         }
 
         
@@ -606,21 +605,24 @@ function updatePrice() {
         
         if (qty < currentProd.C2) {
             console.log("P1");
-            $('#pricetb').val(currentProd.PRECIO1.toFixed(2));
+            var p1 = currentProd.PRECIO1 + (currentProd.PRECIO1 * currentPrd.TX);
+            $('#pricetb').val(p1.toFixed(2));
             return;
             
         } 
         
-        if (qty >= currentProd.C2 && qty < currentProd.C3){
+        if (qty >= currentProd.C2 && qty < currentProd.C3) {
+            var p2 = currentProd.PRECIO2 + (currentProd.PRECIO2 * currentProd.TX);
             console.log("P2");
-            $('#pricetb').val(currentProd.PRECIO2.toFixed(2));
+            $('#pricetb').val(p2.toFixed(2));
             return;
             
         }
         
-        if (qty >= currentProd.C3){
+        if (qty >= currentProd.C3) {
+            var p3 = currentProd.PRECIO3 + (currentProd.PRECIO3 * currentProd.TX);
             console.log("P3");
-            $('#pricetb').val(currentProd.PRECIO3.toFixed(2));
+            $('#pricetb').val(p3.toFixed(2));
             
         } 
         
@@ -647,22 +649,27 @@ function setPriceSelect(prod) {
 
     console.log(JSON.stringify(prod));
 
-    $('#p1button').html('$' + prod.PRECIO1.toFixed(2)).unbind('click').click(function ()
+    var p1 = prod.PRECIO1 + (prod.PRECIO1 * prod.TX);
+    var p2 = prod.PRECIO2 + (prod.PRECIO2 * prod.TX);
+    var p3 = prod.PRECIO3 + (prod.PRECIO3 * prod.TX);
+
+    $('#p1button').html('$' + p1.toFixed(2)).unbind('click').click(function ()
+    {
+        $('#pricetb').val(p1.toFixed(2));
+        saveState();
+    });
+
+    $('#p2button').html('$' + p2.toFixed(2)).unbind('click').click(function ()
     {
         
-        $('#pricetb').val(prod.PRECIO1.toFixed(2));
+        $('#pricetb').val(p2.toFixed(2));
         saveState();
     });
 
-    $('#p2button').html('$' + prod.PRECIO2.toFixed(2)).unbind('click').click(function ()
+    $('#p3button').html('$' + p3.toFixed(2)).unbind('click').click(function ()
     {
-        $('#pricetb').val(prod.PRECIO2.toFixed(2));
-        saveState();
-    });
-
-    $('#p3button').html('$' + prod.PRECIO3.toFixed(2)).unbind('click').click(function ()
-    {
-        $('#pricetb').val(prod.PRECIO3.toFixed(2));
+        
+        $('#pricetb').val(p3.toFixed(2));
         saveState();
     });
 
