@@ -1,4 +1,4 @@
-﻿var Partidas        = new Array()         ;
+﻿//var Partidas        = new Array()         ; // fixED here
 var total           = 0.0                 ;
 var claveadd_id     = 0                   ;
 var _prodId_        = 0                   ;
@@ -70,6 +70,7 @@ function populateSearch() {
 
 function addToProdList(item)
 {
+    //window.alert(JSON.stringify(item));
     var id = getProdId();
          
     var content = $('<div></div>').html(item.DESCRIP);
@@ -157,7 +158,8 @@ function addProd(results) {
 } 
 
 function instanceProd(results) {
-    
+    //window.alert("instance prod")
+
     var price = parseFloat($('#pricetb').val());
     var qty = parseFloat($('#qtytb').val());
    
@@ -178,7 +180,7 @@ function instanceProd(results) {
         Precio     : price,
         Cantidad   : qty,
         Impuesto   : results.TX,
-        Costo      : results.COSTO,
+        Costo      : results.CST,
         Descrip    : results.DESCRIP,
         Articulo   : results.ARTICULO, 
         Unique     : results.U,
@@ -186,36 +188,44 @@ function instanceProd(results) {
         Prdescrip  : prdescrip
     }; 
     
-    Partidas.push(newP);
-
-
-    saveState();
     
-    total = calculateTotal();
+    db.partidas.add(newP).then(function () {
+        saveState();
 
-    $("#statuslabel").removeAttr ("class"                                                            );
-    $('#statuslabel').addClass   ("alert alert alert-success"                                        );
-    $('#statuslabel').text('Articulo agregado, total: ' + total);
+        //total = calculateTotal();
 
-    $('#totalLabel').html(total);
+        $("#statuslabel").removeAttr("class");
+        $('#statuslabel').addClass("alert alert alert-success");
+        
+        calculateTotal(function (t) {
+            $('#statuslabel').text('Articulo agregado, total: ' + t);
+            $('#totalLabel').html(t);
+        });
 
-    $('#pricetb').val(0);
-    $('#qtytb').val(1);
-    $('#prodtb').val("");
+        $('#pricetb').val(0);
+        $('#qtytb').val(1);
+        $('#prodtb').val("");
+
+
+        renderPartida(newP);
+    });
+
 
     
-    console.log(JSON.stringify(newP));
-    
-    renderPartida(newP);
     
 } 
 
-function renderPartida(partida){
-    var li = $('<li class="list-group-item"></li>').attr("id", partida.Unique) 
+function renderPartida(partida) {
+    //window.alert(JSON.stringify(partida));
+    var hash = getHashId(partida.iid);
+
+    var li = $('<li class="list-group-item"></li>').attr("id", hash)
+
     
-    var qtyId = partida.Unique + "-qty"; 
-    var descId = partida.Unique + "-desc";
-    var prId = partida.Unique + "-price";
+    
+    var qtyId = hash + "-qty"; 
+    var descId = hash + "-desc";
+    var prId = hash + "-price";
     
     var qty   = $('<div id="qtyArea" class="col-xs-1"></div').attr("id", qtyId).html(partida.Cantidad);
     var price = $('<div id="prArea" class="col-xs-2"></div').attr("id", prId).html((partida.Precio * partida.Cantidad).toFixed(2));
@@ -224,12 +234,12 @@ function renderPartida(partida){
     
     li.append(content); 
     
-    li.click(function(){
-        var i = Partidas.indexOf(partida);
-        var p = partida; 
+    li.click(function () {
+        //window.alert(JSON.stringify(partida));
+
         
-        $('#tituloPartida').html(p.Descrip);
-        setEditActions(i, p)
+        $('#tituloPartida').html(partida.Descrip);
+        setEditActions(partida)
         $('#editPartidaModal').modal("show");
         
         
@@ -238,40 +248,60 @@ function renderPartida(partida){
     $('#prods ul').append(li); 
 }
 
-function setEditActions(partida, data){
+function setEditActions(partida) {
+    var hash = getHashId(partida.iid);
+
     $('#savePartidaButton').unbind('click').click(function(){
         var qty = parseFloat(
             $('#modifyQtyTb').val()
         ); 
         
-        Partidas[partida].Cantidad = qty;
-        var selector = "#" + data.Unique + "-qty";
-        
-        $('#' + data.Unique).attr("style", "color:blue;");
-        $(selector).html(qty);
-        
-        
-        var total = calculateTotal();
+        partida.Cantidad = qty; //fix here
+
+        db.partidas.update(partida.iid, { Cantidad: qty }).then(function (updated) {
+            if (updated) {
+                var qtySelector = "#" + hash + "-qty";
+                var priceSelector = "#" + hash + "-price";
+
+                $("#" + hash).attr("style", "color:blue;");
+                $(qtySelector).html(qty);
+                $(priceSelector).html(partida.Precio * qty)
+
+
+                calculateTotal(function (t) {
+                    $('#editPartidaStatus').html("Partida editada, total: " + t);
+                    $('#totalLabel').html(t)
+                    saveState();
+                })
+
+                
+                
+            } else {
+                $('#editPartidaStatus').html("No se pudo editar la partida");
+            }
+        })
 
         
-        $('#editPartidaStatus').html("Partida editada, total: " + total.toFixed(2));
-        $('#totalLabel').html(total)
-        saveState();
         
     }); 
     
-    $('#removePartidaButton').unbind('click').click(function(){
-       Partidas.splice(partida, 1); 
-       
-       $('#'+data.Unique).remove();
-       
-       var total = calculateTotal();
+    $('#removePartidaButton').unbind('click').click(function () {
+       //window.alert("will remove  " + partida);
 
+       db.partidas.delete(partida.iid).then(function ()
+       {
+           
+           $("#" + hash).remove();
 
-       setStatLabel("success", "Partida removida, total: " + total.toFixed());
-       $('#totalLabel').html(total)
-       $('#editPartidaModal').modal('hide');
-       saveState();
+           calculateTotal(function (t) {
+               setStatLabel("success", "Partida removida, total: " + t);
+               $('#totalLabel').html(t)
+           })
+           
+           $('#editPartidaModal').modal('hide');
+           saveState();
+
+       });
         
     });
 }
@@ -282,6 +312,8 @@ function statCheck2(){
 
 
     if (wo == "true") {
+        //window.alert("workoffile")
+
         workOffline()
     } else {
         setStatLabel("info", "intentando conexion");
@@ -307,11 +339,9 @@ function statCheck2(){
                 setStatLabel("danger", "No se pudo conectar a la base de datos");
             }
         }).error(function (jqXHR, textStatus, errorThrown) {
-            $('#addButton'          ).unbind('click').click(addProdOffline      );    // Add prod to prods to be sent
-            $('#terminateButton'    ).unbind('click').click(insertPendingSell   );    // On terminate sell button
-            $('#searchProdButton'   ).unbind('click').click(searchProdOffline   );    // On search prod
-            $('#validateProdButton' ).unbind('click').click(validateProdOffline );    // On validate product click 
-            $('#searchClientButton' ).unbind('click').click(searchClientOffline );    // On search client
+            //window.alert("work offline")
+
+            workOffline();
 
             setStatLabel("alert", "No se pudo conectar al servidor, usando conexión local");
         });
@@ -340,13 +370,14 @@ function instanceProd2(results){
         Articulo      : results.ARTICULO.ARTICULO, 
         Unique        : results.ARTICULO.U}
         
-        Partidas.push(newP);
+        Partidas.push(newP); //fix here
     
-        total = calculateTotal();
+        calculateTotal(function (t) {
+            $('#statuslabel').text('Articulo agregado, total: ' + total);
+        })
 
         $("#statuslabel").removeAttr ("class"                                                             );
         $('#statuslabel').addClass   ("alert alert alert-success"                                         );
-        $('#statuslabel').text       ('Articulo agregado, total: ' + total                                );
         $('#prods ul'   ).append     ('<li class="list-group-item">' + results.ARTICULO.DESCRIP + '</li>' );
         
         saveState();
@@ -453,40 +484,46 @@ function selectclaveadd(data, art){
 
 function terminateSell() {
 
-   var clientid = $('#clienttb').val(); 
-   var vend = $('#usertb').val(); 
-    
-   console.log(Partidas.length + ", " + clientid.length + ", " + vend.length)
 
-   if (Partidas.length > 0 && clientid.length > 0 && vend.length > 0){
-       var endoint = localStorage.getItem("endpoint");
-       
-       var ob = { "ClientId": clientid, "Vendedor": vend, "Partidas": Partidas };
+   db.partidas.toCollection().toArray(function (Partidas) {
+       var clientid = $('#clienttb').val();
+       var vend = $('#usertb').val();
 
-       var data = JSON.stringify(ob);
+       console.log(Partidas.length + ", " + clientid.length + ", " + vend.length)
 
-       var url = endoint + '/makesell.ashx';
+       //fixED here
+       if (Partidas.length > 0 && clientid.length > 0 && vend.length > 0) {
+           var endoint = localStorage.getItem("endpoint");
 
-       $.ajax({
-            type: "POST",
-            data: data,
-            url: url,
-            contentType: "application/json",
-            dataType: 'json'
-       }).done(function (res) {
-            setStatLabel("success", "Venta " + res.VENTA + " hecha :D");
-            console.log('res', res);
-            clearState();
-       }).fail(function (err) {
-           insertPendingSell();
-           console.log('err', err);
-           clearState();
-       })
-   
-   
-   } else {
-       setStatLabel("warning", "Especifica un cliente y un vendedor o agrega al menos una partida");
-   }
+
+
+           var ob = { "ClientId": clientid, "Vendedor": vend, "Partidas": Partidas }; //fix here
+
+           var data = JSON.stringify(ob);
+
+           var url = endoint + '/makesell.ashx';
+
+           $.ajax({
+               type: "POST",
+               data: data,
+               url: url,
+               contentType: "application/json",
+               dataType: 'json'
+           }).done(function (res) {
+               setStatLabel("success", "Venta " + res.VENTA + " hecha :D");
+               console.log('res', res);
+               clearState();
+           }).fail(function (err) {
+               insertPendingSell();
+               console.log('err', err);
+               clearState();
+           })
+
+
+       } else {
+           setStatLabel("warning", "Especifica un cliente y un vendedor o agrega al menos una partida");
+       }
+   });
    
 }
 
@@ -638,7 +675,7 @@ function clearState(){
     $('#qtytb'       ).val('1'  );
     $('#pricetb'     ).val(''   );
     
-    Partidas         =   []; 
+    //Partidas         =   []; // fix here
     total            =    0; 
    
     saveState();
@@ -876,34 +913,36 @@ function removePendingSale(id){
 
 function terminateSell2(item) {
    
-       var endpoint = localStorage.getItem("endpoint");
+    var endpoint = localStorage.getItem("endpoint");
 
-       
-       var ob = { "ClientId": item.CLIENTE, Vendedor: item.vend, "Partidas": item.PARTIDAS };
 
-       var data = JSON.stringify(ob);
+    db.partidas.toCollection().toArray(function (Partidas) {
+        var ob = { "ClientId": item.CLIENTE, Vendedor: item.vend, "Partidas": Partidas };// fix here
 
-       var url = endpoint + '/makesell.ashx';
+        var data = JSON.stringify(ob);
 
-       $.ajax({
+        var url = endpoint + '/makesell.ashx';
+
+        $.ajax({
             type: "POST",
             data: data,
             url: url,
             contentType: "application/json",
             dataType: 'json'
-       }).done(function (res) {
-           removePendingSale(item.id);
-           setStatLabel("success", "Venta " + res.VENTA + " hecha :D");
-           console.log(res);
-       }); 
-   
-   
-   $('#prods ul').empty();
-   Partidas = []; 
-   total = 0; 
-   
-   saveState();
-  
+        }).done(function (res) {
+            removePendingSale(item.id);
+            setStatLabel("success", "Venta " + res.VENTA + " hecha :D");
+            console.log(res);
+        });
+
+
+        $('#prods ul').empty();
+        Partidas = []; // fixED here
+        total = 0;
+
+        saveState();
+    });
+
    
 } 
 
@@ -956,45 +995,50 @@ function read(key, callback) {
 
 function insertPendingSell(){ 
     
-    var d = new Date();
-    var fecha = d.toLocaleDateString();
-    var CANTIDAD = $('#qtytb').val();
-    var cliente = $('#clienttb').val();
-    var qty = $('#qtytb').val();
-    var vendor = $('#usertb').val();
-    
-    if (isEmpty(cliente) == false && isEmpty(vendor) == false) {
-        var newvta = {
-            PRECIO   : total,
-            CLIENTE  : cliente,
-            USUFECHA : fecha,
-            cantidad : qty,
-            PARTIDAS : Partidas,
-            vend     : vendor
-        };
+    db.partidas.toCollection().toArray(function (Partidas) {
+        db.partidas.clear();
+
+        var d = new Date();
+        var fecha = d.toLocaleDateString();
+        var CANTIDAD = $('#qtytb').val();
+        var cliente = $('#clienttb').val();
+        var qty = $('#qtytb').val();
+        var vendor = $('#usertb').val();
+
+        if (isEmpty(cliente) == false && isEmpty(vendor) == false) {
+            var newvta = {
+                PRECIO: total,
+                CLIENTE: cliente,
+                USUFECHA: fecha,
+                cantidad: qty,
+                PARTIDAS: Partidas, //fixED here
+                vend: vendor
+            };
 
 
-        db.ventas.add(newvta).then(function () {
-            setStatLabel("sucess", "Venta almacenada como pendiente");
-            clearState();
-        });
-    }
-    else {
-        setStatLabel("error", "Especifica un cliente y vendedor")
-    }
+            db.ventas.add(newvta).then(function () {
+                setStatLabel("sucess", "Venta almacenada como pendiente");
+                clearState();
+            });
+        }
+        else {
+            setStatLabel("error", "Especifica un cliente y vendedor");
+        }
+    });
     
 }
 
 function opendb(){
     
-    db = new Dexie("mbptest20");
+    db = new Dexie("mbptest21");
 
     db.version(1).stores({
-        prods     : 'SP,DESCRIP',
-        ventas    : "++id",
-        clients   : "cliente,nombre",
+        prods     : 'SP,DESCRIP'      ,
+        ventas    : "++id"            ,
+        clients   : "cliente,nombre"  ,
         cob       : "COBRANZA,CLIENTE",
-        pendigCob : "++selfId"
+        pendigCob : "++selfId"        ,
+        partidas  : "++iid"
     });
 
     db.open().catch(function (e) {
@@ -1011,10 +1055,12 @@ function syncdb() {
     var endpoint = localStorage.getItem("endpoint"); 
     
     var url = endpoint + "/prods.ashx?take=5000";
+    var count = 0;
     
-    
+    db.prods.clear();
+
     $.getJSON(url, function (results) {
-        var count = 0; 
+        
         step++;
        
         db.prods.bulkPut(results).then(function(){
@@ -1057,7 +1103,8 @@ function searchProdOffline()
    
     var key = $('#searchProdText').val();
     
-    db.prods.where("DESCRIP").startsWithIgnoreCase(key).each(function(prod){
+    db.prods.where("DESCRIP").startsWith(key).each(function (prod) {
+        //window.alert(prod.DESCRIP)
         addToProdList(prod);
     });
 } 
@@ -1066,13 +1113,16 @@ function addProdOffline(){
    
    var key = $('#prodtb').val();
   
-  db.prods.get(key, function(item){
+   db.prods.get(key, function (item) {
+      
       instanceProdOffline(item);
   })
   
 } 
 
-function instanceProdOffline(prod){
+function instanceProdOffline(prod) {
+    //window.alert("instante prod offline")
+
     var price = parseFloat($('#pricetb').val()); 
     var qty = parseFloat($('#qtytb').val());
    
@@ -1085,21 +1135,29 @@ function instanceProdOffline(prod){
         Descrip     : prod.DESCRIP,
         Unique      : prod.U
     };
-    Partidas.push(newP);
-    
-    total = calculateTotal();
 
-    $("#statuslabel").removeAttr ("class"                                                            );
-    $('#statuslabel').addClass   ("alert alert alert-success"                                        );
-    $('#statuslabel').text       ('Articulo agregado, total: ' + total                               );
-    //$('#prods ul'   ).append   ('<li class="list-group-item">' + prod.DESCRIP + '</li>'            );
-    $('#pricetb').val(0  );
-    $('#qtytb'  ).val(1  );
-    $('#prodtb' ).val("" );
+    db.partidas.add(newP).then(function () {
+        //total = calculateTotal();
+
+        $("#statuslabel").removeAttr("class");
+        $('#statuslabel').addClass("alert alert alert-success");
+        
+        calculateTotal(function (t) {
+            $('#statuslabel').text('Articulo agregado, total: ' + t);
+        });
+
+        $('#pricetb').val(0);
+        $('#qtytb').val(1);
+        $('#prodtb').val("");
+
+        saveState();
+
+        renderPartida(newP);
+    });
+
+    // fixED here
     
-    saveState();
     
-    renderPartida(newP);
     
 }
 
@@ -1196,7 +1254,14 @@ function getProdId(){
         id = hashids.encode(_prodId_); 
         
     return "#" + id;
-} 
+}
+
+function getHashId(val) {
+    var hashids = new Hashids("valerizont201948mu"),
+       id = hashids.encode(val);
+
+    return id;
+}
 
 
 function saveState() {
@@ -1215,7 +1280,7 @@ function saveState() {
     localStorage.setItem("price"               , _price                             ); 
     localStorage.setItem("qty"                 , _qty                               );
 
-    localStorage.setItem("partidas"            , JSON.stringify(Partidas           ));
+    //localStorage.setItem("partidas"            , JSON.stringify(Partidas           )); // fixED here
     localStorage.setItem("currentProd"         , JSON.stringify(currentProd        ));
     
     //localStorage.setItem("producto"            , JSON.stringify(prod)               ); 
@@ -1257,23 +1322,27 @@ function getState(){
     }
      
     
-    if (localStorage.getItem("partidas")){
-        var parStr = localStorage.getItem("partidas"); 
+    //if (localStorage.getItem("partidas")){
+    //    var parStr = localStorage.getItem("partidas"); 
     
     
-    if (parStr.length > 0){
-        Partidas = JSON.parse(parStr); 
+    //if (parStr.length > 0){
+    //    Partidas = JSON.parse(parStr); 
         
-        $.each(Partidas, function(index, value){
-           renderPartida(value); 
-        });
+    //    $.each(Partidas, function(index, value){
+    //       renderPartida(value); 
+    //    });
         
-    }else{
-        Partidas = new Array();
-    }
-    }else{
-        Partidas = new Array();
-    } 
+    //}else{
+    //    Partidas = new Array();
+    //}
+    //}else{
+    //    Partidas = new Array();
+    //} 
+
+    db.partidas.toCollection().each(function (item) {
+        renderPartida(item);
+    });
     
     
     if (!_price){
@@ -1296,23 +1365,28 @@ function getState(){
     
 }
 
-function calculateTotal(){
-    var __total__ = 0; 
-    
-    if (isEmpty(Partidas) == false) {
-        Partidas.forEach(function (value) {
-            var importe = value.Precio;
-            var impuesto = value.Impuesto;
-            var cantidad = value.Cantidad;
+function calculateTotal(callback) {
+    //fixED Here
+
+    var calculatedTotal = 0; 
+
+    db.partidas.toCollection().toArray(function (Partidas) {
+        $.each(Partidas, function (i, v) {
+            item = v
+
+            var importe = item.Precio;
+            var impuesto = item.Impuesto;
+            var cantidad = item.Cantidad;
 
             var _importePlusImpuesto = (importe + (importe * impuesto)) * cantidad;
 
-            __total__ = __total__ + _importePlusImpuesto;
+            calculatedTotal = calculatedTotal + _importePlusImpuesto
 
-        })
-    }
-    
-    return __total__;
+        });
+
+        callback(calculatedTotal.toFixed(2));
+    });
+
 }
 
 function restorePendingSale(id) {
@@ -1342,21 +1416,56 @@ function restorePendingSale(id) {
 function restorePendingSale2(id) {
     clearState();
 
-    db.ventas.get(id, function (item) {
-        Partidas = item.PARTIDAS
-        cliente = item.CLIENTE 
+    db.partidas.toCollection().toArray(function (Partidas) {
+        db.partidas.clear();
 
-        $('#clienttb').val(cliente);
+        db.ventas.get(id, function (item) {
+            $.each(item.PARTIDAS, function (i, v) {
+                var newP = {
+                    Precio: v.Precio,
+                    Cantidad: v.Cantidad,
+                    Impuesto: v.Impuesto,
+                    Costo: v.Costo,
+                    Descrip: v.Descrip,
+                    Articulo: v.Articulo,
+                    Unique: v.Unique,
+                    Prcantidad: v.Prcantidad,
+                    Prdescrip: v.Prdescrip
+                };
 
-        saveState();
+                db.partidas.add(newP).then(function () {
+                    renderPartida(newP)
+                })
 
-        $.each(item.PARTIDAS, function (i, k) {
-            renderPartida(k);
+
+            })
+
+            localStorage.setItem("cliente", item.CLIENTE);
+            $('#clienttb').val(item.CLIENTE);
+
+
+            db.ventas.delete(id).then(function () { console.log("deleted from ventas: " + id) });
         });
 
-    });
+    })
 
-    db.ventas.delete(id).then(function () { console.log("deleted from ventas: " + id) });
+    //db.ventas.get(id, function (item) {
+    //    Partidas = item.PARTIDAS // fix here
+    //    cliente = item.CLIENTE 
+
+    //    $('#clienttb').val(cliente);
+
+    //    saveState();
+
+    //    // fix here
+    //    $.each(item.PARTIDAS, function (i, k) {
+    //        renderPartida(k);
+            
+    //    });
+
+    //});
+
+    //db.ventas.delete(id).then(function () { console.log("deleted from ventas: " + id) });
 }
 
 function closeMessage() {
@@ -1426,7 +1535,7 @@ function storeMessage(message) {
     
     var __curentProd = localStorage.getItem("currentProd");
     var __vend = localStorage.getItem("user");
-    var __partidas = localStorage.getItem("partidas");
+    
     var __endpoint = localStorage.getItem("endpoint")
 
     if (!isEmpty(__currentProd)) {

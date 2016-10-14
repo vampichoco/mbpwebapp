@@ -20,7 +20,7 @@ function onLoad() {
         // Main page handlers   
         $('#sendButton'            ).click(sellsingle           );    // Sell Single Click
         //$('#addButton'           ).click(addProd              );    // Add prod to prods to be sent
-        $('#addButton'             ).click(addProdOffline       );    // Add prod to prods to be sent
+        //$('#addButton'             ).click(addProdOffline       );    // Add prod to prods to be sent
         //$('#terminateButton'     ).click(terminateSell        );    // terminate sell on click
         //$('#terminateButton'     ).click(insertPendingSell    );
         $('#terminateButton'       ).click(insertPendingSell    ); 
@@ -31,7 +31,7 @@ function onLoad() {
         $('#syncdb'                ).click(syncdb               );
         // x $('#connectdb'        ).click(opendb               );    
          
-        $('#searchProdButton'      ).click(searchProdOffline    );
+        //$('#searchProdButton'      ).click(searchProdOffline    );
         $('#connectserver'         ).click(statCheck2           );
         $('#displayClavesaddBtn'   ).click(displayClavesadd     );
         $('#mnuDisplayCob'         ).click(openCob              );
@@ -224,8 +224,11 @@ function onLoad() {
             updatePrice();
         });
 
-        var __total = calculateTotal();
-        $('#totalLabel').html(__total);
+      
+
+        calculateTotal(function (t) {
+            $('#totalLabel').html(t);
+        })
 
 
     // BETA FEATURE: use plugin plugin 
