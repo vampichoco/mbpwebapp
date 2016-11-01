@@ -832,6 +832,8 @@ function validateProdOffline(){
         currentProd = item;
         setStatLabel("info", item.DESCRIP);
 
+        setPriceSelect(item);
+
         saveState();
     })
     

@@ -17,14 +17,14 @@ Public Class searchclient
             Dim q = context.Request.QueryString("c")
 
             Dim query = From item In db.clients Where (item.NOMBRE.Contains(q) Or item.CLIENTE.Contains(q)) And item.VEND = vend
-                        Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE}
+                        Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE, .precio = item.PRECIO}
                         Take (5)
 
             context.Response.Write(json.Serialize(query))
         Else
             Dim query = From item In db.clients
                         Where item.VEND = vend
-                        Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE}
+                        Select New With {.cliente = item.CLIENTE, .nombre = item.NOMBRE, .precio = item.PRECIO}
 
             context.Response.Write(json.Serialize(query))
 

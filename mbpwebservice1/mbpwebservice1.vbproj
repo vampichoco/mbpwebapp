@@ -437,6 +437,9 @@
     <Compile Include="login.ashx.vb">
       <DependentUpon>login.ashx</DependentUpon>
     </Compile>
+    <Compile Include="makeorder.ashx.vb">
+      <DependentUpon>makeorder.ashx</DependentUpon>
+    </Compile>
     <Compile Include="makesell.ashx.vb">
       <DependentUpon>makesell.ashx</DependentUpon>
     </Compile>
@@ -498,6 +501,7 @@
     <Content Include="getclient.ashx" />
     <Content Include="login.ashx" />
     <Content Include="dbstatus.ashx" />
+    <Content Include="makeorder.ashx" />
     <None Include="mbp.dbml.layout">
       <DependentUpon>mbp.dbml</DependentUpon>
     </None>

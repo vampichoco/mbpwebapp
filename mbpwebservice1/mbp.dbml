@@ -498,4 +498,71 @@
       <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
     </Type>
   </Table>
+  <Table Name="dbo.pedidos" Member="pedidos">
+    <Type Name="pedido">
+      <Column Name="pedido" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="F_EMISION" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CLIENTE" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="VEND" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="IMPORTE" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DESCUENTO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="IMPUESTO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="PRECIO" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Column Name="COSTO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ALMACEN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ESTADO" Type="System.String" DbType="NVarChar(2)" CanBeNull="true" />
+      <Column Name="OBSERV" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TIPO_CAM" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="MONEDA" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="DESC1" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DESC2" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DESC3" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DESC4" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DESC5" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DATOS" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DESGLOSE" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="COBRANZA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="USUARIO" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="USUFECHA" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="USUHORA" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="RELACION" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="PEDCLI" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="AplicarDes" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Autorizado" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Entrega" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Tipo" Type="System.String" DbType="NVarChar(2)" CanBeNull="true" />
+      <Column Name="no_ped" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sucremota" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="cotizaremota" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="auto" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="donativo" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Column Name="ocupado" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.pedpar" Member="pedpars">
+    <Type Name="pedpar">
+      <Column Name="pedido" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ARTICULO" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="CANTIDAD" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="SURTIDO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="POR_SURT" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="PRECIO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DESCUENTO" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="IMPUESTO" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="OBSERV" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ID_SALIDA" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="UsuFecha" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UsuHora" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="Almacen" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Lista" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Clave" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="PRCANTIDAD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PRDESCRIP" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="backorder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="donativo" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="SSMA_TimeStamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
 </Database>
