@@ -15,7 +15,7 @@ Public Class search
             Dim term As String = HttpUtility.UrlDecode(
             context.Request.QueryString("c"))
 
-            Dim prodsQuery = From prod In db.prods Where prod.ARTICULO.Contains(term) Or prod.DESCRIP.Contains(term)
+            Dim prodsQuery = From prod In db.prods Where prod.ARTICULO.Contains(term) Or prod.DESCRIP.Contains(term) And prod.Bloqueado = 0
                              Select New With {
                                  .ARTICULO = prod.ARTICULO,
                                  .DESCRIP = prod.DESCRIP,
@@ -29,6 +29,7 @@ Public Class search
                                  .U = GetUniqueID(prod.ARTICULO),
                                  .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
                                  .CST = prod.COSTO,
+                                 .EXISTENCIA = prod.EXISTENCIA,
                                  .clavesadd = (From cadd In db.clavesadds
                                                Where cadd.Articulo = prod.ARTICULO
                                                Select New With {
@@ -44,7 +45,7 @@ Public Class search
             context.Response.Write(json.Serialize(prodsQuery))
 
         Else
-            Dim prodsQuery = From prod In db.prods
+            Dim prodsQuery = From prod In db.prods Where prod.Bloqueado = 0
                              Select New With {
                                  .ARTICULO = prod.ARTICULO,
                                  .DESCRIP = prod.DESCRIP,
@@ -58,6 +59,7 @@ Public Class search
                                  .U = GetUniqueID(prod.ARTICULO),
                                  .Tx = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
                                  .CST = prod.COSTO,
+                                 .EXISTENCIA = prod.EXISTENCIA,
                                  .clavesadd = (From cadd In db.clavesadds
                                                Where cadd.Articulo = prod.ARTICULO
                                                Select New With {

@@ -11,7 +11,6 @@ Public Class prods
         Dim db As New mbpDataContext
 
 
-
         'Dim queries As New Dictionary(Of String, Func(Of prod, Boolean))
 
         Dim [single] As Boolean = False
@@ -47,7 +46,7 @@ Public Class prods
         If context.Request.QueryString("p") IsNot Nothing Then
             Dim prodKey As String = context.Request.QueryString("p")
 
-            Dim query = From prod In db.prods Where prod.ARTICULO = prodKey
+            Dim query = From prod In db.prods Where prod.ARTICULO = prodKey And prod.Bloqueado = 0
                         Select New With {.ARTICULO = prod.ARTICULO,
                             .SP = Trim(prod.ARTICULO),
                             .DESCRIP = prod.DESCRIP,
@@ -61,6 +60,7 @@ Public Class prods
                             .U = GetUniqueID(Guid.NewGuid()),
                             .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
                             .CST = (prod.COSTO_U),
+                            .EXISTENCIA = prod.EXISTENCIA,
                             .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
                                           Select New With {
                                               .Clave = cadd.Clave,
@@ -87,7 +87,7 @@ Public Class prods
             Dim take As Integer = Integer.Parse(context.Request.QueryString("take"))
 
 
-            Dim query = From prod In db.prods
+            Dim query = From prod In db.prods Where prod.Bloqueado = 0
                         Select New With {.ARTICULO = prod.ARTICULO,
                             .SP = Trim(prod.ARTICULO),
                             .DESCRIP = prod.DESCRIP,
@@ -100,16 +100,8 @@ Public Class prods
                             .C3 = prod.C3,
                             .U = GetUniqueID(Guid.NewGuid()),
                             .TX = (From t In db.impuestos Where t.Impuesto = prod.IMPUESTO Select t.Valor / 100).Single,
-                            .CST = prod.COSTO_U,
-                            .clavesadd = (From cadd In db.clavesadds Where cadd.Articulo = prod.ARTICULO
-                                          Select New With {
-                                               .Clave = cadd.Clave,
-                                               .Articulo = cadd.Articulo,
-                                               .Precio = cadd.Precio,
-                                               .Cantidad = cadd.Cantidad,
-                                               .Desc = cadd.Dato1,
-                                               .U = GetUniqueID(Guid.NewGuid())
-                                               })}
+                            .EXISTENCIA = prod.EXISTENCIA,
+                            .CST = prod.COSTO_U}
                         Take take
 
             'context.Response.Write(xml.ToString())

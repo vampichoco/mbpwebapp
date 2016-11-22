@@ -381,6 +381,7 @@
     <Content Include="app\scripts\bootstrap.min.js" />
     <Content Include="app\scripts\index.js" />
     <Content Include="addcobdet.ashx" />
+    <Content Include="additionalkeys.ashx" />
     <None Include="app\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="app\scripts\jquery-1.9.0.js" />
     <Content Include="app\scripts\jquery-1.9.0.min.js" />
@@ -413,6 +414,9 @@
   <ItemGroup>
     <Compile Include="addcobdet.ashx.vb">
       <DependentUpon>addcobdet.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="additionalkeys.ashx.vb">
+      <DependentUpon>additionalkeys.ashx</DependentUpon>
     </Compile>
     <Compile Include="cassandraHandler.vb" />
     <Compile Include="cob.ashx.vb">

@@ -75,7 +75,7 @@ Public Class makeOrder
                         .DESC3 = 0,
                         .DESC4 = 0,
                         .DESC5 = 0,
-                        .DATOS = "Hello World",
+                        .DATOS = c.NOMBRE,
                         .DESGLOSE = 1,
                         .USUARIO = "SUP",
                         .USUFECHA = DateTime.Now.Date,
