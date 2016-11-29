@@ -85,7 +85,7 @@ Public Class makeOrder
                         .AplicarDes = 1,
                         .Entrega = DateTime.Now.AddDays(1).Date,
                         .Tipo = "PE",
-                        .no_ped = GetMax("pedidos", "no_ped", db),
+                        .no_ped = getNoRef("no_ped", db),
                         .donativo = 0,
                         .ocupado = 0,
                         .IMPORTE = total
