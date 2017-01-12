@@ -475,6 +475,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="plugin.ashx.vb">
+      <DependentUpon>plugin.ashx</DependentUpon>
+    </Compile>
     <Compile Include="prods.ashx.vb">
       <DependentUpon>prods.ashx</DependentUpon>
     </Compile>
@@ -542,6 +545,7 @@
     <Content Include="vends.ashx" />
     <Content Include="synccob.ashx" />
     <Content Include="reportcenter\getreport.ashx" />
+    <Content Include="plugin.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

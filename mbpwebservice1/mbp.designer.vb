@@ -97,6 +97,12 @@ Partial Public Class mbpDataContext
     End Sub
   Partial Private Sub Deletepedpar(instance As pedpar)
     End Sub
+  Partial Private Sub Insertplugin(instance As plugin)
+    End Sub
+  Partial Private Sub Updateplugin(instance As plugin)
+    End Sub
+  Partial Private Sub Deleteplugin(instance As plugin)
+    End Sub
   #End Region
 	
 	Public Sub New()
@@ -199,6 +205,12 @@ Partial Public Class mbpDataContext
 	Public ReadOnly Property pedpars() As System.Data.Linq.Table(Of pedpar)
 		Get
 			Return Me.GetTable(Of pedpar)
+		End Get
+	End Property
+	
+	Public ReadOnly Property plugins() As System.Data.Linq.Table(Of plugin)
+		Get
+			Return Me.GetTable(Of plugin)
 		End Get
 	End Property
 End Class
@@ -11884,6 +11896,111 @@ Partial Public Class pedpar
 				Me._SSMA_TimeStamp = value
 				Me.SendPropertyChanged("SSMA_TimeStamp")
 				Me.OnSSMA_TimeStampChanged
+			End If
+		End Set
+	End Property
+	
+	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
+	
+	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
+	
+	Protected Overridable Sub SendPropertyChanging()
+		If ((Me.PropertyChangingEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanging(Me, emptyChangingEventArgs)
+		End If
+	End Sub
+	
+	Protected Overridable Sub SendPropertyChanged(ByVal propertyName As [String])
+		If ((Me.PropertyChangedEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+		End If
+	End Sub
+End Class
+
+<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.plugins")>  _
+Partial Public Class plugin
+	Implements System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
+	
+	Private Shared emptyChangingEventArgs As PropertyChangingEventArgs = New PropertyChangingEventArgs(String.Empty)
+	
+	Private _id As String
+	
+	Private _html As String
+	
+	Private _js As String
+	
+    #Region "Extensibility Method Definitions"
+    Partial Private Sub OnLoaded()
+    End Sub
+    Partial Private Sub OnValidate(action As System.Data.Linq.ChangeAction)
+    End Sub
+    Partial Private Sub OnCreated()
+    End Sub
+    Partial Private Sub OnidChanging(value As String)
+    End Sub
+    Partial Private Sub OnidChanged()
+    End Sub
+    Partial Private Sub OnhtmlChanging(value As String)
+    End Sub
+    Partial Private Sub OnhtmlChanged()
+    End Sub
+    Partial Private Sub OnjsChanging(value As String)
+    End Sub
+    Partial Private Sub OnjsChanged()
+    End Sub
+    #End Region
+	
+	Public Sub New()
+		MyBase.New
+		OnCreated
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_id", DbType:="NVarChar(10) NOT NULL", CanBeNull:=false, IsPrimaryKey:=true)>  _
+	Public Property id() As String
+		Get
+			Return Me._id
+		End Get
+		Set
+			If (String.Equals(Me._id, value) = false) Then
+				Me.OnidChanging(value)
+				Me.SendPropertyChanging
+				Me._id = value
+				Me.SendPropertyChanged("id")
+				Me.OnidChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_html", DbType:="Text NOT NULL", CanBeNull:=false, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property html() As String
+		Get
+			Return Me._html
+		End Get
+		Set
+			If (String.Equals(Me._html, value) = false) Then
+				Me.OnhtmlChanging(value)
+				Me.SendPropertyChanging
+				Me._html = value
+				Me.SendPropertyChanged("html")
+				Me.OnhtmlChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_js", DbType:="Text NOT NULL", CanBeNull:=false, UpdateCheck:=UpdateCheck.Never)>  _
+	Public Property js() As String
+		Get
+			Return Me._js
+		End Get
+		Set
+			If (String.Equals(Me._js, value) = false) Then
+				Me.OnjsChanging(value)
+				Me.SendPropertyChanging
+				Me._js = value
+				Me.SendPropertyChanged("js")
+				Me.OnjsChanged
 			End If
 		End Set
 	End Property

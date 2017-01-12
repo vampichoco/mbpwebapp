@@ -3,6 +3,8 @@
 }); 
 
 function onLoad() {
+    
+    window.alert("hum")
 
     var beta = false;
 
@@ -26,7 +28,7 @@ function onLoad() {
         $('#terminateButton'       ).click(insertPendingSell    ); 
         //$('#searchProdButton'    ).click(populateSearch       );    // On search prod click
         //$('#searchClientButton'  ).click(searchClient         );    // On search client click 
-        $('#searchClientButton'    ).click(searchClientOffline  );    // On search client offline
+        //$('#searchClientButton'    ).click(searchClientOffline  );    // On search client offline
         $('#saveUserBtn'           ).click(saveUser             );    // On Save user click
         $('#syncdb'                ).click(syncdb               );
         // x $('#connectdb'        ).click(opendb               );    
@@ -53,6 +55,7 @@ function onLoad() {
         $('#viewpendingsales'  ).click(function(){
             renderPendingSales();
             getPendingCob();
+            $('#sessionModal').modal("hide");
             $('#pendingSalesModal').modal("show");
         }) 
         
@@ -231,32 +234,10 @@ function onLoad() {
         })
 
 
-    // BETA FEATURE: use plugin plugin 
+    // BETA FEATURE: test plugins 
 
         if (beta == true) {
-            var html = '<div><button id="plugin-button-1" class="btn btn-default">hola</button></div>';
-            var js = "$('#plugin-button-1').click(function(){window.alert('fuck, yeah');});";
-
-            var htmlBlob = new Blob([html], { type: "text/html" });
-            var jsBlob = new Blob([js], { type: "text/javascript" });
-
-
-            var htmlReader = new FileReader();
-            //handler executed once reading(blob content referenced to a variable) from blob is finished. 
-            htmlReader.addEventListener("loadend", function (e) {
-                $('#plugins').html(e.srcElement.result);
-            });
-            //start the reading process.
-            htmlReader.readAsText(htmlBlob);
-
-            var script = document.createElement('script');
-            //createObjectURL returns a blob URL as a string.
-            script.src = window.URL.createObjectURL(jsBlob);
-            document.body.appendChild(script);
-
-
-
-            $('#pluginModal').modal('show');
+            $('#testPluginModal').modal('show');
         }
 
 }

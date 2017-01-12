@@ -80,5 +80,11 @@
         <elementListCompartment Id="7743bb2c-3d4f-4031-8018-cae9050fa0d9" absoluteBounds="3.14, 4.21, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="85729932-6ecc-4e95-a283-567f94268efd" absoluteBounds="8.375, 0.75, 2, 1.3862939453125">
+      <DataClassMoniker Name="/mbpDataContext/plugin" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8b522768-76d8-4bd9-afa2-10bea7b27af8" absoluteBounds="8.39, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

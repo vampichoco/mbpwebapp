@@ -102,8 +102,16 @@ Public Class makesell
                     Dim precioU As Single = Single.Parse(precioStr, System.Globalization.CultureInfo.InvariantCulture)
                     Dim cantidad As Single = Single.Parse(data("Cantidad"), System.Globalization.CultureInfo.InvariantCulture)
                     Dim impuesto As Single = Single.Parse(data("Impuesto"), System.Globalization.CultureInfo.InvariantCulture)
-                    Dim prcantidad As Single = Single.Parse(data("Prcantidad"), System.Globalization.CultureInfo.InvariantCulture)
-                    Dim prdescrip As String = data("Prdescrip")
+                    Dim prcantidad As Single = 1
+                    Dim prdescrip As String = ""
+
+                    If data("Prcantidad") IsNot Nothing Then
+                        prcantidad = Single.Parse(data("Prcantidad"), System.Globalization.CultureInfo.InvariantCulture)
+                    End If
+
+                    If data("Prdescrip") IsNot Nothing Then
+                        prdescrip = data("Prdescrip")
+                    End If
 
                     Dim artStr As String = (data("Articulo")).ToString()
 
