@@ -162,7 +162,7 @@ function addProd(results) {
 } 
 
 function instanceProd(results) {
-    window.alert(JSON.stringify(results))
+    //window.alert(JSON.stringify(results))
 
     var price = parseFloat($('#pricetb').val());
     var qty = parseFloat($('#qtytb').val());
@@ -202,7 +202,7 @@ function instanceProd(results) {
         Meta       : meta
     }; 
     
-    window.alert(JSON.stringify(newP))
+    //window.alert(JSON.stringify(newP))
     
     db.partidas.add(newP).then(function () {
         saveState();
@@ -1156,7 +1156,7 @@ function syncdb() {
 
 function searchProdOffline()
 {
-   
+    $('#prodSearch ul').empty();
     var key = $('#searchProdText').val();
     
     if (key.startsWith("//")){
@@ -1215,6 +1215,7 @@ function instanceProdOffline(prod) {
         
         calculateTotal(function (t) {
             $('#statuslabel').text('Articulo agregado, total: ' + t);
+            $('#totalLabel').html(t);
         });
 
         $('#pricetb').val(0);
@@ -1305,6 +1306,7 @@ function getPendingCob() {
 }
 
 function searchClientOffline(){
+    $('#clientSearch ul').empty(); 
     var term = $('#searchClientText').val(); 
     
     if (term.length > 0){
@@ -1693,7 +1695,7 @@ function downloadPlugin(data){
 function calculatePrice(prices, qtys, qty){
     //window.alert(JSON.stringify(prices));
     //window.alert(JSON.stringify(qtys));
-    window.alert(qty + "|" + qtys.C1);
+    //window.alert(qty + "|" + qtys.C1);
     var price = 0.0;
     if (qty < qtys.C2){
         //window.alert(prices.P1)
