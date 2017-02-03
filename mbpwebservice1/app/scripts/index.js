@@ -3,8 +3,6 @@
 }); 
 
 function onLoad() {
-    
-    window.alert("hum")
 
     var beta = false;
 

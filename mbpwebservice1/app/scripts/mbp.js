@@ -207,10 +207,6 @@ function instanceProd(results) {
     db.partidas.add(newP).then(function () {
         saveState();
 
-        //window.alert(JSON.stringify(newP));
-
-        //total = calculateTotal();
-
         $("#statuslabel").removeAttr("class");
         $('#statuslabel').addClass("alert alert alert-success");
         
@@ -226,10 +222,6 @@ function instanceProd(results) {
 
         renderPartida(newP);
     });
-
-
-    
-    
 } 
 
 function renderPartida(partida) {
@@ -251,21 +243,14 @@ function renderPartida(partida) {
     var price = $('<div id="prArea" class="col-xs-2"></div').attr("id", prId).html(priceValue.toFixed(2));
     var descrip = $('<div class="col-xs-8"></div>').html(partida.Descrip);
     var content = $('<div class="row"></div>').append([qty, price, descrip]);
-
-    //window.alert(priceValue);
     
     li.append(content); 
     
     li.click(function () {
-        //window.alert(JSON.stringify(partida));
-
-        
         $('#tituloPartida').html(partida.Descrip);
         $('#modifyQtyTb').val(partida.Cantidad);
         setEditActions(partida);
         $('#editPartidaModal').modal("show");
-        
-        
     }); 
     
     $('#prods ul').append(li); 
@@ -315,13 +300,9 @@ function setEditActions(partida) {
                 $('#editPartidaStatus').html("No se pudo editar la partida");
             }
         })
-
-        
-        
     }); 
     
     $('#removePartidaButton').unbind('click').click(function () {
-       //window.alert("will remove  " + partida);
 
        db.partidas.delete(partida.iid).then(function ()
        {
@@ -346,8 +327,6 @@ function statCheck2(){
 
 
     if (wo == "true") {
-        //window.alert("workoffile")
-
         workOffline()
     } else {
         setStatLabel("info", "intentando conexion");
@@ -373,8 +352,6 @@ function statCheck2(){
                 setStatLabel("danger", "No se pudo conectar a la base de datos");
             }
         }).error(function (jqXHR, textStatus, errorThrown) {
-            //window.alert("work offline")
-
             workOffline();
 
             setStatLabel("alert", "No se pudo conectar al servidor, usando conexión local");
@@ -528,8 +505,6 @@ function terminateSell() {
        //fixED here
        if (Partidas.length > 0 && clientid.length > 0 && vend.length > 0) {
            var endpoint = localStorage.getItem("endpoint");
-
-           //window.alert(JSON.stringify(Partidas));
 
            var ob = { "ClientId": clientid, "Vendedor": vend, "Partidas": Partidas }; //fix here
 
@@ -896,10 +871,10 @@ function showCobdetOffline(OfflineCob) {
     $('#cobTitle').html("<h3></h3>").html("Detalles de cobranza: " + OfflineCob.COBRANZA);
     $('#btn-addcob').unbind('click').click(function () {
         var newCob = {
-            "Cobranza" : OfflineCob.COBRANZA, 
-            "Cliente"  : OfflineCob.CLIENTE,
-            "Importe"  : $('#pricecobtb').val(),
-            "Fecha"    : moment().format('DD/MM/YY'),
+            "Cobranza" : OfflineCob.COBRANZA         , 
+            "Cliente"  : OfflineCob.CLIENTE          ,
+            "Importe"  : $('#pricecobtb').val()      ,
+            "Fecha"    : moment().format('DD/MM/YY') ,
             "Hora"     : moment().format("LT")
         }
 
@@ -953,10 +928,6 @@ function removePendingSale(id){
 function terminateSell2(item) {
    
     var endpoint = localStorage.getItem("endpoint");
-    //window.alert("TerminateSell2")
-    //window.alert(JSON.stringify(item))
-
-
     //db.partidas.toCollection().toArray(function (Partidas) {
         var ob = { "ClientId": item.CLIENTE, Vendedor: item.vend, "Partidas": item.PARTIDAS };// fix here
 
@@ -1040,21 +1011,20 @@ function insertPendingSell(){
 
         var d = new Date();
         var fecha = d.toLocaleDateString();
-        var CANTIDAD = $('#qtytb').val();
-        var cliente = $('#clienttb').val();
-        var qty = $('#qtytb').val();
-        var vendor = $('#usertb').val();
-        
-        //window.alert(JSON.stringify(Partidas));
+
+        var CANTIDAD = $('#qtytb'   ).val();
+        var cliente  = $('#clienttb').val();
+        var qty      = $('#qtytb'   ).val();
+        var vendor   = $('#usertb'  ).val();
 
         if (isEmpty(cliente) == false && isEmpty(vendor) == false) {
             var newvta = {
-                PRECIO: total,
-                CLIENTE: cliente,
-                USUFECHA: fecha,
-                cantidad: qty,
-                PARTIDAS: Partidas, //fixED here
-                vend: vendor
+                PRECIO   : total    ,
+                CLIENTE  : cliente  ,
+                USUFECHA : fecha    ,
+                cantidad : qty      ,
+                PARTIDAS : Partidas , //fixED here
+                vend     : vendor
             };
 
 
@@ -1187,23 +1157,23 @@ function instanceProdOffline(prod) {
     var qty = parseFloat($('#qtytb').val());
     
     var meta =  {
-        P1: prod.PRECIO1, 
-        P2: prod.PRECIO2, 
-        P3: prod.PRECIO3, 
-        C1: prod.C1, 
-        C2: prod.C2, 
+        P1: prod.PRECIO1 , 
+        P2: prod.PRECIO2 , 
+        P3: prod.PRECIO3 , 
+        C1: prod.C1      , 
+        C2: prod.C2      , 
         C3: prod.C3
     }
 
       
     var newP = {
-        Precio      : price,
-        Cantidad    : qty,
-        Articulo    : prod.ARTICULO,
-        Impuesto    : prod.TX,
-        Costo       : prod.COSTO,
-        Descrip     : prod.DESCRIP,
-        Unique      : prod.U, 
+        Precio      : price         ,
+        Cantidad    : qty           ,
+        Articulo    : prod.ARTICULO ,
+        Impuesto    : prod.TX       ,
+        Costo       : prod.COSTO    ,
+        Descrip     : prod.DESCRIP  ,
+        Unique      : prod.U        , 
         Meta        : meta
     };
 
@@ -1284,8 +1254,8 @@ function getPendingCob() {
         console.log(JSON.stringify(item));
         var tr = $('<tr></tr>');
 
-        var cobid = $('<th></th>').html(item.Cobranza);
-        var client = $('<th></th>').html(item.Cliente);
+        var cobid  = $('<th></th>').html(item.Cobranza);
+        var client = $('<th></th>').html(item.Cliente );
 
 
         var button = $('<button class="btn btn-default">Terminar</button>').click(function () {
@@ -1294,8 +1264,8 @@ function getPendingCob() {
         
         var buttonth = $('<th></th>').html(button);
 
-        tr.append(cobid);
-        tr.append(client);
+        tr.append(cobid   );
+        tr.append(client  );
         tr.append(buttonth);
 
         $('#pengingCobTable').append($('<tbody></tbody>'));
@@ -1390,25 +1360,6 @@ function getState(){
     } else {
         _price = 0.0
     }
-     
-    
-    //if (localStorage.getItem("partidas")){
-    //    var parStr = localStorage.getItem("partidas"); 
-    
-    
-    //if (parStr.length > 0){
-    //    Partidas = JSON.parse(parStr); 
-        
-    //    $.each(Partidas, function(index, value){
-    //       renderPartida(value); 
-    //    });
-        
-    //}else{
-    //    Partidas = new Array();
-    //}
-    //}else{
-    //    Partidas = new Array();
-    //} 
 
     db.partidas.toCollection().each(function (item) {
         renderPartida(item);
@@ -1444,9 +1395,9 @@ function calculateTotal(callback) {
         $.each(Partidas, function (i, v) {
             item = v
 
-            var importe = item.Precio;
-            var impuesto = item.Impuesto;
-            var cantidad = item.Cantidad;
+            var importe  = item.Precio   ;
+            var impuesto = item.Impuesto ;
+            var cantidad = item.Cantidad ;
 
             var _importePlusImpuesto = (importe + (importe * impuesto)) * cantidad;
 
@@ -1495,15 +1446,15 @@ function restorePendingSale2(id) {
                 //window.alert(v.Descrip + ":" + v.Impuesto)
                 
                 var newP = {
-                    Precio: v.Precio,
-                    Cantidad: v.Cantidad,
-                    Impuesto: v.Impuesto,
-                    Costo: v.Costo,
-                    Descrip: v.Descrip,
-                    Articulo: v.Articulo,
-                    Unique: v.Unique,
-                    Prcantidad: v.Prcantidad,
-                    Prdescrip: v.Prdescrip
+                    Precio    : v.Precio     ,
+                    Cantidad  : v.Cantidad   ,
+                    Impuesto  : v.Impuesto   ,
+                    Costo     : v.Costo      ,
+                    Descrip   : v.Descrip    ,
+                    Articulo  : v.Articulo   ,
+                    Unique    : v.Unique     ,
+                    Prcantidad: v.Prcantidad ,
+                    Prdescrip : v.Prdescrip
                 };
 
                 db.partidas.add(newP).then(function () {
@@ -1522,23 +1473,6 @@ function restorePendingSale2(id) {
 
     })
 
-    //db.ventas.get(id, function (item) {
-    //    Partidas = item.PARTIDAS // fix here
-    //    cliente = item.CLIENTE 
-
-    //    $('#clienttb').val(cliente);
-
-    //    saveState();
-
-    //    // fix here
-    //    $.each(item.PARTIDAS, function (i, k) {
-    //        renderPartida(k);
-            
-    //    });
-
-    //});
-
-    //db.ventas.delete(id).then(function () { console.log("deleted from ventas: " + id) });
 }
 
 function closeMessage() {
@@ -1565,8 +1499,9 @@ function messageBox(title, text, accept, cancel, style) {
 }
 
 function inputBox(title, text, accept, cancel, style) {
-    $('#inputTitle').html(title);
-    $('#inputText').html(text);
+    $('#inputTitle' ).html(title );
+    $('#inputText'  ).html(text  );
+
     $('#inputAccept').unbind('click').click(accept);
     $('#inputCancel').unbind('click').click(cancel);
 
@@ -1693,9 +1628,6 @@ function downloadPlugin(data){
 } 
 
 function calculatePrice(prices, qtys, qty){
-    //window.alert(JSON.stringify(prices));
-    //window.alert(JSON.stringify(qtys));
-    //window.alert(qty + "|" + qtys.C1);
     var price = 0.0;
     if (qty < qtys.C2){
         //window.alert(prices.P1)
@@ -1741,13 +1673,13 @@ function plugin(data){
     var arr = data.split(" "); 
     
     db.plugins.get(arr[1], function(item){
-        var html = item.html;
-        var js = item.js;
-        var css = item.css;
+        var html  = item.html ;
+        var js    = item.js   ;
+        var css   = item.css  ;
 
-        var htmlBlob = new Blob([html], { type: "text/html" });
-        var jsBlob = new Blob([js], { type: "text/javascript" });
-        var cssBlob = new Blob([css], {type: "text/css"});
+        var htmlBlob = new Blob([html] , { type : "text/html"       });
+        var jsBlob   = new Blob([js  ] , { type : "text/javascript" });
+        var cssBlob  = new Blob([css ] , {type  : "text/css"        });
 
 
         var htmlReader = new FileReader();
