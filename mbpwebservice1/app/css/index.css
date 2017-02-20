@@ -18,8 +18,25 @@ body {
     padding:20px;
     padding-left:5px;
     /* width:60% */
+} 
+
+.modal{
+    background-image: linear-gradient(top, #FFE4AA, #FCA699) !important;
+    background-image: -webkit-linear-gradient(top, #FFE4AA, #FCA699) !important;
+    
+} 
+
+.modal-dialog{
+    /* background-color:blue; */
+} 
+
+.modal-content{
+    border-radius: 0px !important;
 }
 
+.modal-header{
+    background-color:#87CBE2 !important;
+}
 
 .main-container{
     /* max-width:90%; */
